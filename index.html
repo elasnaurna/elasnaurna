@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Elas na Urna — Quem são elas na política?</title>
+<meta name="description" content="Mapa apartidário e gratuito de todas as mulheres candidatas do Brasil. Conheça quem são antes de votar.">
+<!-- Open Graph (preview no WhatsApp/redes). Após o deploy, atualize og:url com o endereço final. -->
+<meta property="og:title" content="Elas na Urna">
+<meta property="og:description" content="Mapa apartidário e gratuito de todas as mulheres candidatas do Brasil. Conheça quem são antes de votar.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://catarse-backend-prod.nyc3.digitaloceanspaces.com/catarse-backend-prod/project_photo/f2f413c290ba815036424.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 110 110'%3E%3Cpath d='M26 56 L48 78' fill='none' stroke='%235b3a8c' stroke-width='16' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M48 78 L86 32' fill='none' stroke='%23c0166e' stroke-width='16' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Archivo:wght@400;500;600;700&display=swap');
+  :root{
+    --ink:#1a1625;--paper:#faf7f2;--card:#fff;--magenta:#c0166e;--magenta-soft:#fbe8f1;
+    --violet:#5b3a8c;--line:#e4ddd2;--muted:#6b6478;--green:#1f7a5c;
+    --tap:48px; --safe-b:env(safe-area-inset-bottom,0px);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{-webkit-text-size-adjust:100%;}
+  body{font-family:'Archivo',sans-serif;background:var(--paper);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;padding-bottom:calc(64px + var(--safe-b));}
+  a{color:var(--magenta);}
+  .app{max-width:520px;margin:0 auto;min-height:100vh;background:var(--paper);position:relative;}
+  /* Em telas largas (laptop), preenche os lados com o fundo da marca e destaca a coluna */
+  @media (min-width:640px){
+    body{background:var(--ink);}
+    .app{box-shadow:0 0 60px rgba(0,0,0,.35);}
+    .nav{box-shadow:0 -2px 20px rgba(0,0,0,.15);}
+  }
+  /* ---------- LANDING ---------- */
+  #landing{position:fixed;inset:0;z-index:100;background:var(--ink);color:var(--paper);overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;}
+  #landing::before{content:"";position:absolute;right:-120px;top:-100px;width:420px;height:420px;background:radial-gradient(circle,rgba(192,22,110,.4),transparent 70%);pointer-events:none;}
+  #landing::after{content:"";position:absolute;left:-120px;bottom:-120px;width:380px;height:380px;background:radial-gradient(circle,rgba(91,58,140,.4),transparent 70%);pointer-events:none;}
+  #landing.hide{display:none;}
+  .landing-inner{position:relative;z-index:1;max-width:520px;margin:auto;padding:2.4rem 1.6rem;width:100%;}
+  .landing-logo{width:210px;max-width:70%;height:auto;display:block;margin-bottom:2.2rem;}
+  .landing-eyebrow{font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--magenta);font-weight:700;margin-bottom:.8rem;}
+  .landing-title{font-family:'Fraunces',serif;font-weight:900;font-size:2.4rem;line-height:1.05;letter-spacing:-.02em;margin-bottom:1.2rem;}
+  .landing-title em{font-style:italic;color:var(--magenta);}
+  .landing-text{font-size:1.02rem;line-height:1.6;color:#d8d2df;margin-bottom:2rem;}
+  .landing-text b{color:#fff;}
+  .countdown{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:1.4rem;margin-bottom:2rem;text-align:center;}
+  .cd-label{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:#a59eb0;font-weight:600;margin-bottom:.9rem;}
+  .cd-boxes{display:flex;justify-content:center;gap:.7rem;}
+  .cd-box{background:var(--magenta);border-radius:12px;padding:.7rem .3rem;min-width:70px;}
+  .cd-box .num{font-family:'Fraunces',serif;font-weight:900;font-size:1.9rem;line-height:1;color:#fff;}
+  .cd-box .unit{font-size:.66rem;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.85);margin-top:.3rem;}
+  .cd-note{font-size:.78rem;color:#a59eb0;margin-top:.9rem;}
+  .landing-actions{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.4rem;}
+  .landing-btn{width:100%;min-height:54px;border-radius:14px;font-family:inherit;font-weight:700;font-size:1rem;cursor:pointer;border:none;}
+  .landing-btn.primary{background:var(--magenta);color:#fff;}
+  .landing-btn.primary:active{background:#a3125d;}
+  .landing-btn.ghost{background:transparent;color:var(--paper);border:1.5px solid rgba(255,255,255,.3);}
+  .landing-foot{font-size:.76rem;color:#8b8397;text-align:center;}
+
+  /* ---------- screens ---------- */
+  .screen{display:none;}
+  .screen.active{display:block;animation:fade .2s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+  /* ---------- top bar ---------- */
+  .topbar{position:sticky;top:0;z-index:40;background:var(--ink);color:var(--paper);padding:1.1rem 1.2rem;display:flex;align-items:center;gap:.7rem;}
+  .topbar .brand{font-family:'Fraunces',serif;font-weight:900;font-size:1.15rem;letter-spacing:-.01em;}
+  .topbar .brand em{color:var(--magenta);font-style:italic;}
+  .topbar-apoiar{margin-left:auto;background:var(--magenta);color:#fff;text-decoration:none;font-family:inherit;font-weight:700;font-size:.82rem;padding:.5rem .85rem;border-radius:20px;white-space:nowrap;flex-shrink:0;display:inline-flex;align-items:center;gap:.3rem;border:none;cursor:pointer;}
+  .topbar-apoiar:active{background:#a3125d;}
+  .topbar.hero-bar{position:relative;padding-top:2.4rem;}
+  .topbar.hero-bar .topbar-apoiar{position:absolute;top:.7rem;right:1.1rem;margin:0;}
+  .topbar.hero-bar{padding:1.5rem 1.1rem 1.3rem;justify-content:center;}
+  .topbar.hero-bar .biglogo{width:100%;max-width:440px;height:auto;display:block;}
+  .topbar .back{background:rgba(255,255,255,.12);border:none;color:#fff;width:var(--tap);height:var(--tap);border-radius:12px;font-size:1.3rem;cursor:pointer;flex-shrink:0;display:grid;place-items:center;}
+
+  /* ---------- MAP screen ---------- */
+  .hero{background:var(--ink);color:var(--paper);padding:1.6rem 1.2rem 2rem;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;right:-60px;top:-70px;width:230px;height:230px;background:radial-gradient(circle,rgba(192,22,110,.35),transparent 70%);}
+  .hero .eyebrow{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--magenta);font-weight:700;margin-bottom:.6rem;position:relative;z-index:1;}
+  .hero h1{font-family:'Fraunces',serif;font-weight:900;font-size:2rem;line-height:1.02;letter-spacing:-.02em;position:relative;z-index:1;}
+  .hero h1 em{font-style:italic;color:var(--magenta);}
+  .hero .lede{margin-top:.8rem;font-size:.92rem;color:#cfc9d6;position:relative;z-index:1;}
+  .counts{display:flex;gap:1.4rem;margin-top:1.4rem;position:relative;z-index:1;}
+  .count strong{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:600;display:block;line-height:1;}
+  .count span{font-size:.7rem;color:#a59eb0;}
+
+  .disclaimer{background:var(--magenta-soft);color:var(--violet);font-size:.78rem;padding:.7rem 1.2rem;text-align:center;}
+  .disclaimer b{color:var(--magenta);}
+
+  /* search + filter trigger */
+  .searchbar{position:sticky;top:64px;z-index:30;background:var(--paper);padding:.9rem 1.2rem;border-bottom:1px solid var(--line);}
+  .search{width:100%;padding:0 1rem;height:var(--tap);border:1.5px solid var(--line);border-radius:12px;font-size:16px;font-family:inherit;background:var(--card);}
+  .search:focus{outline:2px solid var(--magenta);border-color:transparent;}
+  .filter-row{display:flex;gap:.6rem;margin-top:.7rem;}
+  .filter-btn{flex:1;height:var(--tap);border:1.5px solid var(--line);background:var(--card);border-radius:12px;font-family:inherit;font-weight:600;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.4rem;color:var(--ink);}
+  .filter-btn .badge{background:var(--magenta);color:#fff;border-radius:20px;font-size:.7rem;padding:.05rem .45rem;min-width:20px;}
+  .filter-btn.none .badge{display:none;}
+  .sort-btn{width:var(--tap);flex:0 0 var(--tap);}
+
+  .meta{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.2rem .3rem;}
+  .result-count{font-size:.85rem;color:var(--muted);}
+  .result-count b{color:var(--ink);}
+
+  /* cards (single column) */
+  .grid{padding:.6rem 1.2rem 1.5rem;display:flex;flex-direction:column;gap:.8rem;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.1rem;display:flex;flex-direction:column;gap:.8rem;cursor:pointer;min-height:var(--tap);}
+  .card:active{background:#fdfbf8;}
+  .card-top{display:flex;gap:.9rem;align-items:center;}
+  .avatar{width:54px;height:54px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;font-family:'Fraunces',serif;font-weight:600;font-size:1.25rem;color:#fff;}
+  .card h3{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:600;line-height:1.1;}
+  .card .num{font-size:.78rem;color:var(--muted);}
+  .tags{display:flex;gap:.4rem;flex-wrap:wrap;}
+  .tag{font-size:.72rem;padding:.25rem .6rem;border-radius:20px;background:var(--magenta-soft);color:var(--violet);font-weight:600;}
+  .tag.cargo{background:#eef3f0;color:var(--green);}
+  .tag.uf{background:#f0ece6;color:var(--muted);}
+  .bandeiras{display:flex;flex-wrap:wrap;gap:.3rem;}
+  .bandeira{font-size:.68rem;padding:.2rem .5rem;border-radius:6px;background:var(--paper);border:1px solid var(--line);color:var(--muted);}
+  .bandeira.match{background:var(--magenta);color:#fff;border-color:var(--magenta);}
+  .chev{margin-left:auto;color:var(--line);font-size:1.4rem;}
+  /* coração de favoritar */
+  .fav{margin-left:auto;background:none;border:none;cursor:pointer;font-size:1.5rem;line-height:1;padding:.3rem;width:var(--tap);height:var(--tap);display:grid;place-items:center;flex-shrink:0;color:var(--line);transition:transform .15s;}
+  .fav:active{transform:scale(1.3);}
+  .fav.on{color:var(--magenta);}
+  .card-top .chev{display:none;}
+  /* badge na navegação */
+  .nav button{position:relative;}
+  .navbadge{position:absolute;top:.3rem;right:50%;margin-right:-22px;background:var(--magenta);color:#fff;font-size:.6rem;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:none;align-items:center;justify-content:center;padding:0 .25rem;}
+  .navbadge.show{display:flex;}
+  /* tela minha lista */
+  .listabody{padding:1.2rem 1.2rem 1.5rem;display:flex;flex-direction:column;gap:.7rem;}
+  .vote-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem 1.1rem;display:flex;align-items:center;gap:1rem;}
+  .vote-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.8rem;color:var(--magenta);background:var(--magenta-soft);border-radius:12px;padding:.4rem .7rem;min-width:84px;text-align:center;letter-spacing:.02em;}
+  .vote-info{flex:1;}
+  .vote-info h3{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;line-height:1.1;}
+  .vote-info .meta{font-size:.8rem;color:var(--muted);margin-top:.15rem;}
+  .vote-rm{background:none;border:none;cursor:pointer;font-size:1.3rem;color:var(--magenta);width:var(--tap);height:var(--tap);flex-shrink:0;}
+  .lista-empty{text-align:center;padding:3rem 1.5rem;color:var(--muted);}
+  .lista-empty .bigheart{font-size:3rem;display:block;margin-bottom:1rem;opacity:.5;}
+  .lista-empty b{display:block;font-family:'Fraunces',serif;font-size:1.3rem;color:var(--ink);margin-bottom:.5rem;}
+  .lista-hint{background:var(--magenta-soft);color:var(--violet);font-size:.82rem;padding:.9rem 1.1rem;border-radius:12px;margin:0 0 .4rem;}
+
+  .empty{text-align:center;padding:3rem 1.5rem;color:var(--muted);}
+  .empty b{display:block;font-family:'Fraunces',serif;font-size:1.2rem;color:var(--ink);margin-bottom:.4rem;}
+  .prelanc{text-align:center;padding:2.6rem 1.6rem;}
+  .prelanc-ic{font-size:3rem;margin-bottom:1rem;}
+  .prelanc b{display:block;font-family:'Fraunces',serif;font-size:1.5rem;color:var(--ink);margin-bottom:.9rem;line-height:1.15;}
+  .prelanc p{font-size:.95rem;color:var(--muted);line-height:1.6;max-width:36ch;margin:0 auto .8rem;}
+  .prelanc-cta{color:var(--magenta)!important;font-weight:600;}
+
+  /* support footer block on map */
+  .support{margin:.5rem 1.2rem 1.5rem;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.4rem;text-align:center;}
+  .support p{font-size:.88rem;margin-bottom:.9rem;}
+  .btn-support{display:inline-flex;align-items:center;gap:.5rem;background:var(--magenta);color:#fff;text-decoration:none;font-weight:700;font-size:.92rem;height:var(--tap);padding:0 1.4rem;border-radius:30px;}
+
+  /* ---------- BOTTOM SHEET ---------- */
+  .sheet-backdrop{position:fixed;inset:0;background:rgba(26,22,37,.45);z-index:50;opacity:0;pointer-events:none;transition:opacity .25s;}
+  .sheet-backdrop.open{opacity:1;pointer-events:auto;}
+  .sheet{position:fixed;left:0;right:0;bottom:0;z-index:51;background:var(--paper);border-radius:22px 22px 0 0;transform:translateY(100%);transition:transform .28s cubic-bezier(.22,1,.36,1);max-height:85vh;display:flex;flex-direction:column;max-width:520px;margin:0 auto;}
+  .sheet.open{transform:translateY(0);}
+  .sheet-grip{width:44px;height:5px;background:var(--line);border-radius:3px;margin:.7rem auto .2rem;flex-shrink:0;}
+  .sheet-head{display:flex;align-items:center;justify-content:space-between;padding:.4rem 1.3rem .8rem;border-bottom:1px solid var(--line);}
+  .sheet-head h2{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:600;}
+  .sheet-head .close{background:none;border:none;font-size:1.6rem;color:var(--muted);cursor:pointer;width:var(--tap);height:var(--tap);}
+  .sheet-body{overflow-y:auto;padding:1.2rem 1.3rem;-webkit-overflow-scrolling:touch;}
+  .fgroup{margin-bottom:1.5rem;}
+  .fgroup > label{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:.7rem;}
+  .fcount{display:inline-block;background:var(--magenta);color:#fff;border-radius:20px;padding:.05rem .4rem;font-size:.68rem;margin-left:.3rem;letter-spacing:0;}
+  .opts{display:flex;flex-wrap:wrap;gap:.5rem;}
+  .opt{padding:.6rem .9rem;border:1.5px solid var(--line);background:var(--card);border-radius:30px;font-size:.88rem;font-family:inherit;cursor:pointer;min-height:var(--tap);display:flex;align-items:center;color:var(--ink);}
+  .opt.on{background:var(--magenta);color:#fff;border-color:var(--magenta);font-weight:600;}
+  .sheet-foot{padding:1rem 1.3rem calc(1rem + var(--safe-b));border-top:1px solid var(--line);display:flex;gap:.7rem;flex-shrink:0;}
+  .sheet-foot button{height:var(--tap);border-radius:12px;font-family:inherit;font-weight:700;font-size:.95rem;cursor:pointer;border:none;}
+  .btn-clear{flex:0 0 35%;background:var(--card);border:1.5px solid var(--line)!important;color:var(--ink);}
+  .btn-apply{flex:1;background:var(--magenta);color:#fff;}
+
+  /* ---------- PROFILE screen ---------- */
+  .phero{background:var(--ink);color:var(--paper);padding:1.8rem 1.2rem;display:flex;gap:1.1rem;align-items:center;position:relative;overflow:hidden;}
+  .phero::after{content:"";position:absolute;right:-50px;bottom:-70px;width:200px;height:200px;background:radial-gradient(circle,rgba(192,22,110,.4),transparent 70%);}
+  .phero .avatar{width:80px;height:80px;font-size:1.9rem;position:relative;z-index:1;}
+  .phero h1{font-family:'Fraunces',serif;font-weight:900;font-size:1.6rem;line-height:1;position:relative;z-index:1;}
+  .phero .psub{margin-top:.5rem;display:flex;gap:.4rem;flex-wrap:wrap;position:relative;z-index:1;}
+  .pchip{font-size:.72rem;padding:.25rem .6rem;border-radius:20px;font-weight:600;background:rgba(255,255,255,.14);}
+  .pchip.num{background:var(--magenta);}
+  .pbody{padding:1.6rem 1.2rem 2rem;}
+  .peyebrow{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--magenta);font-weight:700;margin-bottom:.8rem;}
+  .psection{margin-bottom:2rem;}
+  .facts{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;}
+  .fact{background:var(--card);padding:.9rem 1rem;}
+  .fact .k{font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;}
+  .fact .v{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;margin-top:.15rem;}
+  .proposta{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--magenta);border-radius:10px;padding:.9rem 1.1rem;margin-bottom:.7rem;}
+  .proposta h3{font-family:'Fraunces',serif;font-size:1rem;font-weight:600;margin-bottom:.2rem;}
+  .proposta p{font-size:.87rem;color:var(--muted);margin:0;}
+  .timeline{position:relative;padding-left:1.5rem;}
+  .timeline::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:var(--line);}
+  .event{position:relative;padding-bottom:1.3rem;}
+  .event:last-child{padding-bottom:0;}
+  .event::before{content:"";position:absolute;left:-1.5rem;top:4px;width:12px;height:12px;border-radius:50%;background:var(--card);border:2px solid var(--magenta);}
+  .event.win::before{background:var(--magenta);}
+  .event .year{font-family:'Fraunces',serif;font-weight:600;font-size:1rem;}
+  .event .what{font-size:.88rem;}
+  .result{font-size:.72rem;font-weight:600;padding:.1rem .5rem;border-radius:6px;margin-left:.4rem;}
+  .result.eleita{background:var(--magenta-soft);color:var(--magenta);}
+  .result.nao{background:#f0ece6;color:var(--muted);}
+  .note{font-size:.78rem;background:var(--magenta-soft);color:var(--violet);padding:.7rem 1rem;border-radius:10px;}
+  .btn-share{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;height:54px;margin-top:1.4rem;background:var(--card);border:1.5px solid var(--magenta);color:var(--magenta);font-family:inherit;font-weight:700;font-size:.95rem;border-radius:12px;cursor:pointer;}
+  .btn-share:active{background:var(--magenta-soft);}
+  .btn-share .ic{font-size:1.2rem;}
+  .toast{position:fixed;left:50%;bottom:calc(80px + var(--safe-b));transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:.7rem 1.2rem;border-radius:30px;font-size:.85rem;font-weight:600;z-index:60;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;white-space:nowrap;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* ---------- MISSION screen ---------- */
+  .mhero{background:var(--ink);color:var(--paper);padding:2.4rem 1.2rem;position:relative;overflow:hidden;}
+  .mhero::after{content:"";position:absolute;left:-80px;bottom:-90px;width:280px;height:280px;background:radial-gradient(circle,rgba(192,22,110,.4),transparent 70%);}
+  .mhero .eyebrow{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--magenta);font-weight:700;margin-bottom:.8rem;position:relative;z-index:1;}
+  .mhero h1{font-family:'Fraunces',serif;font-weight:900;font-size:2.1rem;line-height:1.04;letter-spacing:-.02em;position:relative;z-index:1;}
+  .mhero h1 em{font-style:italic;color:var(--magenta);}
+  .mhero p{margin-top:1rem;font-size:.96rem;color:#cfc9d6;position:relative;z-index:1;}
+  .mbody{padding:1.8rem 1.2rem 2rem;}
+  .lead-para{font-size:1.05rem;line-height:1.65;margin-bottom:1.8rem;}
+  .lead-para strong{color:var(--magenta);}
+  .mstats{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:2rem;}
+  .mstat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.1rem .9rem;text-align:center;}
+  .mstat .big{font-family:'Fraunces',serif;font-weight:900;font-size:1.9rem;line-height:1;color:var(--magenta);}
+  .mstat .lab{font-size:.74rem;color:var(--muted);margin-top:.5rem;}
+  .mblock{margin-bottom:1.8rem;}
+  .mblock h2{font-family:'Fraunces',serif;font-weight:600;font-size:1.3rem;margin-bottom:.6rem;}
+  .mblock p{font-size:.93rem;margin-bottom:.8rem;}
+  .pull{border-left:4px solid var(--magenta);background:var(--magenta-soft);padding:1.1rem 1.2rem;border-radius:0 12px 12px 0;font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;color:var(--violet);margin:1.6rem 0;line-height:1.4;}
+  .principle{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;margin-bottom:.6rem;}
+  .principle h3{font-family:'Fraunces',serif;font-size:1rem;margin-bottom:.25rem;}
+  .principle p{font-size:.87rem;color:var(--muted);margin:0;}
+  .src{font-size:.74rem;color:var(--muted);margin-top:1.8rem;border-top:1px solid var(--line);padding-top:1rem;}
+
+  /* ---------- CARGOS ---------- */
+  .cargobody{padding:1.4rem 1.2rem 1rem;display:flex;flex-direction:column;gap:.9rem;}
+  .cargo{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;}
+  .cargo-head{display:flex;align-items:center;gap:.8rem;padding:1.1rem 1.2rem;cursor:pointer;min-height:var(--tap);}
+  .cargo-head .ico{width:42px;height:42px;border-radius:10px;flex-shrink:0;display:grid;place-items:center;font-size:1.3rem;}
+  .cargo-head .ico.leg{background:var(--magenta-soft);}
+  .cargo-head .ico.exe{background:#eef3f0;}
+  .cargo-head .tit{flex:1;}
+  .cargo-head .tit h3{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:600;line-height:1.1;}
+  .cargo-head .tit .esfera{font-size:.74rem;color:var(--muted);}
+  .cargo-head .arrow{color:var(--line);font-size:1.3rem;transition:transform .2s;}
+  .cargo.open .cargo-head .arrow{transform:rotate(90deg);color:var(--magenta);}
+  .cargo-detail{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+  .cargo.open .cargo-detail{max-height:1200px;}
+  .cargo-detail-inner{padding:0 1.2rem 1.2rem;}
+  .cargo-block{padding:.7rem 0;border-top:1px dashed var(--line);}
+  .cargo-block .lbl{font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;color:var(--magenta);font-weight:700;margin-bottom:.25rem;display:flex;align-items:center;gap:.4rem;}
+  .cargo-block p{font-size:.9rem;color:var(--ink);}
+  .cargo-note{margin:.5rem 1.2rem 2rem;background:var(--magenta-soft);color:var(--violet);border-radius:12px;padding:1rem 1.2rem;font-size:.85rem;}
+  .cargo-note b{color:var(--magenta);}
+  .cargo-cta{margin-top:1rem;width:100%;min-height:var(--tap);background:var(--magenta);color:#fff;border:none;border-radius:12px;font-family:inherit;font-weight:700;font-size:.95rem;cursor:pointer;padding:.8rem 1rem;}
+  .cargo-cta:active{background:#a3125d;}
+  .cargo-muni{margin-top:1rem;font-size:.82rem;color:var(--muted);background:var(--paper);border:1px dashed var(--line);border-radius:10px;padding:.8rem 1rem;}
+
+  /* ---------- CADASTRO screen ---------- */
+  .cbody{padding:1.6rem 1.2rem 2rem;}
+  .selo{display:flex;gap:.7rem;background:var(--magenta-soft);color:var(--violet);padding:.9rem 1.1rem;border-radius:12px;font-size:.83rem;margin-bottom:1.8rem;}
+  .cad-steps{display:flex;flex-direction:column;gap:.9rem;margin-bottom:1.8rem;}
+  .cad-step{display:flex;align-items:center;gap:.9rem;}
+  .cad-step .n{flex-shrink:0;width:34px;height:34px;border-radius:50%;background:var(--magenta);color:#fff;font-family:'Fraunces',serif;font-weight:900;display:grid;place-items:center;font-size:1.05rem;}
+  .cad-step p{font-size:.92rem;color:var(--ink);}
+  .cad-cta{display:block;text-align:center;background:var(--magenta);color:#fff;text-decoration:none;font-family:inherit;font-weight:700;font-size:1.05rem;padding:1rem;border-radius:14px;min-height:var(--tap);}
+  .cad-cta:active{background:#a3125d;}
+  .cad-foot{text-align:center;font-size:.78rem;color:var(--muted);margin-top:1rem;}
+  .selo b{color:var(--magenta);}
+  .cgroup{margin-bottom:1.6rem;}
+  .cgroup > label{display:block;font-weight:600;margin-bottom:.4rem;font-size:.95rem;}
+  .hint{font-size:.8rem;color:var(--muted);margin-bottom:.6rem;}
+  .cbody input[type=text],.cbody textarea{width:100%;padding:.8rem .9rem;border:1.5px solid var(--line);border-radius:10px;font-family:inherit;font-size:16px;background:var(--card);color:var(--ink);}
+  .cbody input:focus,.cbody textarea:focus{outline:2px solid var(--magenta);border-color:transparent;}
+  .cbody textarea{resize:vertical;min-height:88px;}
+  .readonly{background:#f3efe9;color:var(--muted);}
+  .proposta-row{display:flex;gap:.5rem;margin-bottom:.6rem;}
+  .proposta-row input{flex:1;}
+  .rm{background:none;border:1.5px solid var(--line);border-radius:9px;width:var(--tap);flex:0 0 var(--tap);cursor:pointer;color:var(--muted);font-size:1.2rem;}
+  .add{background:none;border:1.5px dashed var(--line);color:var(--magenta);font-family:inherit;font-weight:600;height:var(--tap);border-radius:9px;cursor:pointer;width:100%;font-size:.9rem;}
+  .consent{display:flex;gap:.6rem;font-size:.84rem;color:var(--muted);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem;margin-bottom:1.4rem;}
+  .consent input{margin-top:.15rem;accent-color:var(--magenta);width:20px;height:20px;flex-shrink:0;}
+  .submit{background:var(--magenta);color:#fff;border:none;font-family:inherit;font-weight:700;font-size:1rem;height:54px;border-radius:12px;width:100%;cursor:pointer;}
+  .submit:disabled{background:#d8a7c2;}
+  .ok{display:none;text-align:center;padding:3rem 1rem;}
+  .ok.show{display:block;}
+  .ok .check{width:64px;height:64px;border-radius:50%;background:var(--magenta-soft);color:var(--magenta);display:grid;place-items:center;margin:0 auto;font-size:2rem;}
+  .ok .big{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:600;margin:.6rem 0;}
+
+  /* ---------- BOTTOM NAV ---------- */
+  .nav{position:fixed;bottom:0;left:0;right:0;z-index:45;background:var(--card);border-top:1px solid var(--line);display:flex;max-width:520px;margin:0 auto;padding-bottom:var(--safe-b);}
+  .nav button{flex:1;background:none;border:none;padding:.55rem 0 .5rem;font-family:inherit;cursor:pointer;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:.15rem;font-size:.68rem;font-weight:600;min-height:56px;}
+  .nav button.on{color:var(--magenta);}
+  .nav .ic{font-size:1.3rem;line-height:1;}
+</style>
+</head>
+<body>
+<!-- ============ LANDING (tela de entrada) ============ -->
+<div id="landing">
+  <div class="landing-inner">
+    <svg class="landing-logo" viewBox="0 0 432 84" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Elas na Urna">
+      <path d="M12 44 L31 63" fill="none" stroke="#5b3a8c" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M31 63 L73 12" fill="none" stroke="#c0166e" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="94" y="59" font-family="Fraunces,serif" font-weight="900" font-style="italic" font-size="52" fill="#c0166e">Elas</text>
+      <text x="218" y="59" font-family="Fraunces,serif" font-weight="900" font-size="52" fill="#faf7f2">na Urna</text>
+    </svg>
+
+    <p class="landing-eyebrow">Somos metade do país</p>
+    <h1 class="landing-title">Está na hora de <em>elas</em> ajudarem a comandar.</h1>
+    <p class="landing-text">As mulheres são a maioria da população, mas menos de um quinto de quem decide o rumo do Brasil. O <b>Elas na Urna</b> vai reunir, em um só lugar, todas as mulheres candidatas — para que ninguém mais chegue à urna sem conhecer elas.</p>
+
+    <div class="countdown">
+      <p class="cd-label">Lançamento em breve</p>
+      <div class="cd-boxes" id="cdBoxes"></div>
+      <p class="cd-note">As candidaturas são registradas em agosto. Assim que a Justiça Eleitoral divulgar a lista oficial, as candidatas aparecerão aqui.</p>
+    </div>
+
+    <div class="landing-actions">
+      <button class="landing-btn primary" id="goExplore">Explorar a prévia</button>
+      <button class="landing-btn ghost" id="goMission">Conheça o projeto</button>
+    </div>
+    <p class="landing-foot">Projeto independente e apartidário · dados públicos do TSE</p>
+  </div>
+</div>
+
+<div class="app">
+
+  <!-- ============ MAP ============ -->
+  <div class="screen active" id="screen-map">
+    <div class="topbar hero-bar">
+      <svg class="biglogo" viewBox="0 0 432 84" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Elas na Urna">
+        <path d="M12 44 L31 63" fill="none" stroke="#5b3a8c" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M31 63 L73 12" fill="none" stroke="#c0166e" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="94" y="59" font-family="Fraunces,serif" font-weight="900" font-style="italic" font-size="52" fill="#c0166e">Elas</text>
+        <text x="218" y="59" font-family="Fraunces,serif" font-weight="900" font-size="52" fill="#faf7f2">na Urna</text>
+      </svg>
+      <a href="https://www.catarse.com.br/elas-na-urna" target="_blank" rel="noopener" class="topbar-apoiar">♥ Apoiar</a>
+    </div>
+    <div class="hero">
+      <p class="eyebrow">As mulheres candidatas do Brasil</p>
+      <h1>Quem são <em>elas</em> na política?</h1>
+      <p class="lede">Encontre as mulheres que estão se candidatando. Veja quem são e o que defendem.</p>
+      <div class="counts">
+        <div class="count"><strong id="cCand">0</strong><span>candidatas</span></div>
+        <div class="count"><strong id="cUf">0</strong><span>estados</span></div>
+        <div class="count"><strong id="cPar">0</strong><span>partidos</span></div>
+      </div>
+    </div>
+    <div class="disclaimer"><b>Exemplo.</b> Os dados de verdade chegam em 2026.</div>
+
+    <div class="searchbar">
+      <input type="text" id="search" class="search" placeholder="🔍  Buscar pelo nome…" inputmode="search">
+      <div class="filter-row">
+        <button class="filter-btn none" id="openFilters">⚙ Filtrar <span class="badge" id="fBadge">0</span></button>
+        <button class="filter-btn sort-btn" id="openSort" aria-label="Ordenar a lista">↑↓</button>
+      </div>
+    </div>
+
+    <div class="meta"><p class="result-count"><b id="shown">0</b> encontradas</p></div>
+    <div class="grid" id="grid"></div>
+
+    <div class="support">
+      <p>Projeto independente e gratuito. Seu apoio mantém o Elas na Urna no ar.</p>
+      <a href="https://www.catarse.com.br/elas-na-urna" target="_blank" rel="noopener" class="btn-support">♥ Apoie este projeto</a>
+    </div>
+  </div>
+
+  <!-- ============ PROFILE ============ -->
+  <div class="screen" id="screen-profile">
+    <div class="topbar"><button class="back" id="backFromProfile">←</button><span class="brand">Perfil</span><a href="https://www.catarse.com.br/elas-na-urna" target="_blank" rel="noopener" class="topbar-apoiar">♥ Apoiar</a></div>
+    <div id="profileContent"></div>
+  </div>
+
+  <!-- ============ MISSION ============ -->
+  <div class="screen" id="screen-mission">
+    <div class="topbar"><span class="brand">Nossa missão</span><a href="https://www.catarse.com.br/elas-na-urna" target="_blank" rel="noopener" class="topbar-apoiar">♥ Apoiar</a></div>
+    <div class="mhero">
+      <p class="eyebrow">Elas na Urna · Missão</p>
+      <h1>Metade do país.<br>Menos de <em>um quinto</em> do poder.</h1>
+      <p>As mulheres são maioria da população, mas minoria onde as decisões são tomadas. Existimos para ajudar o Brasil a caminhar rumo a um Parlamento com pelo menos 40% de mulheres — a caminho da paridade.</p>
+    </div>
+    <div class="mbody">
+      <p class="lead-para">As mulheres são <strong>51,5% da população</strong>, mas ocupam uma fração mínima dos cargos eletivos. O problema não é falta de mulheres dispostas — é a soma de barreiras que tornam a eleição delas mais difícil, e que começam na invisibilidade das candidaturas.</p>
+      <div class="mstats">
+        <div class="mstat"><div class="big">18,7%</div><div class="lab">das cadeiras da Câmara são de mulheres</div></div>
+        <div class="mstat"><div class="big">19,8%</div><div class="lab">do Senado — só 16 senadoras</div></div>
+        <div class="mstat"><div class="big">133º</div><div class="lab">no ranking mundial de participação feminina</div></div>
+        <div class="mstat"><div class="big">~1.000</div><div class="lab">municípios sem nenhuma vereadora em 2024</div></div>
+      </div>
+      <div class="mblock">
+        <h2>Candidatar-se não basta</h2>
+        <p>Em 2022, apenas 2,44% das mulheres candidatas a deputada federal foram eleitas, contra 6,10% dos homens. Mesmo na disputa, elas têm menos recursos, menos tempo de mídia e menos visibilidade.</p>
+      </div>
+      <div class="pull">Quando uma candidatura é invisível, ela já perde antes da urna. Visibilidade é o primeiro passo da representação.</div>
+      <div class="mblock">
+        <h2>O que fazemos</h2>
+        <p>Reunimos todas as mulheres candidatas em um só lugar — com dados oficiais do TSE e, quando elas informam, suas bandeiras e propostas. Não dizemos em quem votar: damos o mapa para você decidir.</p>
+        <div class="principle"><h3>Apartidário</h3><p>Todas as candidatas, de todos os partidos, sob os mesmos critérios. Nunca dizemos em quem votar.</p></div>
+        <div class="principle"><h3>Transparente</h3><p>Dados oficiais vêm do TSE; o autodeclarado é sempre marcado como tal.</p></div>
+        <div class="principle"><h3>Aberto e gratuito</h3><p>Acesso livre para qualquer pessoa, sem barreira e sem custo.</p></div>
+      </div>
+      <div class="mblock">
+        <h2>Nossa meta</h2>
+        <p>Miramos um horizonte claro: ajudar o Brasil a caminhar rumo a <strong style="color:var(--magenta)">pelo menos 40% de mulheres</strong> nas casas legislativas — o patamar reconhecido de equilíbrio de gênero — como passo a caminho da <strong style="color:var(--magenta)">paridade plena, 50%</strong>. Não elegemos ninguém e não dizemos em quem votar; nossa contribuição é a visibilidade, porque nenhuma candidatura chega lá sendo invisível.</p>
+      </div>
+      <div class="support" style="margin:1.5rem 0 0;">
+        <p>Ajude a tornar elas visíveis.</p>
+        <a href="https://www.catarse.com.br/elas-na-urna" target="_blank" rel="noopener" class="btn-support">♥ Apoie este projeto</a>
+      </div>
+      <p class="src">Fontes: composição da Câmara e Senado (2026) e ranking — Agência Senado / UIP e ONU Mulheres; eleições municipais 2024 e taxas por gênero — Câmara dos Deputados e TSE.</p>
+    </div>
+  </div>
+
+  <!-- ============ CADASTRO ============ -->
+  <div class="screen" id="screen-cadastro">
+    <div class="topbar"><span class="brand">Sou candidata</span><a href="https://www.catarse.com.br/elas-na-urna" target="_blank" rel="noopener" class="topbar-apoiar">♥ Apoiar</a></div>
+    <div class="mhero" style="padding:1.8rem 1.2rem;">
+      <p class="eyebrow">Elas na Urna · Cadastro</p>
+      <h1 style="font-size:1.7rem;">Apresente suas propostas nas <em>suas</em> palavras</h1>
+      <p style="margin-top:.7rem;font-size:.92rem;">Seus dados oficiais já vêm do TSE. Aqui você conta o que defende — para aparecer do seu jeito, não interpretado por terceiros.</p>
+    </div>
+    <div class="cbody">
+      <div class="selo"><span>🔒</span><div>O que você enviar aparecerá no site marcado como <b>"Informado pela candidatura"</b>, após uma conferência rápida. Você pode pedir correção ou remoção a qualquer momento.</div></div>
+
+      <div class="cad-steps">
+        <div class="cad-step"><span class="n">1</span><p>Preencha o formulário (leva poucos minutos).</p></div>
+        <div class="cad-step"><span class="n">2</span><p>Nossa equipe confere as informações.</p></div>
+        <div class="cad-step"><span class="n">3</span><p>Seu perfil entra no ar, com suas bandeiras e propostas.</p></div>
+      </div>
+
+      <!-- TROCAR o href pelo link do seu Google Forms quando ele estiver criado -->
+      <a href="https://forms.gle/86wXpTpV5Fs1Qi4h6" target="_blank" rel="noopener" class="cad-cta" id="cadFormBtn">Preencher cadastro →</a>
+      <p class="cad-foot">Gratuito e voluntário · projeto apartidário · seus dados são tratados conforme a LGPD.</p>
+    </div>
+  </div>
+
+  <!-- ============ MINHA LISTA (colinha) ============ -->
+  <div class="screen" id="screen-lista">
+    <div class="topbar"><span class="brand">Minha lista</span><a href="https://www.catarse.com.br/elas-na-urna" target="_blank" rel="noopener" class="topbar-apoiar">♥ Apoiar</a></div>
+    <div class="mhero" style="padding:1.8rem 1.2rem;">
+      <p class="eyebrow">Elas na Urna · Sua colinha</p>
+      <h1 style="font-size:1.7rem;">Suas <em>favoritas</em></h1>
+      <p style="margin-top:.7rem;font-size:.92rem;">Toque no coração de uma candidata para guardá-la aqui. Na hora de votar, é só abrir esta lista.</p>
+    </div>
+    <div class="listabody" id="listaBody"></div>
+  </div>
+
+  <!-- ============ CARGOS (educação cívica) ============ -->
+  <div class="screen" id="screen-cargos">
+    <div class="topbar"><span class="brand">Entenda os cargos</span><a href="https://www.catarse.com.br/elas-na-urna" target="_blank" rel="noopener" class="topbar-apoiar">♥ Apoiar</a></div>
+    <div class="mhero" style="padding:1.8rem 1.2rem;">
+      <p class="eyebrow">Elas na Urna · Educação</p>
+      <h1 style="font-size:1.7rem;">O que cada <em>cargo</em> faz?</h1>
+      <p style="margin-top:.7rem;font-size:.92rem;">Antes de votar, entenda para que serve cada cargo, o que a pessoa eleita faz e como ela é paga. Em palavras simples.</p>
+    </div>
+    <div class="cargobody" id="cargoList"></div>
+    <div class="cargo-note">
+      <p>Os cargos se dividem em dois grupos: quem <b>faz as leis e fiscaliza</b> (Legislativo) e quem <b>governa e executa</b> (Executivo).</p>
+    </div>
+  </div>
+
+  <!-- ============ BOTTOM NAV ============ -->
+  <nav class="nav">
+    <button class="on" data-go="map"><span class="ic">🗳️</span>Candidatas</button>
+    <button data-go="lista"><span class="ic">❤️</span>Minha lista<span class="navbadge" id="navBadge"></span></button>
+    <button data-go="cargos"><span class="ic">📋</span>Cargos</button>
+    <button data-go="mission"><span class="ic">💜</span>Por quê?</button>
+    <button data-go="cadastro"><span class="ic">✎</span>Candidata</button>
+  </nav>
+</div>
+
+<!-- ============ FILTER SHEET ============ -->
+<div class="sheet-backdrop" id="backdrop"></div>
+<div class="sheet" id="sheet">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head"><h2 id="sheetTitle">Filtros</h2><button class="close" id="closeSheet">×</button></div>
+  <div class="sheet-body" id="sheetBody"></div>
+  <div class="sheet-foot">
+    <button class="btn-clear" id="sheetClear">Limpar</button>
+    <button class="btn-apply" id="sheetApply">Ver resultados</button>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   CONFIGURAÇÃO DE DADOS
+
+   Este app suporta 3 modos, na ordem de progressão do projeto:
+
+   1) PRÉ-LANÇAMENTO: mostra "em breve" na lista.
+      Use antes de agosto/2026, enquanto o TSE não libera a base.
+
+   2) DEMO com dados fictícios: mostra candidatas de exemplo.
+      Útil para testar layout/interações sem os dados reais.
+
+   3) PRODUÇÃO com dados reais: puxa duas planilhas Google (CSV):
+      - CSV_TSE: base do TSE (filtrada por mulheres) que você mantém.
+      - CSV_CADASTROS: respostas do Google Forms com "Aprovado? = Sim".
+
+   Como ativar cada modo:
+
+   • Modo 1 (padrão hoje):
+       PRE_LANCAMENTO = true;
+
+   • Modo 2 (demo com fictícios):
+       PRE_LANCAMENTO = false;
+       CSV_TSE = "";           // deixe vazio
+       CSV_CADASTROS = "";     // deixe vazio
+
+   • Modo 3 (produção):
+       PRE_LANCAMENTO = false;
+       CSV_TSE = "https://docs.google.com/spreadsheets/d/e/.../pub?output=csv";
+       CSV_CADASTROS = "https://docs.google.com/spreadsheets/d/e/.../pub?output=csv";
+
+   Como publicar uma planilha como CSV:
+       Arquivo → Compartilhar → Publicar na Web → aba desejada → CSV → Publicar
+   Copie a URL que aparece e cole aqui.
+   ========================================================= */
+const PRE_LANCAMENTO = true;
+const CSV_TSE = "";
+const CSV_CADASTROS = "";
+
+/* -----------------------------------------------------------
+   COLUNAS ESPERADAS EM CADA PLANILHA
+
+   Planilha Base TSE (CSV_TSE) — cabeçalhos das colunas:
+     nome, cargo, partido, numero, uf, escolaridade, idade
+
+   Planilha de Cadastros (CSV_CADASTROS) — o Google Forms gera
+   automaticamente cabeçalhos com o texto da pergunta. Você
+   adiciona à direita: "Aprovado?", "Verificada?", "Observações".
+   ----------------------------------------------------------- */
+
+const $=id=>document.getElementById(id);
+const cargos=["Presidente","Senadora","Governadora","Deputada Federal","Deputada Estadual"];
+const partidos=["PT","PSDB","PL","PSOL","PSD","MDB","REDE","PDT","NOVO","PCdoB","PSB","UNIÃO"];
+const ufs=["SP","RJ","MG","BA","RS","PE","CE","PR","SC","GO","DF","AM","PA"];
+const primeiros=["Maria","Ana","Luiza","Joana","Beatriz","Camila","Fernanda","Patrícia","Rosângela","Cláudia","Helena","Teresa","Sônia","Marta","Daniela","Vanessa","Aline","Gabriela","Letícia","Cristina"];
+const sobren=["Silva","Oliveira","Souza","Ferreira","Costa","Almeida","Nascimento","Rodrigues","Carvalho","Gomes","Martins","Araújo","Ribeiro","Cardoso","Mendes"];
+const cores=["#c0166e","#5b3a8c","#1f7a5c","#b5470f","#0e6a8c","#7a1f5b"];
+const bandeiras=["Saúde pública","Educação","Direitos das mulheres","Meio ambiente","Economia e emprego","Segurança pública","Moradia","Igualdade racial","Direitos LGBTQIA+","Cultura","Agricultura familiar","Mobilidade urbana","Enfrentamento à violência contra a mulher","Pessoas com deficiência","Assistência social e combate à fome","Ciência, tecnologia e inovação","Juventude"];
+const propTpl={"Saúde pública":"Ampliar a rede de atenção primária.","Educação":"Expandir creches e ensino integral.","Direitos das mulheres":"Equiparação salarial e apoio a empreendedoras.","Meio ambiente":"Saneamento e arborização nas periferias.","Economia e emprego":"Incentivo a pequenos negócios locais.","Segurança pública":"Política de prevenção comunitária.","Moradia":"Programa de habitação popular.","Igualdade racial":"Cotas e políticas afirmativas.","Direitos LGBTQIA+":"Proteção contra discriminação.","Cultura":"Fomento à cultura de base.","Agricultura familiar":"Crédito ao pequeno produtor.","Mobilidade urbana":"Transporte público acessível."};
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const rndSome=(a,n)=>[...a].sort(()=>Math.random()-.5).slice(0,n);
+
+// Normaliza texto para comparação (sem acentos, minúsculo, sem espaços duplos)
+function norm(s){return (s||"").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ").trim();}
+
+// Iniciais para o avatar
+function iniciais(nome){return nome.split(/\s+/).filter(Boolean).map(n=>n[0]).slice(0,2).join("").toUpperCase();}
+
+// Cor consistente por candidata (mesmo nome → mesma cor)
+function corDoNome(nome){let h=0;for(const c of nome){h=(h*31+c.charCodeAt(0))>>>0;}return cores[h%cores.length];}
+
+/* ---------- MODO 2: dados fictícios (demo) ---------- */
+function gerarFicticios(){
+  return Array.from({length:64},(_,i)=>{
+    const nome=`${rnd(primeiros)} ${rnd(sobren)}`;
+    const bs=rndSome(bandeiras,2+Math.floor(Math.random()*2));
+    return {id:i,nome,iniciais:iniciais(nome),cor:corDoNome(nome),
+      cargo:rnd(cargos),partido:rnd(partidos),uf:rnd(ufs),
+      numero:String(Math.floor(10+Math.random()*89999)),idade:28+Math.floor(Math.random()*40),
+      escolaridade:rnd(["Superior","Pós-graduação","Ensino médio"]),
+      bandeiras:bs,origem:"mock",temCadastro:true,
+      bio:`Atua há mais de duas décadas em movimentos comunitários, com trabalho voltado a educação e saúde pública. Concorre agora ao cargo de ${cargos.find(x=>x===rnd(cargos))?.toLowerCase()||"vereadora"}.`,
+      propostas:bs.map(b=>propTpl[b]||"").filter(Boolean),
+      site:""};
+  });
+}
+
+/* ---------- MODO 3: dados reais (TSE + Cadastros) ---------- */
+
+// Carrega PapaParse sob demanda (leitor de CSV, ~40kb)
+function carregarPapaParse(){
+  if(window.Papa) return Promise.resolve();
+  return new Promise((res,rej)=>{
+    const s=document.createElement("script");
+    s.src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js";
+    s.onload=res; s.onerror=()=>rej(new Error("Falha ao carregar PapaParse"));
+    document.head.appendChild(s);
+  });
+}
+
+// Colunas do Google Forms — os cabeçalhos vêm com o texto da pergunta.
+// Se você mudar o enunciado, ajuste aqui.
+const COL_CAD = {
+  nome:      "Nome completo (como registrado no TSE)",
+  cargo:     "Cargo que disputa",
+  partido:   "Partido",
+  numero:    "Número na urna",
+  uf:        "Estado (UF)",
+  bio:       "Biografia / trajetória (1 parágrafo)",
+  bandeiras: "Bandeiras que você defende (escolha até 5 principais)",
+  prop1:     "Proposta principal 1",
+  prop2:     "Proposta principal 2",
+  prop3:     "Proposta principal 3",
+  site:      "Site ou rede social oficial",
+  aprovado:  "Aprovado?"
+};
+
+async function carregarDadosReais(){
+  await carregarPapaParse();
+  const [tseTxt, cadTxt] = await Promise.all([
+    fetch(CSV_TSE).then(r=>{if(!r.ok) throw new Error("CSV TSE não acessível"); return r.text();}),
+    CSV_CADASTROS ? fetch(CSV_CADASTROS).then(r=>r.ok?r.text():"") : Promise.resolve("")
+  ]);
+  const tseRows = Papa.parse(tseTxt, {header:true, skipEmptyLines:true}).data;
+  const cadRows = cadTxt ? Papa.parse(cadTxt, {header:true, skipEmptyLines:true}).data : [];
+
+  // Filtra cadastros aprovados e monta índice por (nome + UF)
+  const cadMap = new Map();
+  cadRows.forEach(r=>{
+    if(String(r[COL_CAD.aprovado]||"").toLowerCase().trim() !== "sim") return;
+    const chave = `${norm(r[COL_CAD.nome])}|${(r[COL_CAD.uf]||"").toUpperCase().trim()}`;
+    cadMap.set(chave, r);
+  });
+
+  // Constrói lista final a partir do TSE
+  return tseRows.filter(row => (row.nome||"").trim()).map((row,i)=>{
+    const nome = row.nome.trim();
+    const uf = (row.uf||"").toUpperCase().trim();
+    const cad = cadMap.get(`${norm(nome)}|${uf}`);
+    const bandeirasCad = cad
+      ? (cad[COL_CAD.bandeiras]||"").split(/\s*,\s*/).filter(Boolean)
+      : [];
+    const propostas = cad
+      ? [cad[COL_CAD.prop1], cad[COL_CAD.prop2], cad[COL_CAD.prop3]].filter(Boolean)
+      : [];
+    return {
+      id: i,
+      nome,
+      iniciais: iniciais(nome),
+      cor: corDoNome(nome),
+      cargo: (row.cargo||"").trim(),
+      partido: (row.partido||"").trim().toUpperCase(),
+      uf,
+      numero: String(row.numero||"").trim(),
+      idade: row.idade ? parseInt(row.idade,10) : null,
+      escolaridade: (row.escolaridade||"").trim(),
+      bandeiras: bandeirasCad,
+      origem: cad ? "tse+cad" : "tse",
+      temCadastro: !!cad,
+      bio: cad ? (cad[COL_CAD.bio]||"").trim() : "",
+      propostas,
+      site: cad ? (cad[COL_CAD.site]||"").trim() : ""
+    };
+  });
+}
+
+/* ---------- Inicialização (decide o modo e carrega dados) ---------- */
+let candidatas = [];
+let modoAtual = "prelanc"; // "prelanc" | "mock" | "real" | "erro"
+
+async function inicializar(){
+  if(PRE_LANCAMENTO){ modoAtual="prelanc"; render(); return; }
+  if(!CSV_TSE){
+    candidatas = gerarFicticios();
+    modoAtual = "mock";
+  } else {
+    try{
+      candidatas = await carregarDadosReais();
+      modoAtual = "real";
+    }catch(e){
+      console.error("Erro ao carregar dados reais:", e);
+      modoAtual = "erro";
+      render(); return;
+    }
+  }
+  // Sorteia uma ordem estável para a sessão (usada quando order === "aleatorio")
+  candidatas.forEach(c => c._ordem = Math.random());
+  atualizarContadores();
+  render();
+}
+
+function atualizarContadores(){
+  $("cCand").textContent = candidatas.length;
+  $("cUf").textContent   = new Set(candidatas.map(c=>c.uf).filter(Boolean)).size;
+  $("cPar").textContent  = new Set(candidatas.map(c=>c.partido).filter(Boolean)).size;
+}
+
+// state — filtros de múltipla escolha: cada categoria é uma lista de valores selecionados
+const F={uf:[],cargo:[],partido:[],bandeira:[],order:"aleatorio"};
+const draft={uf:[],cargo:[],partido:[],bandeira:[],order:"aleatorio"};
+let pendingCargoNome="", pendingCargoMuni=false;
+
+// ---- favoritos (a "colinha") ----
+// PERSISTÊNCIA: quando o site estiver publicado, descomente as 2 linhas marcadas
+// abaixo para a lista ser lembrada mesmo depois de fechar o app (usa o
+// armazenamento local do navegador). No ambiente de protótipo isso fica
+// desligado, então os favoritos valem só enquanto o app estiver aberto.
+const favoritos=new Set();
+function carregarFavoritos(){
+  try{ const s=localStorage.getItem('elasFav'); if(s) JSON.parse(s).forEach(id=>favoritos.add(id)); }catch(e){}
+}
+function salvarFavoritos(){
+  try{ localStorage.setItem('elasFav', JSON.stringify([...favoritos])); }catch(e){}
+}
+function toggleFav(id){
+  favoritos.has(id)?favoritos.delete(id):favoritos.add(id);
+  salvarFavoritos();
+  atualizarBadge();
+  render();
+  if($("screen-lista").classList.contains("active")) renderLista();
+}
+function atualizarBadge(){
+  const b=$("navBadge");
+  b.textContent=favoritos.size;
+  b.classList.toggle("show",favoritos.size>0);
+}
+function renderLista(){
+  const box=$("listaBody");
+  const favs=candidatas.filter(c=>favoritos.has(c.id));
+  if(!favs.length){
+    box.innerHTML=`<div class="lista-empty"><span class="bigheart">♡</span><b>Sua lista está vazia</b>Procure candidatas e toque no coração ♡ para guardar aqui as que você quer votar.</div>`;
+    return;
+  }
+  box.innerHTML=`<p class="lista-hint">📱 Na hora de votar, é só digitar o número de cada candidata na urna.</p>`+
+    favs.map(c=>`
+    <div class="vote-card">
+      <div class="vote-num">${c.numero}</div>
+      <div class="vote-info"><h3>${c.nome}</h3><div class="meta">${c.cargo} · ${c.partido}-${c.uf}</div></div>
+      <button class="vote-rm" data-rm="${c.id}" aria-label="Remover">✕</button>
+    </div>`).join("");
+  box.querySelectorAll(".vote-rm").forEach(btn=>btn.onclick=()=>toggleFav(+btn.dataset.rm));
+}
+carregarFavoritos();
+
+// ---- render cards ----
+function render(){
+  const grid=$("grid");
+  if(PRE_LANCAMENTO){
+    $("shown").textContent="0";
+    $("fBadge").textContent="0";
+    $("openFilters").classList.add("none");
+    document.querySelector(".searchbar").style.display="none";
+    const rc=document.querySelector(".result-count"); if(rc) rc.style.display="none";
+    grid.innerHTML=`<div class="prelanc">
+      <div class="prelanc-ic">🗳️</div>
+      <b>As candidatas aparecem em breve</b>
+      <p>As candidaturas são registradas em agosto. Assim que a Justiça Eleitoral divulgar a lista oficial, todas as mulheres candidatas estarão aqui — com busca, filtros e perfis.</p>
+      <p class="prelanc-cta">Enquanto isso, conheça o projeto nas outras abas 👇</p>
+    </div>`;
+    return;
+  }
+  if(modoAtual==="erro"){
+    grid.innerHTML=`<div class="prelanc">
+      <div class="prelanc-ic">⚠️</div>
+      <b>Não foi possível carregar os dados</b>
+      <p>Estamos verificando. Tente novamente em alguns minutos.</p>
+    </div>`;
+    return;
+  }
+  const q=$("search").value.toLowerCase().trim();
+  let list=candidatas.filter(c=>
+    (!q||c.nome.toLowerCase().includes(q)) &&
+    (!F.uf.length||F.uf.includes(c.uf)) &&
+    (!F.cargo.length||F.cargo.includes(c.cargo)) &&
+    (!F.partido.length||F.partido.includes(c.partido)) &&
+    (!F.bandeira.length||c.bandeiras.some(b=>F.bandeira.includes(b))));
+  if(F.order==="aleatorio"){
+    list.sort((a,b)=>a._ordem-b._ordem);
+  } else {
+    list.sort((a,b)=>String(a[F.order]||"").localeCompare(String(b[F.order]||"")));
+  }
+  $("shown").textContent=list.length;
+  const n=F.uf.length+F.cargo.length+F.partido.length+F.bandeira.length;
+  $("fBadge").textContent=n;
+  $("openFilters").classList.toggle("none",n===0);
+  if(!list.length){
+    if(pendingCargoMuni && F.cargo.length){
+      grid.innerHTML=`<div class="empty"><b>Ainda não é a hora 🗳️</b>As candidatas a ${pendingCargoNome} aparecem na <b style="font-weight:700;color:var(--magenta)">eleição municipal</b>, que acontece em outro ano. Esta lista é da eleição de 2026.<br><br>Volte aqui na próxima eleição da sua cidade!</div>`;
+    } else {
+      grid.innerHTML=`<div class="empty"><b>Nenhuma candidata encontrada</b>Tente remover algum filtro.</div>`;
+    }
+    return;
+  }
+  grid.innerHTML=list.map(c=>`
+    <div class="card" data-id="${c.id}">
+      <div class="card-top">
+        <div class="avatar" style="background:${c.cor}">${c.iniciais}</div>
+        <div><h3>${c.nome}</h3><span class="num">Nº ${c.numero}</span></div>
+        <button class="fav${favoritos.has(c.id)?' on':''}" data-fav="${c.id}" aria-label="Favoritar">${favoritos.has(c.id)?'♥':'♡'}</button>
+      </div>
+      <div class="tags"><span class="tag cargo">${c.cargo}</span><span class="tag">${c.partido}</span><span class="tag uf">${c.uf}</span></div>
+      <div class="bandeiras">${c.bandeiras.map(b=>`<span class="bandeira${F.bandeira.includes(b)?' match':''}">${b}</span>`).join("")}</div>
+    </div>`).join("");
+  grid.querySelectorAll(".card").forEach(el=>{
+    el.onclick=(e)=>{ if(e.target.closest(".fav"))return; openProfile(+el.dataset.id); };
+  });
+  grid.querySelectorAll(".fav").forEach(btn=>{
+    btn.onclick=(e)=>{ e.stopPropagation(); toggleFav(+btn.dataset.fav); };
+  });
+}
+$("search").addEventListener("input",()=>{pendingCargoMuni=false;render();});
+
+// ---- bottom sheet (filters / sort) ----
+let sheetMode="filters";
+function buildFilterBody(){
+  const seg=(title,key,arr)=>{
+    const sel=draft[key].length;
+    const label=title+(sel?` <span class="fcount">${sel}</span>`:"");
+    return `<div class="fgroup"><label>${label}</label><div class="opts">
+      ${arr.map(v=>`<button class="opt${draft[key].includes(v)?' on':''}" data-key="${key}" data-val="${v}">${v}</button>`).join("")}</div></div>`;
+  };
+  $("sheetBody").innerHTML=
+    seg("Estado","uf",[...new Set(candidatas.map(c=>c.uf))].sort())+
+    seg("Cargo","cargo",[...new Set(candidatas.map(c=>c.cargo))])+
+    seg("Partido","partido",[...new Set(candidatas.map(c=>c.partido))].sort())+
+    seg("Proposta / bandeira","bandeira",[...new Set(candidatas.flatMap(c=>c.bandeiras))].sort());
+  $("sheetBody").querySelectorAll(".opt").forEach(o=>o.onclick=()=>{
+    const k=o.dataset.key,v=o.dataset.val;
+    const i=draft[k].indexOf(v);
+    if(i>=0)draft[k].splice(i,1); else draft[k].push(v); // toggle na lista
+    o.classList.toggle("on");
+    // atualiza o contador do grupo
+    const lbl=o.closest(".fgroup").querySelector("label");
+    const base=lbl.textContent.replace(/\s*\d+$/,"").trim();
+    lbl.innerHTML=base+(draft[k].length?` <span class="fcount">${draft[k].length}</span>`:"");
+  });
+}
+function buildSortBody(){
+  const opts=[["aleatorio","Aleatório"],["nome","Nome (A–Z)"],["uf","Estado"],["cargo","Cargo"]];
+  $("sheetBody").innerHTML=`<div class="fgroup"><label>Ordenar por</label><div class="opts">
+    ${opts.map(([v,l])=>`<button class="opt${draft.order===v?' on':''}" data-key="order" data-val="${v}">${l}</button>`).join("")}</div></div>`;
+  $("sheetBody").querySelectorAll(".opt").forEach(o=>o.onclick=()=>{
+    draft.order=o.dataset.val;
+    o.parentElement.querySelectorAll(".opt").forEach(x=>x.classList.toggle("on",x.dataset.val===draft.order));
+  });
+}
+function openSheet(mode){
+  sheetMode=mode;
+  // clona o estado atual para o rascunho (arrays independentes)
+  draft.uf=[...F.uf]; draft.cargo=[...F.cargo]; draft.partido=[...F.partido]; draft.bandeira=[...F.bandeira]; draft.order=F.order;
+  $("sheetTitle").textContent=mode==="filters"?"Filtros":"Ordenar";
+  $("sheetClear").style.display=mode==="filters"?"":"none";
+  mode==="filters"?buildFilterBody():buildSortBody();
+  $("backdrop").classList.add("open");$("sheet").classList.add("open");
+}
+function closeSheet(){$("backdrop").classList.remove("open");$("sheet").classList.remove("open");}
+$("openFilters").onclick=()=>openSheet("filters");
+$("openSort").onclick=()=>openSheet("sort");
+$("closeSheet").onclick=closeSheet;
+$("backdrop").onclick=closeSheet;
+$("sheetApply").onclick=()=>{
+  F.uf=[...draft.uf]; F.cargo=[...draft.cargo]; F.partido=[...draft.partido]; F.bandeira=[...draft.bandeira]; F.order=draft.order;
+  pendingCargoMuni=false; closeSheet(); render();
+};
+$("sheetClear").onclick=()=>{draft.uf=[];draft.cargo=[];draft.partido=[];draft.bandeira=[];buildFilterBody();};
+
+// ---- profile ----
+function openProfile(id){
+  const c=candidatas.find(x=>x.id===id) || candidatas[id];
+  if(!c) return;
+
+  // Cabeçalho (dados oficiais do TSE, sempre)
+  const facts = [
+    ["Cargo", c.cargo || "—"],
+    ["Partido", c.partido || "—"],
+    ["Estado", c.uf || "—"],
+    ["Número", c.numero || "—"],
+    c.idade ? ["Idade", `${c.idade} anos`] : null,
+    c.escolaridade ? ["Escolaridade", c.escolaridade] : null
+  ].filter(Boolean);
+
+  const secaoDados = `
+    <div class="psection"><p class="peyebrow">Dados da candidatura ${c.origem==="mock"?"":`<span style="color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">· fonte: TSE</span>`}</p>
+      <div class="facts">
+        ${facts.map(([k,v])=>`<div class="fact"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("")}
+      </div>
+      ${c.origem==="mock"?`<p class="note" style="margin-top:1rem;">Dados fictícios para protótipo. Os reais virão do TSE.</p>`:""}
+    </div>`;
+
+  // Seções autodeclaradas — só aparecem se a candidata preencheu o formulário
+  let secaoBio = "", secaoPropostas = "", secaoConvite = "";
+
+  if(c.temCadastro && c.bio){
+    secaoBio = `
+      <div class="psection"><p class="peyebrow">Biografia <span style="color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">· informado pela candidatura</span></p>
+        <p>${c.bio.replace(/\n/g,"<br>")}</p>
+      </div>`;
+  }
+
+  if(c.temCadastro && (c.bandeiras.length || c.propostas.length)){
+    const bandeirasHTML = c.bandeiras.map(b=>`<span class="bandeira">${b}</span>`).join(" ");
+    const propostasHTML = c.propostas.map(p=>`<div class="proposta"><p>${p}</p></div>`).join("");
+    secaoPropostas = `
+      <div class="psection"><p class="peyebrow">Bandeiras e propostas <span style="color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">· informado pela candidatura</span></p>
+        ${bandeirasHTML?`<div class="bandeiras" style="margin-bottom:1rem;">${bandeirasHTML}</div>`:""}
+        ${propostasHTML}
+        ${c.site?`<p style="margin-top:1rem;"><a href="${c.site}" target="_blank" rel="noopener" style="color:var(--magenta);">Site ou rede oficial ↗</a></p>`:""}
+      </div>`;
+  }
+
+  // Convite para preencher — quando a candidata ainda não se apresentou
+  if(!c.temCadastro && c.origem!=="mock"){
+    secaoConvite = `
+      <div class="psection" style="background:var(--magenta-claro);border-radius:12px;padding:1.2rem;">
+        <p class="peyebrow">Esta candidatura ainda não se apresentou aqui</p>
+        <p style="margin-top:.5rem;">Se você é ${c.nome} ou faz parte da campanha, preencha o cadastro para incluir biografia, bandeiras e propostas no seu perfil — nas suas palavras.</p>
+        <a href="https://forms.gle/86wXpTpV5Fs1Qi4h6" target="_blank" rel="noopener" class="cad-cta" style="margin-top:1rem;display:inline-block;">Preencher cadastro →</a>
+      </div>`;
+  }
+
+  // Compatibilidade com o modo demo: histórico eleitoral fictício só no mock
+  let secaoHistorico = "";
+  if(c.origem==="mock"){
+    const hist=[["2022",`${c.cargo} — ${c.uf}`,true],["2018","Deputada Estadual — "+c.uf,false],["2016","Vereadora — "+c.uf,true],["2012","Vereadora — "+c.uf,true]];
+    secaoHistorico = `<div class="psection"><p class="peyebrow">Histórico eleitoral</p>
+      <div class="timeline">${hist.map(([y,w,win])=>`<div class="event${win?' win':''}"><div class="year">${y}</div><div class="what">${w} <span class="result ${win?'eleita':'nao'}">${win?'Eleita':'Não eleita'}</span></div></div>`).join("")}</div>
+    </div>`;
+  }
+
+  $("profileContent").innerHTML=`
+    <div class="phero">
+      <div class="avatar" style="background:${c.cor}">${c.iniciais}</div>
+      <div><h1>${c.nome}</h1>
+        <div class="psub">
+          ${c.numero?`<span class="pchip num">Nº ${c.numero}</span>`:""}
+          ${c.cargo?`<span class="pchip">${c.cargo}</span>`:""}
+          ${c.partido||c.uf?`<span class="pchip">${c.partido||"—"}·${c.uf||"—"}</span>`:""}
+        </div>
+      </div>
+    </div>
+    <div class="pbody">
+      ${secaoDados}
+      ${secaoBio}
+      ${secaoPropostas}
+      ${secaoConvite}
+      ${secaoHistorico}
+      <button class="btn-share" id="shareBtn"><span class="ic">↗</span> Compartilhar candidatura</button>
+    </div>`;
+  $("shareBtn").onclick=()=>shareCandidata(c);
+  go("profile",false);
+  document.querySelector(".app").scrollTo?.(0,0);
+  window.scrollTo(0,0);
+}
+$("backFromProfile").onclick=()=>go("map");
+
+// ---- compartilhar ----
+function showToast(msg){
+  let t=$("toast");
+  if(!t){t=document.createElement("div");t.id="toast";t.className="toast";document.body.appendChild(t);}
+  t.textContent=msg;t.classList.add("show");
+  clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("show"),2200);
+}
+async function shareCandidata(c){
+  // Em produção, a URL apontaria para o perfil público da candidata, ex.: /candidata/<id>
+  const url=`${location.origin}${location.pathname}#candidata-${c.id}`;
+  const texto=`${c.nome} — ${c.cargo} (${c.partido}-${c.uf}), Nº ${c.numero}. Conheça as propostas no Elas na Urna:`;
+  const dados={title:`${c.nome} · Elas na Urna`,text:texto,url};
+  try{
+    if(navigator.share){await navigator.share(dados);return;}
+    await navigator.clipboard.writeText(`${texto} ${url}`);
+    showToast("Link copiado!");
+  }catch(e){
+    // usuário cancelou o share nativo, ou erro de clipboard — ignora silenciosamente o cancelamento
+    if(e&&e.name==="AbortError")return;
+    try{await navigator.clipboard.writeText(`${texto} ${url}`);showToast("Link copiado!");}
+    catch(_){showToast("Não foi possível compartilhar");}
+  }
+}
+
+// ---- navigation ----
+function go(name,updateNav=true){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  $("screen-"+name).classList.add("active");
+  if(updateNav){document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("on",b.dataset.go===name));}
+  if(name==="lista") renderLista();
+  window.scrollTo(0,0);
+}
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>go(b.dataset.go));
+
+// ---- cargos (educação cívica) ----
+const cargosInfo=[
+  {nome:"Presidente da República",esfera:"Federal · Executivo",tipo:"exe",ico:"🇧🇷",filtro:"Presidente",
+   faz:"É a maior autoridade do país. Comanda o governo federal, escolhe os ministros, propõe leis e o orçamento, e representa o Brasil diante de outros países.",
+   importa:"Decide os rumos do país inteiro: economia, saúde, educação, relações com o mundo. As escolhas afetam todos os brasileiros.",
+   custo:"Recebe um salário fixo (chamado subsídio). Além disso, o cargo conta com estrutura de trabalho paga pelo Estado: equipe, residência oficial, transporte e segurança.",
+   mandato:"4 anos. Pode ser reeleito uma vez."},
+  {nome:"Governador(a)",esfera:"Estadual · Executivo",tipo:"exe",ico:"🏛️",filtro:"Governadora",
+   faz:"Comanda o governo do seu estado. Cuida da saúde, educação, estradas e da segurança pública (polícias civil e militar e bombeiros são ligados a ele).",
+   importa:"É quem mais influencia o dia a dia no estado: hospitais, escolas estaduais, segurança. Muito do que afeta sua região passa por aqui.",
+   custo:"Salário fixo (subsídio) definido por lei estadual, mais a estrutura de governo paga pelo estado (equipe, transporte, segurança).",
+   mandato:"4 anos. Pode ser reeleito uma vez."},
+  {nome:"Prefeito(a)",esfera:"Municipal · Executivo",tipo:"exe",ico:"🏙️",filtro:"Prefeita",municipal:true,
+   faz:"Comanda a sua cidade. Cuida do que é mais perto de você: creches, postos de saúde, ruas, transporte público, limpeza, iluminação.",
+   importa:"É o cargo que mais toca a sua vida diária. A maioria dos serviços que você usa todo dia é responsabilidade da prefeitura.",
+   custo:"Salário fixo (subsídio) definido por lei do município, mais a estrutura da prefeitura. O valor varia muito conforme o tamanho da cidade.",
+   mandato:"4 anos. Pode ser reeleito uma vez. (Eleito em eleição municipal, separada da geral.)"},
+  {nome:"Senador(a)",esfera:"Federal · Legislativo",tipo:"leg",ico:"⚖️",filtro:"Senadora",
+   faz:"Representa o seu estado no Congresso, em Brasília. Faz leis nacionais, fiscaliza o governo e aprova autoridades importantes (como ministros do STF). Cada estado elege 3.",
+   importa:"Tem mandato longo e poder de barrar ou aprovar leis grandes. Também julga o presidente em casos graves. É um dos cargos mais influentes do país.",
+   custo:"Salário fixo (subsídio), mais verba para manter o gabinete e contratar assessores, e outros benefícios. Tudo pago com dinheiro público.",
+   mandato:"8 anos (o mais longo de todos)."},
+  {nome:"Deputado(a) Federal",esfera:"Federal · Legislativo",tipo:"leg",ico:"📜",filtro:"Deputada Federal",
+   faz:"Representa o povo na Câmara, em Brasília. Faz e muda leis nacionais (até a Constituição), aprova o orçamento e fiscaliza o presidente. São 513 no total.",
+   importa:"Decide as leis que valem para todo o Brasil e para onde vai o dinheiro público nacional. Quanto mais gente no estado, mais deputados ele tem.",
+   custo:"Salário fixo (subsídio), mais verba de gabinete (para assessores) e a cota parlamentar (para despesas do trabalho). Tudo público e prestado contas.",
+   mandato:"4 anos. Pode se reeleger sem limite."},
+  {nome:"Deputado(a) Estadual",esfera:"Estadual · Legislativo",tipo:"leg",ico:"🗂️",filtro:"Deputada Estadual",
+   faz:"Representa o povo na Assembleia do seu estado. Faz leis estaduais, aprova o orçamento do estado e fiscaliza o governador.",
+   importa:"Cuida das leis e do dinheiro do seu estado. É o elo entre a população da região e o governo estadual.",
+   custo:"Salário fixo (subsídio), limitado por lei a uma porcentagem do salário do deputado federal, mais verba de gabinete. Varia de estado para estado.",
+   mandato:"4 anos. Pode se reeleger sem limite."},
+  {nome:"Vereador(a)",esfera:"Municipal · Legislativo",tipo:"leg",ico:"🏘️",filtro:"Vereadora",municipal:true,
+   faz:"Representa o povo na Câmara da sua cidade. Faz as leis municipais e fiscaliza o prefeito, verificando se ele cumpre o que prometeu.",
+   importa:"É o político mais perto de você. Cuida das regras da cidade e vigia o trabalho da prefeitura no seu bairro.",
+   custo:"Salário fixo (subsídio) definido por lei do município, dentro de limites da Constituição. O valor varia conforme o tamanho da cidade.",
+   mandato:"4 anos. Pode se reeleger sem limite. (Eleito em eleição municipal.)"},
+];
+$("cargoList").innerHTML=cargosInfo.map((c,i)=>`
+  <div class="cargo" data-i="${i}">
+    <div class="cargo-head">
+      <div class="ico ${c.tipo}">${c.ico}</div>
+      <div class="tit"><h3>${c.nome}</h3><span class="esfera">${c.esfera}</span></div>
+      <span class="arrow">›</span>
+    </div>
+    <div class="cargo-detail"><div class="cargo-detail-inner">
+      <div class="cargo-block"><div class="lbl">📋 O que faz</div><p>${c.faz}</p></div>
+      <div class="cargo-block"><div class="lbl">⭐ Por que importa</div><p>${c.importa}</p></div>
+      <div class="cargo-block"><div class="lbl">💰 Como é pago</div><p>${c.custo}</p></div>
+      <div class="cargo-block"><div class="lbl">⏳ Mandato</div><p>${c.mandato}</p></div>
+      <button class="cargo-cta" data-filtro="${c.filtro}" data-nome="${c.filtro}" data-muni="${c.municipal?1:0}">Ver candidatas a ${c.filtro} →</button>
+    </div></div>
+  </div>`).join("");
+$("cargoList").querySelectorAll(".cargo").forEach(el=>{
+  el.querySelector(".cargo-head").onclick=()=>el.classList.toggle("open");
+});
+// botão "ver candidatas a X" → aplica filtro e vai para o mapa
+$("cargoList").querySelectorAll(".cargo-cta").forEach(btn=>{
+  btn.onclick=(e)=>{
+    e.stopPropagation();
+    F.uf=[]; F.partido=[]; F.bandeira=[]; F.cargo=[btn.dataset.filtro];
+    pendingCargoNome=btn.dataset.nome;
+    pendingCargoMuni=btn.dataset.muni==="1";
+    render();
+    go("map");
+    document.querySelector(".searchbar").scrollIntoView({behavior:"smooth"});
+  };
+});
+
+// ---- landing (tela de entrada) ----
+function montarContagem(){
+  // Data de referência do lançamento (ajuste quando o TSE confirmar a data exata)
+  const alvo=new Date("2026-08-01T00:00:00-03:00");
+  const agora=new Date();
+  const diffMs=alvo-agora;
+  const boxes=$("cdBoxes");
+  if(diffMs<=0){
+    boxes.innerHTML=`<div class="cd-box" style="min-width:auto;padding:.7rem 1.4rem"><div class="num">Estamos quase lá 🗳️</div></div>`;
+    document.querySelector(".cd-label").textContent="Chegou agosto";
+    document.querySelector(".cd-note").textContent="As candidaturas estão sendo registradas e conferidas. As candidatas aparecerão aqui assim que a lista oficial for divulgada.";
+    return;
+  }
+  const dias=Math.floor(diffMs/86400000);
+  const meses=Math.floor(dias/30);
+  const diasResto=dias%30;
+  boxes.innerHTML=
+    `<div class="cd-box"><div class="num">${meses}</div><div class="unit">${meses===1?'mês':'meses'}</div></div>`+
+    `<div class="cd-box"><div class="num">${diasResto}</div><div class="unit">${diasResto===1?'dia':'dias'}</div></div>`;
+}
+montarContagem();
+function fecharLanding(destino){
+  $("landing").classList.add("hide");
+  try{ localStorage.setItem('elasLanding','1'); }catch(e){}
+  if(destino) go(destino);
+}
+// Se já viu a landing, pula direto pra home
+try{ if(localStorage.getItem('elasLanding')==='1') $("landing").classList.add("hide"); }catch(e){}
+$("goExplore").onclick=()=>fecharLanding("map");
+$("goMission").onclick=()=>fecharLanding("mission");
+
+atualizarBadge();
+inicializar();
+</script>
+</body>
+</html>
