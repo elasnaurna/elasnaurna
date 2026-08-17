@@ -313,16 +313,10 @@
 
     <p class="landing-eyebrow">Somos metade do país</p>
     <h1 class="landing-title">Está na hora de <em>elas</em> ajudarem a comandar.</h1>
-    <p class="landing-text">As mulheres são a maioria da população, mas menos de um quinto de quem decide o rumo do Brasil. O <b>Elas na Urna</b> vai reunir, em um só lugar, todas as mulheres candidatas — para que ninguém mais chegue à urna sem conhecer elas.</p>
-
-    <div class="countdown">
-      <p class="cd-label">Lançamento em breve</p>
-      <div class="cd-boxes" id="cdBoxes"></div>
-      <p class="cd-note">As candidaturas são registradas em agosto. Assim que a Justiça Eleitoral divulgar a lista oficial, as candidatas aparecerão aqui.</p>
-    </div>
+    <p class="landing-text">As mulheres são a maioria da população, mas menos de um quinto de quem decide o rumo do Brasil. O <b>Elas na Urna</b> reúne, em um só lugar, todas as mulheres candidatas — para que ninguém mais chegue à urna sem conhecer elas.</p>
 
     <div class="landing-actions">
-      <button class="landing-btn primary" id="goExplore">Explorar a prévia</button>
+      <button class="landing-btn primary" id="goExplore">Conhecer as candidatas</button>
       <button class="landing-btn ghost" id="goMission">Conheça o projeto</button>
     </div>
     <p class="landing-foot">Projeto independente e apartidário · dados públicos do TSE</p>
@@ -1108,26 +1102,6 @@ $("cargoList").querySelectorAll(".cargo-cta").forEach(btn=>{
 });
 
 // ---- landing (tela de entrada) ----
-function montarContagem(){
-  // Data de referência do lançamento (ajuste quando o TSE confirmar a data exata)
-  const alvo=new Date("2026-08-01T00:00:00-03:00");
-  const agora=new Date();
-  const diffMs=alvo-agora;
-  const boxes=$("cdBoxes");
-  if(diffMs<=0){
-    boxes.innerHTML=`<div class="cd-box" style="min-width:auto;padding:.7rem 1.4rem"><div class="num">Estamos quase lá 🗳️</div></div>`;
-    document.querySelector(".cd-label").textContent="Chegou agosto";
-    document.querySelector(".cd-note").textContent="As candidaturas estão sendo registradas e conferidas. As candidatas aparecerão aqui assim que a lista oficial for divulgada.";
-    return;
-  }
-  const dias=Math.floor(diffMs/86400000);
-  const meses=Math.floor(dias/30);
-  const diasResto=dias%30;
-  boxes.innerHTML=
-    `<div class="cd-box"><div class="num">${meses}</div><div class="unit">${meses===1?'mês':'meses'}</div></div>`+
-    `<div class="cd-box"><div class="num">${diasResto}</div><div class="unit">${diasResto===1?'dia':'dias'}</div></div>`;
-}
-montarContagem();
 function fecharLanding(destino){
   $("landing").classList.add("hide");
   try{ localStorage.setItem('elasLanding','1'); }catch(e){}
