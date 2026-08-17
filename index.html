@@ -352,7 +352,7 @@
         <div class="count"><strong id="cPar">0</strong><span>partidos</span></div>
       </div>
     </div>
-    <div class="disclaimer"><b>Exemplo.</b> Os dados de verdade chegam em 2026.</div>
+    <div class="disclaimer" id="demoDisclaimer"><b>Exemplo.</b> Os dados de verdade chegam do TSE.</div>
 
     <div class="searchbar">
       <input type="text" id="search" class="search" placeholder="🔍  Buscar pelo nome…" inputmode="search">
@@ -775,6 +775,9 @@ function render(){
   // Aviso legal: candidaturas ainda não julgadas pela Justiça Eleitoral
   const avisoEl=$("avisoJulgamento");
   if(avisoEl) avisoEl.style.display = (modoAtual==="real" && AVISO_AGUARDANDO_JULGAMENTO) ? "block" : "none";
+  // Disclaimer "Exemplo" só aparece no modo demo (dados fictícios); some na produção
+  const demoEl=$("demoDisclaimer");
+  if(demoEl) demoEl.style.display = (modoAtual==="mock") ? "block" : "none";
   let list=candidatas.filter(c=>
     (!q||c.nome.toLowerCase().includes(q)) &&
     (!F.uf.length||F.uf.includes(c.uf)) &&
