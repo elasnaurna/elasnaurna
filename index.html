@@ -212,6 +212,9 @@
   .btn-fav-profile:active{background:#a3125d;}
   .btn-fav-profile.on{background:var(--card);color:var(--magenta);}
   .btn-fav-profile .ic{font-size:1.35rem;line-height:1;}
+  .redes{display:flex;flex-wrap:wrap;gap:.6rem;}
+  .rede-link{display:inline-flex;align-items:center;gap:.3rem;background:var(--card);border:1.5px solid var(--magenta);color:var(--magenta);text-decoration:none;font-weight:600;font-size:.88rem;padding:.55rem .9rem;border-radius:10px;transition:background .15s;}
+  .rede-link:active{background:var(--magenta-soft);}
   .toast{position:fixed;left:50%;bottom:calc(80px + var(--safe-b));transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:.7rem 1.2rem;border-radius:30px;font-size:.85rem;font-weight:600;z-index:60;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;white-space:nowrap;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
@@ -655,7 +658,10 @@ async function carregarDadosReais(){
       temCadastro: !!cad,
       bio: cad ? (cad[COL_CAD.bio]||"").trim() : "",
       propostas,
-      site: cad ? (cad[COL_CAD.site]||"").trim() : ""
+      site: cad ? (cad[COL_CAD.site]||"").trim() : "",
+      // Redes sociais oficiais declaradas ao TSE (não dependem do cadastro)
+      instagram: (row.instagram||"").trim(),
+      redeTSE: (row.rede_principal||"").trim()
     };
   });
 }
@@ -892,7 +898,35 @@ function openProfile(id){
     </div>`;
 
   // Seções autodeclaradas — só aparecem se a candidata preencheu o formulário
-  let secaoBio = "", secaoPropostas = "", secaoConvite = "";
+  let secaoBio = "", secaoPropostas = "", secaoConvite = "", secaoRedes = "";
+
+  // Redes sociais oficiais do TSE (aparecem mesmo sem cadastro)
+  if(c.origem!=="mock" && (c.instagram || c.redeTSE)){
+    const links = [];
+    if(c.instagram){
+      links.push(`<a href="${c.instagram}" target="_blank" rel="noopener" class="rede-link">📷 Instagram ↗</a>`);
+    }
+    // rede principal, só se for diferente do Instagram já mostrado
+    if(c.redeTSE && c.redeTSE !== c.instagram){
+      let label = "Perfil oficial";
+      const u = c.redeTSE.toLowerCase();
+      if(u.includes("facebook")) label = "📘 Facebook";
+      else if(u.includes("tiktok")) label = "🎵 TikTok";
+      else if(u.includes("youtube")||u.includes("youtu.be")) label = "▶️ YouTube";
+      else if(u.includes("threads")) label = "🧵 Threads";
+      else if(u.includes("twitter")||u.includes("x.com")) label = "𝕏 Twitter/X";
+      else if(u.includes("linkedin")) label = "💼 LinkedIn";
+      else if(u.includes("kwai")) label = "📱 Kwai";
+      else label = "🔗 Site oficial";
+      links.push(`<a href="${c.redeTSE}" target="_blank" rel="noopener" class="rede-link">${label} ↗</a>`);
+    }
+    if(links.length){
+      secaoRedes = `
+        <div class="psection"><p class="peyebrow">Onde acompanhar <span style="color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">· fonte: TSE</span></p>
+          <div class="redes">${links.join("")}</div>
+        </div>`;
+    }
+  }
 
   if(c.temCadastro && c.bio){
     secaoBio = `
@@ -944,6 +978,7 @@ function openProfile(id){
     </div>
     <div class="pbody">
       ${secaoDados}
+      ${secaoRedes}
       ${secaoBio}
       ${secaoPropostas}
       ${secaoConvite}
