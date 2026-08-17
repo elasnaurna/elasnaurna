@@ -9,8 +9,10 @@
 <meta property="og:title" content="Elas na Urna">
 <meta property="og:description" content="Mapa apartidário e gratuito de todas as mulheres candidatas do Brasil. Conheça quem são antes de votar.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://elasnaurna.com.br">
 <meta property="og:image" content="https://catarse-backend-prod.nyc3.digitaloceanspaces.com/catarse-backend-prod/project_photo/f2f413c290ba815036424.png">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="me" href="https://www.instagram.com/elasnaurna">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 110 110'%3E%3Cpath d='M26 56 L48 78' fill='none' stroke='%235b3a8c' stroke-width='16' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M48 78 L86 32' fill='none' stroke='%23c0166e' stroke-width='16' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Archivo:wght@400;500;600;700&display=swap');
@@ -357,6 +359,9 @@
     </div>
 
     <div class="meta"><p class="result-count"><b id="shown">0</b> encontradas</p></div>
+    <div id="avisoJulgamento" style="display:none;background:var(--magenta-claro,#FBE8F1);color:var(--ink,#1A1625);border-radius:10px;padding:.7rem 1rem;font-size:.82rem;line-height:1.45;margin:0 0 .8rem;">
+      ⚖️ Candidaturas registradas no TSE, <b>sujeitas a confirmação pela Justiça Eleitoral</b>. A lista é atualizada conforme os julgamentos são publicados.
+    </div>
     <div class="grid" id="grid"></div>
 
     <div class="support">
@@ -406,6 +411,9 @@
       <div class="support" style="margin:1.5rem 0 0;">
         <p>Ajude a tornar elas visíveis.</p>
         <a href="https://www.catarse.com.br/elas-na-urna" target="_blank" rel="noopener" class="btn-support">♥ Apoie este projeto</a>
+        <p style="margin-top:1rem;font-size:.9rem;">Acompanhe o projeto:
+          <a href="https://www.instagram.com/elasnaurna" target="_blank" rel="noopener" style="color:var(--magenta);font-weight:700;text-decoration:none;">📷 @elasnaurna</a>
+        </p>
       </div>
       <p class="src">Fontes: composição da Câmara e Senado (2026) e ranking — Agência Senado / UIP e ONU Mulheres; eleições municipais 2024 e taxas por gênero — Câmara dos Deputados e TSE.</p>
     </div>
@@ -431,6 +439,9 @@
       <!-- TROCAR o href pelo link do seu Google Forms quando ele estiver criado -->
       <a href="https://forms.gle/86wXpTpV5Fs1Qi4h6" target="_blank" rel="noopener" class="cad-cta" id="cadFormBtn">Preencher cadastro →</a>
       <p class="cad-foot">Gratuito e voluntário · projeto apartidário · seus dados são tratados conforme a LGPD.</p>
+      <p style="text-align:center;margin-top:.8rem;font-size:.9rem;">Siga o projeto:
+        <a href="https://www.instagram.com/elasnaurna" target="_blank" rel="noopener" style="color:var(--magenta);font-weight:700;text-decoration:none;">📷 @elasnaurna</a>
+      </p>
     </div>
   </div>
 
@@ -516,9 +527,13 @@
        Arquivo → Compartilhar → Publicar na Web → aba desejada → CSV → Publicar
    Copie a URL que aparece e cole aqui.
    ========================================================= */
-const PRE_LANCAMENTO = true;
-const CSV_TSE = "";
-const CSV_CADASTROS = "";
+const PRE_LANCAMENTO = false;
+const CSV_TSE = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRAdj7WQ42-BUkrBLgOUCW0dC8iExiqvoHC0hMGul6peFSMwpIDDkfwX2Agdt_LtIVDHacpq_KFAgNW/pub?gid=1750336846&single=true&output=csv";
+const CSV_CADASTROS = "";      // ⬅️ COLE AQUI a URL publicada da planilha de Cadastros (Arquivo → Compartilhar → Publicar na web → CSV)
+
+// Enquanto a Justiça Eleitoral não julga as candidaturas, mantenha true.
+// Quando os deferimentos saírem e você reimportar a base filtrada, mude para false.
+const AVISO_AGUARDANDO_JULGAMENTO = true;
 
 /* -----------------------------------------------------------
    COLUNAS ESPERADAS EM CADA PLANILHA
@@ -532,7 +547,7 @@ const CSV_CADASTROS = "";
    ----------------------------------------------------------- */
 
 const $=id=>document.getElementById(id);
-const cargos=["Presidente","Senadora","Governadora","Deputada Federal","Deputada Estadual"];
+const cargos=["Presidente","Senadora","Governadora","Deputada Federal","Deputada Estadual","Deputada Distrital"];
 const partidos=["PT","PSDB","PL","PSOL","PSD","MDB","REDE","PDT","NOVO","PCdoB","PSB","UNIÃO"];
 const ufs=["SP","RJ","MG","BA","RS","PE","CE","PR","SC","GO","DF","AM","PA"];
 const primeiros=["Maria","Ana","Luiza","Joana","Beatriz","Camila","Fernanda","Patrícia","Rosângela","Cláudia","Helena","Teresa","Sônia","Marta","Daniela","Vanessa","Aline","Gabriela","Letícia","Cristina"];
@@ -751,6 +766,9 @@ function render(){
     return;
   }
   const q=$("search").value.toLowerCase().trim();
+  // Aviso legal: candidaturas ainda não julgadas pela Justiça Eleitoral
+  const avisoEl=$("avisoJulgamento");
+  if(avisoEl) avisoEl.style.display = (modoAtual==="real" && AVISO_AGUARDANDO_JULGAMENTO) ? "block" : "none";
   let list=candidatas.filter(c=>
     (!q||c.nome.toLowerCase().includes(q)) &&
     (!F.uf.length||F.uf.includes(c.uf)) &&
@@ -867,7 +885,7 @@ function openProfile(id){
       <div class="facts">
         ${facts.map(([k,v])=>`<div class="fact"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("")}
       </div>
-      ${c.origem==="mock"?`<p class="note" style="margin-top:1rem;">Dados fictícios para protótipo. Os reais virão do TSE.</p>`:""}
+      ${c.origem==="mock"?`<p class="note" style="margin-top:1rem;">Dados fictícios para protótipo. Os reais virão do TSE.</p>`:(AVISO_AGUARDANDO_JULGAMENTO&&c.origem!=="mock"?`<p class="note" style="margin-top:1rem;">Candidatura registrada no TSE, sujeita a confirmação pela Justiça Eleitoral.</p>`:"")}
     </div>`;
 
   // Seções autodeclaradas — só aparecem se a candidata preencheu o formulário
@@ -1001,6 +1019,11 @@ const cargosInfo=[
    faz:"Representa o povo na Assembleia do seu estado. Faz leis estaduais, aprova o orçamento do estado e fiscaliza o governador.",
    importa:"Cuida das leis e do dinheiro do seu estado. É o elo entre a população da região e o governo estadual.",
    custo:"Salário fixo (subsídio), limitado por lei a uma porcentagem do salário do deputado federal, mais verba de gabinete. Varia de estado para estado.",
+   mandato:"4 anos. Pode se reeleger sem limite."},
+  {nome:"Deputado(a) Distrital",esfera:"Distrital · Legislativo",tipo:"leg",ico:"🏛️",filtro:"Deputada Distrital",
+   faz:"Representa o povo na Câmara Legislativa do Distrito Federal. Como o DF não se divide em municípios, acumula as funções de deputado estadual e vereador.",
+   importa:"Cuida das leis e do orçamento do DF — do que seria estadual e municipal ao mesmo tempo. Só existe no Distrito Federal.",
+   custo:"Salário fixo (subsídio), limitado por lei, mais verba de gabinete, nos mesmos moldes dos deputados estaduais.",
    mandato:"4 anos. Pode se reeleger sem limite."},
   {nome:"Vereador(a)",esfera:"Municipal · Legislativo",tipo:"leg",ico:"🏘️",filtro:"Vereadora",municipal:true,
    faz:"Representa o povo na Câmara da sua cidade. Faz as leis municipais e fiscaliza o prefeito, verificando se ele cumpre o que prometeu.",
