@@ -208,6 +208,10 @@
   .btn-share{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;height:54px;margin-top:1.4rem;background:var(--card);border:1.5px solid var(--magenta);color:var(--magenta);font-family:inherit;font-weight:700;font-size:.95rem;border-radius:12px;cursor:pointer;}
   .btn-share:active{background:var(--magenta-soft);}
   .btn-share .ic{font-size:1.2rem;}
+  .btn-fav-profile{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;height:54px;margin-top:1.4rem;background:var(--magenta);border:1.5px solid var(--magenta);color:#fff;font-family:inherit;font-weight:700;font-size:.95rem;border-radius:12px;cursor:pointer;transition:background .15s;}
+  .btn-fav-profile:active{background:#a3125d;}
+  .btn-fav-profile.on{background:var(--card);color:var(--magenta);}
+  .btn-fav-profile .ic{font-size:1.35rem;line-height:1;}
   .toast{position:fixed;left:50%;bottom:calc(80px + var(--safe-b));transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:.7rem 1.2rem;border-radius:30px;font-size:.85rem;font-weight:600;z-index:60;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;white-space:nowrap;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
@@ -685,6 +689,8 @@ async function inicializar(){
   candidatas.forEach(c => c._ordem = Math.random());
   atualizarContadores();
   render();
+  // Se o usuário chegou por um link compartilhado (#c=...), abre o perfil direto
+  abrirPerfilPorHash();
 }
 
 function atualizarContadores(){
@@ -945,14 +951,31 @@ function openProfile(id){
       ${secaoPropostas}
       ${secaoConvite}
       ${secaoHistorico}
+      <button class="btn-fav-profile${favoritos.has(c.id)?' on':''}" id="favBtnProfile">
+        <span class="ic">${favoritos.has(c.id)?'♥':'♡'}</span>
+        <span class="lbl">${favoritos.has(c.id)?'Salva na sua lista':'Salvar na minha lista'}</span>
+      </button>
       <button class="btn-share" id="shareBtn"><span class="ic">↗</span> Compartilhar candidatura</button>
     </div>`;
   $("shareBtn").onclick=()=>shareCandidata(c);
+  const favBtn=$("favBtnProfile");
+  if(favBtn) favBtn.onclick=()=>{
+    toggleFav(c.id);
+    const on=favoritos.has(c.id);
+    favBtn.classList.toggle("on",on);
+    favBtn.querySelector(".ic").textContent=on?'♥':'♡';
+    favBtn.querySelector(".lbl").textContent=on?'Salva na sua lista':'Salvar na minha lista';
+  };
   go("profile",false);
   document.querySelector(".app").scrollTo?.(0,0);
   window.scrollTo(0,0);
 }
-$("backFromProfile").onclick=()=>go("map");
+$("backFromProfile").onclick=()=>{
+  if(location.hash.startsWith("#c=")){ history.replaceState(null,"",location.pathname+location.search); }
+  go("map");
+};
+// Se o hash mudar com o app aberto (ex.: colar link numa aba já aberta)
+window.addEventListener("hashchange",()=>{ if(candidatas.length) abrirPerfilPorHash(); });
 
 // ---- compartilhar ----
 function showToast(msg){
@@ -961,9 +984,14 @@ function showToast(msg){
   t.textContent=msg;t.classList.add("show");
   clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("show"),2200);
 }
+// Gera uma "chave" estável para a candidata, que não muda entre carregamentos
+// (o id numérico muda conforme a ordem da base; número+UF+cargo é estável).
+function slugCandidata(c){
+  const cargoAbrev={"Presidente":"pr","Governadora":"gov","Senadora":"sen","Deputada Federal":"df","Deputada Estadual":"de","Deputada Distrital":"dd"}[c.cargo]||"x";
+  return `${c.uf}-${c.numero}-${cargoAbrev}`.toLowerCase();
+}
 async function shareCandidata(c){
-  // Em produção, a URL apontaria para o perfil público da candidata, ex.: /candidata/<id>
-  const url=`${location.origin}${location.pathname}#candidata-${c.id}`;
+  const url=`${location.origin}${location.pathname}#c=${slugCandidata(c)}`;
   const texto=`${c.nome} — ${c.cargo} (${c.partido}-${c.uf}), Nº ${c.numero}. Conheça as propostas no Elas na Urna:`;
   const dados={title:`${c.nome} · Elas na Urna`,text:texto,url};
   try{
@@ -971,11 +999,25 @@ async function shareCandidata(c){
     await navigator.clipboard.writeText(`${texto} ${url}`);
     showToast("Link copiado!");
   }catch(e){
-    // usuário cancelou o share nativo, ou erro de clipboard — ignora silenciosamente o cancelamento
     if(e&&e.name==="AbortError")return;
     try{await navigator.clipboard.writeText(`${texto} ${url}`);showToast("Link copiado!");}
     catch(_){showToast("Não foi possível compartilhar");}
   }
+}
+
+// Abre o perfil a partir do link compartilhado (#c=uf-numero-cargo)
+function abrirPerfilPorHash(){
+  const m=location.hash.match(/^#c=(.+)$/);
+  if(!m) return false;
+  const alvo=decodeURIComponent(m[1]).toLowerCase();
+  const c=candidatas.find(x=>slugCandidata(x)===alvo);
+  if(c){
+    // fecha a landing se ainda estiver visível
+    try{$("landing").classList.add("hide");}catch(e){}
+    openProfile(c.id);
+    return true;
+  }
+  return false;
 }
 
 // ---- navigation ----
