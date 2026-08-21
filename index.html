@@ -530,7 +530,7 @@
    ========================================================= */
 const PRE_LANCAMENTO = false;
 const CSV_TSE = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRAdj7WQ42-BUkrBLgOUCW0dC8iExiqvoHC0hMGul6peFSMwpIDDkfwX2Agdt_LtIVDHacpq_KFAgNW/pub?gid=1565236896&single=true&output=csv";
-const CSV_CADASTROS = "";      // ⬅️ COLE AQUI a URL publicada da planilha de Cadastros (Arquivo → Compartilhar → Publicar na web → CSV)
+const CSV_CADASTROS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQhEq5LxCf38FPjS15XReprHQf-eRH1aOqCq2SlUrqkCsECyVgeJYkWy9Ov1JjMB8tuKog9SlUPCIkA/pub?gid=366417999&single=true&output=csv";
 
 // Enquanto a Justiça Eleitoral não julga as candidaturas, mantenha true.
 // Quando os deferimentos saírem e você reimportar a base filtrada, mude para false.
@@ -623,25 +623,52 @@ async function carregarDadosReais(){
   const tseRows = Papa.parse(tseTxt, {header:true, skipEmptyLines:true}).data;
   const cadRows = cadTxt ? Papa.parse(cadTxt, {header:true, skipEmptyLines:true}).data : [];
 
-  // Filtra cadastros aprovados e monta índice por (nome + UF)
-  const cadMap = new Map();
+  // Filtra cadastros aprovados e monta índice.
+  // Chave principal: número + UF (estável, imune a erro de digitação no nome).
+  // Chave secundária: nome + UF (caso o número venha errado/vazio).
+  const cadMap = new Map();      // por número+UF
+  const cadMapNome = new Map();  // por nome+UF (fallback)
   cadRows.forEach(r=>{
     if(String(r[COL_CAD.aprovado]||"").toLowerCase().trim() !== "sim") return;
-    const chave = `${norm(r[COL_CAD.nome])}|${(r[COL_CAD.uf]||"").toUpperCase().trim()}`;
-    cadMap.set(chave, r);
+    const uf = (r[COL_CAD.uf]||"").toUpperCase().trim();
+    const num = String(r[COL_CAD.numero]||"").replace(/\D/g,"").trim();
+    if(num) cadMap.set(`${num}|${uf}`, r);
+    cadMapNome.set(`${norm(r[COL_CAD.nome])}|${uf}`, r);
   });
+
+  // Limpa lixo de formatação colado de documentos (marcadores "o\t", bullets, espaços múltiplos)
+  function limpaTexto(t){
+    if(!t) return "";
+    return String(t)
+      .replace(/\s*[o•▪·-]\s*\t+/g, " ")   // marcador "o" + tab (Word/Docs)
+      .replace(/\t+/g, " ")
+      .replace(/\s{2,}/g, " ")
+      .replace(/^[\s;o•·-]+/, "")            // lixo no começo
+      .trim();
+  }
 
   // Constrói lista final a partir do TSE
   return tseRows.filter(row => (row.nome||"").trim()).map((row,i)=>{
     const nome = row.nome.trim();
     const uf = (row.uf||"").toUpperCase().trim();
-    const cad = cadMap.get(`${norm(nome)}|${uf}`);
+    const num = String(row.numero||"").replace(/\D/g,"").trim();
+    // tenta casar por número+UF (mais confiável); se não, por nome+UF
+    const cad = cadMap.get(`${num}|${uf}`) || cadMapNome.get(`${norm(nome)}|${uf}`);
     const bandeirasCad = cad
-      ? (cad[COL_CAD.bandeiras]||"").split(/\s*,\s*/).filter(Boolean)
+      ? (cad[COL_CAD.bandeiras]||"").split(/\s*,\s*/).map(b=>b.trim()).filter(Boolean)
       : [];
-    const propostas = cad
-      ? [cad[COL_CAD.prop1], cad[COL_CAD.prop2], cad[COL_CAD.prop3]].filter(Boolean)
-      : [];
+    // Propostas: limpa formatação e remove duplicatas (candidata pode colar a mesma nos 3 campos)
+    let propostas = [];
+    if(cad){
+      const brutas = [cad[COL_CAD.prop1], cad[COL_CAD.prop2], cad[COL_CAD.prop3]]
+        .map(limpaTexto).filter(Boolean);
+      const vistas = new Set();
+      propostas = brutas.filter(p=>{
+        const chave = p.slice(0,60).toLowerCase();
+        if(vistas.has(chave)) return false;
+        vistas.add(chave); return true;
+      });
+    }
     return {
       id: i,
       nome,
@@ -656,7 +683,7 @@ async function carregarDadosReais(){
       bandeiras: bandeirasCad,
       origem: cad ? "tse+cad" : "tse",
       temCadastro: !!cad,
-      bio: cad ? (cad[COL_CAD.bio]||"").trim() : "",
+      bio: cad ? limpaTexto(cad[COL_CAD.bio]) : "",
       propostas,
       site: cad ? (cad[COL_CAD.site]||"").trim() : "",
       // Redes sociais oficiais declaradas ao TSE (não dependem do cadastro)
