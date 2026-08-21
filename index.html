@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- Acelera o carregamento: já aquece a conexão com o Google Sheets e baixa o PapaParse em paralelo -->
+<link rel="preconnect" href="https://docs.google.com" crossorigin>
+<link rel="dns-prefetch" href="https://docs.google.com">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <title>Elas na Urna — Quem são elas na política?</title>
 <meta name="description" content="Mapa apartidário e gratuito de todas as mulheres candidatas do Brasil. Conheça quem são antes de votar.">
 <!-- Open Graph (preview no WhatsApp/redes). Após o deploy, atualize og:url com o endereço final. -->
@@ -589,6 +594,7 @@ function gerarFicticios(){
 // Carrega PapaParse sob demanda (leitor de CSV, ~40kb)
 function carregarPapaParse(){
   if(window.Papa) return Promise.resolve();
+  // Fallback: se o preload no <head> falhar, tenta carregar sob demanda
   return new Promise((res,rej)=>{
     const s=document.createElement("script");
     s.src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js";
@@ -696,6 +702,7 @@ async function carregarDadosReais(){
 /* ---------- Inicialização (decide o modo e carrega dados) ---------- */
 let candidatas = [];
 let modoAtual = "prelanc"; // "prelanc" | "mock" | "real" | "erro"
+let dadosProntos = false;
 
 async function inicializar(){
   if(PRE_LANCAMENTO){ modoAtual="prelanc"; render(); return; }
@@ -714,6 +721,7 @@ async function inicializar(){
   }
   // Sorteia uma ordem estável para a sessão (usada quando order === "aleatorio")
   candidatas.forEach(c => c._ordem = Math.random());
+  dadosProntos = true;
   atualizarContadores();
   render();
   // Se o usuário chegou por um link compartilhado (#c=...), abre o perfil direto
@@ -1171,7 +1179,25 @@ function fecharLanding(destino){
 }
 // Se já viu a landing, pula direto pra home
 try{ if(localStorage.getItem('elasLanding')==='1') $("landing").classList.add("hide"); }catch(e){}
-$("goExplore").onclick=()=>fecharLanding("map");
+
+$("goExplore").onclick=()=>{
+  // Se os dados ainda estão carregando, mostra feedback no botão em vez de lista vazia
+  if(!dadosProntos && modoAtual!=="erro"){
+    const btn=$("goExplore");
+    btn.textContent="Carregando candidatas…";
+    btn.disabled=true;
+    const espera=setInterval(()=>{
+      if(dadosProntos || modoAtual==="erro"){
+        clearInterval(espera);
+        btn.textContent="Conhecer as candidatas";
+        btn.disabled=false;
+        fecharLanding("map");
+      }
+    },150);
+    return;
+  }
+  fecharLanding("map");
+};
 $("goMission").onclick=()=>fecharLanding("mission");
 
 atualizarBadge();
