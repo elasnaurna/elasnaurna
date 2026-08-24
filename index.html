@@ -564,6 +564,10 @@
    Copie a URL que aparece e cole aqui.
    ========================================================= */
 const PRE_LANCAMENTO = false;
+// Base do TSE CONGELADA num arquivo local (rápido). Para atualizar quando sair os deferimentos,
+// regenere o dados-tse.json e suba junto do index.html.
+const JSON_TSE = "dados-tse.json";
+// (mantido só como referência; não é mais usado para carregar — a base vem do JSON acima)
 const CSV_TSE = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRAdj7WQ42-BUkrBLgOUCW0dC8iExiqvoHC0hMGul6peFSMwpIDDkfwX2Agdt_LtIVDHacpq_KFAgNW/pub?gid=1565236896&single=true&output=csv";
 const CSV_CADASTROS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQhEq5LxCf38FPjS15XReprHQf-eRH1aOqCq2SlUrqkCsECyVgeJYkWy9Ov1JjMB8tuKog9SlUPCIkA/pub?gid=366417999&single=true&output=csv";
 
@@ -652,11 +656,17 @@ const COL_CAD = {
 
 async function carregarDadosReais(){
   await carregarPapaParse();
-  const [tseTxt, cadTxt] = await Promise.all([
-    fetch(CSV_TSE).then(r=>{if(!r.ok) throw new Error("CSV TSE não acessível"); return r.text();}),
+  // Base TSE: congelada num arquivo local (carrega instantâneo).
+  // Cadastros: continuam vindo do Google Sheets ao vivo (candidata nova aparece sozinha).
+  const [tseData, cadTxt] = await Promise.all([
+    fetch(JSON_TSE).then(r=>{if(!r.ok) throw new Error("dados-tse.json não acessível"); return r.json();}),
     CSV_CADASTROS ? fetch(CSV_CADASTROS).then(r=>r.ok?r.text():"") : Promise.resolve("")
   ]);
-  const tseRows = Papa.parse(tseTxt, {header:true, skipEmptyLines:true}).data;
+  // Reexpande as chaves curtas do JSON para o formato que o resto do código usa
+  const tseRows = tseData.map(o=>({
+    nome:o.n, cargo:o.c, partido:o.p, numero:o.num, uf:o.uf,
+    escolaridade:o.e||"", idade:o.i||"", instagram:o.ig||"", rede_principal:o.r||""
+  }));
   const cadRows = cadTxt ? Papa.parse(cadTxt, {header:true, skipEmptyLines:true}).data : [];
 
   // Filtra cadastros aprovados e monta índice.
