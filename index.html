@@ -149,6 +149,13 @@
   .tags{display:flex;gap:.4rem;flex-wrap:wrap;}
   .tag{font-size:.72rem;padding:.25rem .6rem;border-radius:20px;background:var(--magenta-soft);color:var(--violet);font-weight:600;}
   .tag.cargo{background:#eef3f0;color:var(--green);}
+  /* Cores por cargo — facilita distinguir posições ao filtrar */
+  .tag.cargo.c-estadual{background:#e8f0fb;color:#1c5fb0;}
+  .tag.cargo.c-federal{background:#eae6f7;color:#5b3a8c;}
+  .tag.cargo.c-distrital{background:#e4f3ef;color:#0f7a63;}
+  .tag.cargo.c-senadora{background:#fdeede;color:#b5730a;}
+  .tag.cargo.c-governadora{background:#fce6ee;color:#c0166e;}
+  .tag.cargo.c-presidente{background:#fbe4e0;color:#c0432a;}
   .tag.uf{background:#f0ece6;color:var(--muted);}
   .bandeiras{display:flex;flex-wrap:wrap;gap:.3rem;}
   .bandeira{font-size:.68rem;padding:.2rem .5rem;border-radius:6px;background:var(--paper);border:1px solid var(--line);color:var(--muted);}
@@ -604,6 +611,18 @@ function norm(s){return (s||"").toString().toLowerCase().normalize("NFD").replac
 // Iniciais para o avatar
 function iniciais(nome){return nome.split(/\s+/).filter(Boolean).map(n=>n[0]).slice(0,2).join("").toUpperCase();}
 
+// Classe de cor por cargo — cada posição tem sua cor, facilita distinguir ao filtrar
+function classeCargo(cargo){
+  const c = (cargo||"").toLowerCase();
+  if(c.includes("estadual")) return "c-estadual";
+  if(c.includes("federal")) return "c-federal";
+  if(c.includes("distrital")) return "c-distrital";
+  if(c.includes("senadora")) return "c-senadora";
+  if(c.includes("governadora")) return "c-governadora";
+  if(c.includes("presidente")) return "c-presidente";
+  return "";
+}
+
 // Cor consistente por candidata (mesmo nome → mesma cor)
 function corDoNome(nome){let h=0;for(const c of nome){h=(h*31+c.charCodeAt(0))>>>0;}return cores[h%cores.length];}
 
@@ -883,7 +902,7 @@ function render(){
         <div><h3>${c.nome}</h3><span class="num">Nº ${c.numero}</span></div>
         <button class="fav${favoritos.has(c.id)?' on':''}" data-fav="${c.id}" aria-label="Favoritar">${favoritos.has(c.id)?'♥':'♡'}</button>
       </div>
-      <div class="tags"><span class="tag cargo">${c.cargo}</span><span class="tag">${c.partido}</span><span class="tag uf">${c.uf}</span></div>
+      <div class="tags"><span class="tag cargo ${classeCargo(c.cargo)}">${c.cargo}</span><span class="tag">${c.partido}</span><span class="tag uf">${c.uf}</span></div>
       <div class="bandeiras">${c.bandeiras.map(b=>`<span class="bandeira${F.bandeira.includes(b)?' match':''}">${b}</span>`).join("")}</div>
     </div>`).join("");
   grid.querySelectorAll(".card").forEach(el=>{
