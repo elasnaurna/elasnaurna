@@ -287,6 +287,17 @@
   .aprenda-links a{display:flex;justify-content:space-between;align-items:center;gap:.6rem;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:.8rem 1rem;text-decoration:none;color:var(--ink);font-weight:600;font-size:.9rem;transition:transform .12s,box-shadow .12s;}
   .aprenda-links a:hover{transform:translateX(3px);box-shadow:0 3px 12px rgba(192,22,110,.12);}
   .aprenda-links a span{color:var(--magenta);font-weight:700;flex-shrink:0;}
+  /* Tela de carregamento */
+  .loading-wrap{text-align:center;padding:2.4rem 1.4rem;}
+  .loading-spin{width:44px;height:44px;margin:0 auto 1.2rem;border:4px solid var(--magenta-soft);border-top-color:var(--magenta);border-radius:50%;animation:spin .8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .loading-wrap b{display:block;font-family:'Fraunces',serif;font-size:1.3rem;color:var(--ink);margin-bottom:.5rem;}
+  .loading-wrap p{font-size:.92rem;color:var(--muted);max-width:34ch;margin:0 auto 1.8rem;line-height:1.5;}
+  .skeleton-list{display:flex;flex-direction:column;gap:.8rem;}
+  .skel-card{height:90px;border-radius:14px;background:linear-gradient(100deg,var(--card) 30%,var(--magenta-soft) 50%,var(--card) 70%);background-size:200% 100%;animation:shimmer 1.3s ease-in-out infinite;border:1px solid var(--line);}
+  @keyframes shimmer{to{background-position:-200% 0;}}
+  .counts-loading{opacity:.5;animation:pulse 1.2s ease-in-out infinite;}
+  @keyframes pulse{50%{opacity:.85;}}
 
   /* ---------- CARGOS ---------- */
   .cargobody{padding:1.4rem 1.2rem 1rem;display:flex;flex-direction:column;gap:.9rem;}
@@ -390,13 +401,13 @@
       <p class="eyebrow">As mulheres candidatas do Brasil</p>
       <h1>Quem são <em>elas</em> na política?</h1>
       <p class="lede">Encontre as mulheres que estão se candidatando. Veja quem são e o que defendem.</p>
-      <div class="counts">
-        <div class="count"><strong id="cCand">0</strong><span>candidatas</span></div>
-        <div class="count"><strong id="cUf">0</strong><span>estados</span></div>
-        <div class="count"><strong id="cPar">0</strong><span>partidos</span></div>
+      <div class="counts" id="countsBlock">
+        <div class="count"><strong id="cCand">—</strong><span>candidatas</span></div>
+        <div class="count"><strong id="cUf">—</strong><span>estados</span></div>
+        <div class="count"><strong id="cPar">—</strong><span>partidos</span></div>
       </div>
     </div>
-    <div class="disclaimer" id="demoDisclaimer"><b>Exemplo.</b> Os dados de verdade chegam do TSE.</div>
+    <div class="disclaimer" id="demoDisclaimer" style="display:none;"><b>Exemplo.</b> Os dados de verdade chegam do TSE.</div>
 
     <div class="searchbar">
       <input type="text" id="search" class="search" placeholder="🔍  Buscar pelo nome…" inputmode="search">
@@ -783,7 +794,10 @@ let dadosProntos = false;
 
 async function inicializar(){
   if(PRE_LANCAMENTO){ modoAtual="prelanc"; render(); return; }
-  if(!CSV_TSE){
+  // Mostra tela de carregamento enquanto busca os dados (evita zeros e "exemplo")
+  modoAtual = "carregando";
+  render();
+  if(!CSV_TSE && !JSON_TSE){
     candidatas = gerarFicticios();
     modoAtual = "mock";
   } else {
@@ -806,6 +820,7 @@ async function inicializar(){
 }
 
 function atualizarContadores(){
+  const cb=$("countsBlock"); if(cb) cb.classList.remove("counts-loading");
   $("cCand").textContent = candidatas.length;
   $("cUf").textContent   = new Set(candidatas.map(c=>c.uf).filter(Boolean)).size;
   $("cPar").textContent  = new Set(candidatas.map(c=>c.partido).filter(Boolean)).size;
@@ -872,6 +887,22 @@ function render(){
       <b>As candidatas aparecem em breve</b>
       <p>As candidaturas são registradas em agosto. Assim que a Justiça Eleitoral divulgar a lista oficial, todas as mulheres candidatas estarão aqui — com busca, filtros e perfis.</p>
       <p class="prelanc-cta">Enquanto isso, conheça o projeto nas outras abas 👇</p>
+    </div>`;
+    return;
+  }
+  if(modoAtual==="carregando"){
+    $("shown").textContent="";
+    const rc=document.querySelector(".result-count"); if(rc) rc.style.display="none";
+    const demoEl0=$("demoDisclaimer"); if(demoEl0) demoEl0.style.display="none";
+    const avisoEl0=$("avisoJulgamento"); if(avisoEl0) avisoEl0.style.display="none";
+    const cb=$("countsBlock"); if(cb) cb.classList.add("counts-loading");
+    grid.innerHTML=`<div class="loading-wrap">
+      <div class="loading-spin"></div>
+      <b>Carregando as candidatas…</b>
+      <p>Reunindo todas as mulheres candidatas do Brasil, com dados oficiais do TSE.</p>
+      <div class="skeleton-list">
+        <div class="skel-card"></div><div class="skel-card"></div><div class="skel-card"></div>
+      </div>
     </div>`;
     return;
   }
