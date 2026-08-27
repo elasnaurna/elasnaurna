@@ -401,11 +401,6 @@
       <p class="eyebrow">As mulheres candidatas do Brasil</p>
       <h1>Quem são <em>elas</em> na política?</h1>
       <p class="lede">Encontre as mulheres que estão se candidatando. Veja quem são e o que defendem.</p>
-      <div class="counts" id="countsBlock">
-        <div class="count"><strong id="cCand">—</strong><span>candidatas</span></div>
-        <div class="count"><strong id="cUf">—</strong><span>estados</span></div>
-        <div class="count"><strong id="cPar">—</strong><span>partidos</span></div>
-      </div>
     </div>
     <div class="disclaimer" id="demoDisclaimer" style="display:none;"><b>Exemplo.</b> Os dados de verdade chegam do TSE.</div>
 
@@ -820,10 +815,11 @@ async function inicializar(){
 }
 
 function atualizarContadores(){
+  // Contadores removidos do topo — função mantida por segurança (não faz nada se os elementos não existirem)
   const cb=$("countsBlock"); if(cb) cb.classList.remove("counts-loading");
-  $("cCand").textContent = candidatas.length;
-  $("cUf").textContent   = new Set(candidatas.map(c=>c.uf).filter(Boolean)).size;
-  $("cPar").textContent  = new Set(candidatas.map(c=>c.partido).filter(Boolean)).size;
+  const cCand=$("cCand"); if(cCand) cCand.textContent = candidatas.length;
+  const cUf=$("cUf"); if(cUf) cUf.textContent = new Set(candidatas.map(c=>c.uf).filter(Boolean)).size;
+  const cPar=$("cPar"); if(cPar) cPar.textContent = new Set(candidatas.map(c=>c.partido).filter(Boolean)).size;
 }
 
 // state — filtros de múltipla escolha: cada categoria é uma lista de valores selecionados
