@@ -175,11 +175,23 @@
   /* search + filter trigger */
   .searchbar{position:sticky;top:64px;z-index:30;background:var(--paper);padding:.9rem 1.2rem;border-bottom:1px solid var(--line);}
   .search{width:100%;padding:0 1rem;height:var(--tap);border:1.5px solid var(--line);border-radius:12px;font-size:16px;font-family:inherit;background:var(--card);}
+  .search::placeholder{font-size:.82rem;}
   .search:focus{outline:2px solid var(--magenta);border-color:transparent;}
   .filter-row{display:flex;gap:.6rem;margin-top:.7rem;}
   .filter-btn{flex:1;height:var(--tap);border:1.5px solid var(--line);background:var(--card);border-radius:12px;font-family:inherit;font-weight:600;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.4rem;color:var(--ink);}
   .filter-btn .badge{background:var(--magenta);color:#fff;border-radius:20px;font-size:.7rem;padding:.05rem .45rem;min-width:20px;}
   .filter-btn.none .badge{display:none;}
+  .explore-title{font-size:1rem;color:var(--ink);margin:0 0 .6rem;font-weight:700;font-family:'Fraunces',serif;}
+  .filtro-grande{width:100%;display:flex;align-items:center;gap:.7rem;background:var(--magenta-soft);border:1.5px solid var(--magenta);border-radius:14px;padding:.85rem 1rem;cursor:pointer;font-family:inherit;text-align:left;margin-bottom:.6rem;transition:background .15s;}
+  .filtro-grande:active,.filtro-grande:hover{background:#f8dcea;}
+  .filtro-grande .fg-ic{font-size:1.3rem;color:var(--magenta);flex-shrink:0;}
+  .filtro-grande .fg-txt{flex:1;display:flex;flex-direction:column;line-height:1.25;}
+  .filtro-grande .fg-txt b{color:var(--magenta);font-size:.92rem;font-weight:700;}
+  .filtro-grande .fg-txt small{color:var(--muted);font-size:.78rem;}
+  .filtro-grande .badge{background:var(--magenta);color:#fff;border-radius:20px;font-size:.72rem;font-weight:700;padding:.1rem .5rem;min-width:22px;text-align:center;flex-shrink:0;}
+  .filtro-grande .badge:empty,.filtro-grande.none .badge{display:none;}
+  .search-row{display:flex;gap:.5rem;}
+  .search-row .search{flex:1;}
   .sort-btn{width:var(--tap);flex:0 0 var(--tap);}
 
   .meta{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.2rem .3rem;}
@@ -446,16 +458,20 @@
       <a href="https://www.catarse.com.br/elas-na-urna" target="_blank" rel="noopener" class="topbar-apoiar">♥ Apoiar</a>
     </div>
     <div class="hero">
-      <p class="eyebrow">As mulheres candidatas do Brasil</p>
-      <h1>Quem são <em>elas</em> na política?</h1>
-      <p class="lede">Encontre as mulheres que estão se candidatando. Veja quem são e o que defendem.</p>
+      <p class="eyebrow">Eleições 2026 · Dados oficiais do TSE e autodeclarados</p>
+      <h1><em>Todas</em> as mulheres candidatas do Brasil em um só lugar</h1>
+      <p class="lede">Veja quem são, o que defendem e onde se candidatam.</p>
     </div>
     <div class="disclaimer" id="demoDisclaimer" style="display:none;"><b>Exemplo.</b> Os dados de verdade chegam do TSE.</div>
 
     <div class="searchbar">
-      <input type="text" id="search" class="search" placeholder="🔍  Buscar por nome ou número…" inputmode="search">
-      <div class="filter-row">
-        <button class="filter-btn none" id="openFilters">⚙ Filtrar <span class="badge" id="fBadge">0</span></button>
+      <button class="filtro-grande" id="openFilters">
+        <span class="fg-ic">⚙</span>
+        <span class="fg-txt"><b>Não sabe por quem votar? Comece por aqui</b><small>Filtrar por estado, cargo, partido ou causa</small></span>
+        <span class="badge" id="fBadge"></span>
+      </button>
+      <div class="search-row">
+        <input type="text" id="search" class="search" placeholder="🔍  Encontre sua candidata por nome ou número" inputmode="search">
         <button class="filter-btn sort-btn" id="openSort" aria-label="Ordenar a lista">↑↓</button>
       </div>
     </div>
@@ -926,8 +942,8 @@ function render(){
   const grid=$("grid");
   if(PRE_LANCAMENTO){
     $("shown").textContent="0";
-    $("fBadge").textContent="0";
-    $("openFilters").classList.add("none");
+    const fb=$("fBadge"); if(fb) fb.textContent="";
+    const of=$("openFilters"); if(of) of.classList.add("none");
     document.querySelector(".searchbar").style.display="none";
     const rc=document.querySelector(".result-count"); if(rc) rc.style.display="none";
     grid.innerHTML=`<div class="prelanc">
@@ -982,8 +998,8 @@ function render(){
   }
   $("shown").textContent=list.length;
   const n=F.uf.length+F.cargo.length+F.partido.length+F.bandeira.length;
-  $("fBadge").textContent=n;
-  $("openFilters").classList.toggle("none",n===0);
+  const fb=$("fBadge"); if(fb) fb.textContent = n>0 ? n : "";
+  const of=$("openFilters"); if(of) of.classList.toggle("none",n===0);
   if(!list.length){
     if(pendingCargoMuni && F.cargo.length){
       grid.innerHTML=`<div class="empty"><b>Ainda não é a hora 🗳️</b>As candidatas a ${pendingCargoNome} aparecem na <b style="font-weight:700;color:var(--magenta)">eleição municipal</b>, que acontece em outro ano. Esta lista é da eleição de 2026.<br><br>Volte aqui na próxima eleição da sua cidade!</div>`;
@@ -1013,18 +1029,22 @@ $("search").addEventListener("input",()=>{pendingCargoMuni=false;render();});
 
 // ---- bottom sheet (filters / sort) ----
 let sheetMode="filters";
-function buildFilterBody(){
+function buildFilterBody(soGrupo){
   const seg=(title,key,arr)=>{
     const sel=draft[key].length;
     const label=title+(sel?` <span class="fcount">${sel}</span>`:"");
-    return `<div class="fgroup"><label>${label}</label><div class="opts">
+    return `<div class="fgroup" data-group="${key}"><label>${label}</label><div class="opts">
       ${arr.map(v=>`<button class="opt${draft[key].includes(v)?' on':''}" data-key="${key}" data-val="${v}">${v}</button>`).join("")}</div></div>`;
   };
-  $("sheetBody").innerHTML=
-    seg("Estado","uf",[...new Set(candidatas.map(c=>c.uf))].sort())+
-    seg("Cargo","cargo",[...new Set(candidatas.map(c=>c.cargo))])+
-    seg("Partido","partido",[...new Set(candidatas.map(c=>c.partido))].sort())+
-    seg("Proposta / bandeira","bandeira",[...new Set(candidatas.flatMap(c=>c.bandeiras))].sort());
+  const grupos={
+    uf:()=>seg("Estado","uf",[...new Set(candidatas.map(c=>c.uf))].sort()),
+    cargo:()=>seg("Cargo","cargo",[...new Set(candidatas.map(c=>c.cargo))]),
+    partido:()=>seg("Partido","partido",[...new Set(candidatas.map(c=>c.partido))].sort()),
+    bandeira:()=>seg("Proposta / bandeira","bandeira",[...new Set(candidatas.flatMap(c=>c.bandeiras))].sort())
+  };
+  $("sheetBody").innerHTML = soGrupo && grupos[soGrupo]
+    ? grupos[soGrupo]()
+    : grupos.uf()+grupos.cargo()+grupos.partido()+grupos.bandeira();
   $("sheetBody").querySelectorAll(".opt").forEach(o=>o.onclick=()=>{
     const k=o.dataset.key,v=o.dataset.val;
     const i=draft[k].indexOf(v);
@@ -1045,13 +1065,14 @@ function buildSortBody(){
     o.parentElement.querySelectorAll(".opt").forEach(x=>x.classList.toggle("on",x.dataset.val===draft.order));
   });
 }
-function openSheet(mode){
+function openSheet(mode,grupo){
   sheetMode=mode;
   // clona o estado atual para o rascunho (arrays independentes)
   draft.uf=[...F.uf]; draft.cargo=[...F.cargo]; draft.partido=[...F.partido]; draft.bandeira=[...F.bandeira]; draft.order=F.order;
-  $("sheetTitle").textContent=mode==="filters"?"Filtros":"Ordenar";
+  const titulos={uf:"Escolha o estado",cargo:"Escolha o cargo",partido:"Escolha o partido",bandeira:"Escolha a causa"};
+  $("sheetTitle").textContent = mode!=="filters" ? "Ordenar" : (grupo && titulos[grupo] ? titulos[grupo] : "Filtros");
   $("sheetClear").style.display=mode==="filters"?"":"none";
-  mode==="filters"?buildFilterBody():buildSortBody();
+  mode==="filters"?buildFilterBody(grupo):buildSortBody();
   $("backdrop").classList.add("open");$("sheet").classList.add("open");
 }
 function closeSheet(){$("backdrop").classList.remove("open");$("sheet").classList.remove("open");}
