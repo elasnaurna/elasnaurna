@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="only light">
 <!-- Acelera o carregamento: já aquece a conexão com o Google Sheets e baixa o PapaParse em paralelo -->
 <link rel="preconnect" href="https://docs.google.com" crossorigin>
 <link rel="dns-prefetch" href="https://docs.google.com">
@@ -98,6 +99,7 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Archivo:wght@400;500;600;700&display=swap');
   :root{
+    color-scheme:only light;
     --ink:#1a1625;--paper:#faf7f2;--card:#fff;--magenta:#c0166e;--magenta-soft:#fbe8f1;
     --violet:#5b3a8c;--line:#e4ddd2;--muted:#6b6478;--green:#1f7a5c;
     --tap:48px; --safe-b:env(safe-area-inset-bottom,0px);
@@ -451,7 +453,7 @@
     <div class="disclaimer" id="demoDisclaimer" style="display:none;"><b>Exemplo.</b> Os dados de verdade chegam do TSE.</div>
 
     <div class="searchbar">
-      <input type="text" id="search" class="search" placeholder="🔍  Buscar pelo nome…" inputmode="search">
+      <input type="text" id="search" class="search" placeholder="🔍  Buscar por nome ou número…" inputmode="search">
       <div class="filter-row">
         <button class="filter-btn none" id="openFilters">⚙ Filtrar <span class="badge" id="fBadge">0</span></button>
         <button class="filter-btn sort-btn" id="openSort" aria-label="Ordenar a lista">↑↓</button>
@@ -513,11 +515,14 @@
         <p>Entenda como funcionam as eleições e por que seu voto em mulheres faz diferença. Conteúdo gratuito e sem juridiquês:</p>
         <div class="aprenda-links">
           <a href="/por-que-poucas-mulheres-se-elegem.html">Por que poucas mulheres se elegem <span>→</span></a>
+          <a href="/violencia-politica-de-genero.html">Violência política de gênero: o que é <span>→</span></a>
           <a href="/quociente-eleitoral.html">Por que seu voto em deputada vai pro partido <span>→</span></a>
           <a href="/voto-feminino.html">A história do voto feminino <span>→</span></a>
           <a href="/cotas-de-genero.html">O que é a cota de gênero <span>→</span></a>
           <a href="/deputada-federal-estadual.html">Deputada federal x estadual <span>→</span></a>
+          <a href="/o-que-faz-senadora.html">O que faz uma senadora <span>→</span></a>
           <a href="/como-votar-2026.html">Como votar nas Eleições 2026 <span>→</span></a>
+          <a href="/voto-branco-nulo.html">Voto branco x voto nulo <span>→</span></a>
           <a href="/ficha-limpa.html">O que é a Lei da Ficha Limpa <span>→</span></a>
         </div>
       </div>
@@ -551,6 +556,7 @@
 
       <!-- TROCAR o href pelo link do seu Google Forms quando ele estiver criado -->
       <a href="https://forms.gle/86wXpTpV5Fs1Qi4h6" target="_blank" rel="noopener" class="cad-cta" id="cadFormBtn">Preencher cadastro →</a>
+      <p style="text-align:center;margin-top:.9rem;font-size:.9rem;"><a href="/para-candidatas.html" style="color:var(--magenta);font-weight:600;text-decoration:none;">Como funciona e por que participar →</a></p>
       <p class="cad-foot">Gratuito e voluntário · projeto apartidário · seus dados são tratados conforme a LGPD.</p>
       <p style="text-align:center;margin-top:.8rem;font-size:.9rem;">Siga o projeto:
         <a href="https://www.instagram.com/elasnaurna" target="_blank" rel="noopener" style="color:var(--magenta);font-weight:700;text-decoration:none;">📷 @elasnaurna</a>
@@ -964,7 +970,7 @@ function render(){
   const demoEl=$("demoDisclaimer");
   if(demoEl) demoEl.style.display = (modoAtual==="mock") ? "block" : "none";
   let list=candidatas.filter(c=>
-    (!q||c.nome.toLowerCase().includes(q)) &&
+    (!q||c.nome.toLowerCase().includes(q)||String(c.numero||"").includes(q)) &&
     (!F.uf.length||F.uf.includes(c.uf)) &&
     (!F.cargo.length||F.cargo.includes(c.cargo)) &&
     (!F.partido.length||F.partido.includes(c.partido)) &&
