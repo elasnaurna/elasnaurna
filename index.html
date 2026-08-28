@@ -101,7 +101,7 @@
   :root{
     color-scheme:only light;
     --ink:#1a1625;--paper:#faf7f2;--card:#fff;--magenta:#c0166e;--magenta-soft:#fbe8f1;
-    --violet:#5b3a8c;--line:#e4ddd2;--muted:#6b6478;--green:#1f7a5c;
+    --violet:#5b3a8c;--line:#e4ddd2;--muted:#6b6478;--green:#1f7a5c;--coral:#E85D3D;
     --tap:48px; --safe-b:env(safe-area-inset-bottom,0px);
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -152,18 +152,21 @@
   .topbar .brand em{color:var(--magenta);font-style:italic;}
   .topbar-apoiar{margin-left:auto;background:var(--magenta);color:#fff;text-decoration:none;font-family:inherit;font-weight:700;font-size:.82rem;padding:.5rem .85rem;border-radius:20px;white-space:nowrap;flex-shrink:0;display:inline-flex;align-items:center;gap:.3rem;border:none;cursor:pointer;}
   .topbar-apoiar:active{background:#a3125d;}
-  .topbar.hero-bar{position:relative;padding-top:2.4rem;}
-  .topbar.hero-bar .topbar-apoiar{position:absolute;top:.7rem;right:1.1rem;margin:0;}
-  .topbar.hero-bar{padding:1.5rem 1.1rem 1.3rem;justify-content:center;}
-  .topbar.hero-bar .biglogo{width:100%;max-width:440px;height:auto;display:block;}
+  .topbar.hero-bar{position:relative;padding-top:2.4rem;overflow:visible;background:transparent;}
+  .topbar.hero-bar .biglogo{position:relative;z-index:1;}
+  .topbar.hero-bar{padding:1.2rem 1.1rem .1rem;justify-content:flex-start;}
+  .topbar.hero-bar .biglogo{width:auto;max-width:150px;height:auto;display:block;}
   .topbar .back{background:rgba(255,255,255,.12);border:none;color:#fff;width:var(--tap);height:var(--tap);border-radius:12px;font-size:1.3rem;cursor:pointer;flex-shrink:0;display:grid;place-items:center;}
 
   /* ---------- MAP screen ---------- */
-  .hero{background:var(--ink);color:var(--paper);padding:1.6rem 1.2rem 2rem;position:relative;overflow:hidden;}
-  .hero::after{content:"";position:absolute;right:-60px;top:-70px;width:230px;height:230px;background:radial-gradient(circle,rgba(192,22,110,.35),transparent 70%);}
+  .hero-wrap{position:relative;background:var(--ink);overflow:hidden;}
+  .hero-wrap::after{content:"";position:absolute;right:-80px;top:0;width:420px;height:120%;background:radial-gradient(ellipse 60% 50% at 75% 40%,rgba(192,22,110,.42),transparent 70%);pointer-events:none;z-index:0;}
+  .hero-wrap .topbar.hero-bar,.hero-wrap .hero{position:relative;z-index:1;}
+  .hero{background:transparent;color:var(--paper);padding:.8rem 1.2rem 1.3rem;position:relative;overflow:visible;}
   .hero .eyebrow{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--magenta);font-weight:700;margin-bottom:.6rem;position:relative;z-index:1;}
+  .hero .eyebrow-below{margin-bottom:0;margin-top:.9rem;}
   .hero h1{font-family:'Fraunces',serif;font-weight:900;font-size:2rem;line-height:1.02;letter-spacing:-.02em;position:relative;z-index:1;}
-  .hero h1 em{font-style:italic;color:var(--magenta);}
+  .hero h1 em{font-style:italic;color:var(--coral);}
   .hero .lede{margin-top:.8rem;font-size:.92rem;color:#cfc9d6;position:relative;z-index:1;}
   .counts{display:flex;gap:1.4rem;margin-top:1.4rem;position:relative;z-index:1;}
   .count strong{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:600;display:block;line-height:1;}
@@ -252,8 +255,8 @@
   .prelanc-cta{color:var(--magenta)!important;font-weight:600;}
 
   /* support footer block on map */
-  .support{margin:.5rem 1.2rem 1.5rem;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.4rem;text-align:center;}
-  .support p{font-size:.88rem;margin-bottom:.9rem;}
+  .support{margin:.5rem 1.2rem 1.5rem;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1rem;text-align:center;}
+  .support p{font-size:.82rem;margin-bottom:.7rem;line-height:1.45;}
   .btn-support{display:inline-flex;align-items:center;gap:.5rem;background:var(--magenta);color:#fff;text-decoration:none;font-weight:700;font-size:.92rem;height:var(--tap);padding:0 1.4rem;border-radius:30px;}
 
   /* ---------- BOTTOM SHEET ---------- */
@@ -434,7 +437,7 @@
 
     <p class="landing-eyebrow">Somos metade do país</p>
     <h1 class="landing-title">Está na hora de <em>elas</em> ajudarem a comandar.</h1>
-    <p class="landing-text">As mulheres são a maioria da população, mas menos de um quinto de quem decide o rumo do Brasil. O <b>Elas na Urna</b> reúne, em um só lugar, todas as mulheres candidatas — para que ninguém mais chegue à urna sem conhecer elas.</p>
+    <p class="landing-text">As mulheres são a maioria da população, mas menos de um quinto de quem decide o rumo do Brasil. O <b>Elas na Urna</b> reúne, em um só lugar, todas as mulheres candidatas — para que ninguém mais chegue à urna sem conhecê-las.</p>
 
     <div class="landing-actions">
       <button class="landing-btn primary" id="goExplore">Conhecer as candidatas</button>
@@ -448,6 +451,7 @@
 
   <!-- ============ MAP ============ -->
   <div class="screen active" id="screen-map">
+    <div class="hero-wrap">
     <div class="topbar hero-bar">
       <svg class="biglogo" viewBox="0 0 432 84" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Elas na Urna">
         <path d="M12 44 L31 63" fill="none" stroke="#5b3a8c" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
@@ -455,12 +459,11 @@
         <text x="94" y="59" font-family="Fraunces,serif" font-weight="900" font-style="italic" font-size="52" fill="#c0166e">Elas</text>
         <text x="218" y="59" font-family="Fraunces,serif" font-weight="900" font-size="52" fill="#faf7f2">na Urna</text>
       </svg>
-      <a href="https://www.catarse.com.br/elas-na-urna" target="_blank" rel="noopener" class="topbar-apoiar">♥ Apoiar</a>
     </div>
     <div class="hero">
-      <p class="eyebrow">Eleições 2026 · Dados oficiais do TSE e autodeclarados</p>
       <h1><em>Todas</em> as mulheres candidatas do Brasil em um só lugar</h1>
-      <p class="lede">Veja quem são, o que defendem e onde se candidatam.</p>
+      <p class="eyebrow eyebrow-below">Eleições 2026 · Dados oficiais do TSE e autodeclarados</p>
+    </div>
     </div>
     <div class="disclaimer" id="demoDisclaimer" style="display:none;"><b>Exemplo.</b> Os dados de verdade chegam do TSE.</div>
 
@@ -483,7 +486,7 @@
     <div class="grid" id="grid"></div>
 
     <div class="support">
-      <p>Projeto independente e gratuito. Seu apoio mantém o Elas na Urna no ar.</p>
+      <p>Projeto independente e gratuito.<br>Seu apoio mantém o Elas na Urna no ar.</p>
       <a href="https://www.catarse.com.br/elas-na-urna" target="_blank" rel="noopener" class="btn-support">♥ Apoie este projeto</a>
     </div>
   </div>
@@ -543,7 +546,7 @@
         </div>
       </div>
       <div class="support" style="margin:1.5rem 0 0;">
-        <p>Ajude a tornar elas visíveis.</p>
+        <p>Com seu apoio, mais candidatas ganham visibilidade.</p>
         <a href="https://www.catarse.com.br/elas-na-urna" target="_blank" rel="noopener" class="btn-support">♥ Apoie este projeto</a>
         <p style="margin-top:1rem;font-size:.9rem;">Acompanhe o projeto:
           <a href="https://www.instagram.com/elasnaurna" target="_blank" rel="noopener" style="color:var(--magenta);font-weight:700;text-decoration:none;">📷 @elasnaurna</a>
@@ -608,10 +611,10 @@
   <!-- ============ BOTTOM NAV ============ -->
   <nav class="nav">
     <button class="on" data-go="map"><span class="ic">🗳️</span>Candidatas</button>
-    <button data-go="lista"><span class="ic">❤️</span>Minha lista<span class="navbadge" id="navBadge"></span></button>
+    <button data-go="lista"><span class="ic">❤️</span>Minhas Favoritas<span class="navbadge" id="navBadge"></span></button>
     <button data-go="cargos"><span class="ic">📋</span>Cargos</button>
     <button data-go="mission"><span class="ic">💜</span>Por quê?</button>
-    <button data-go="cadastro"><span class="ic">✎</span>Candidata</button>
+    <button data-go="cadastro"><span class="ic">✎</span>É candidata?</button>
   </nav>
 </div>
 
