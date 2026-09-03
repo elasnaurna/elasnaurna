@@ -310,6 +310,14 @@
   .result.eleita{background:var(--magenta-soft);color:var(--magenta);}
   .result.nao{background:#f0ece6;color:var(--muted);}
   .note{font-size:.78rem;background:var(--magenta-soft);color:var(--violet);padding:.7rem 1rem;border-radius:10px;}
+  /* Situação da candidatura no DivulgaCandContas */
+  .sit-alerta{font-size:.82rem;background:#FDECEC;color:#8A1C1C;border:1.5px solid #E3A0A0;
+    padding:.85rem 1rem;border-radius:10px;line-height:1.45;}
+  .sit-alerta b{display:block;margin-bottom:.25rem;font-size:.88rem;}
+  .sit-ok{display:inline-block;font-size:.76rem;font-weight:600;color:#1B6B3A;
+    background:#E7F5EC;border:1px solid #B6DFC5;padding:.28rem .65rem;border-radius:20px;}
+  .card .sit-flag{display:inline-block;font-size:.66rem;font-weight:700;color:#8A1C1C;
+    background:#FDECEC;border:1px solid #E3A0A0;padding:.1rem .45rem;border-radius:20px;margin-left:.35rem;}
   .btn-share{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;height:54px;margin-top:1.4rem;background:var(--card);border:1.5px solid var(--magenta);color:var(--magenta);font-family:inherit;font-weight:700;font-size:.95rem;border-radius:12px;cursor:pointer;}
   .btn-share:active{background:var(--magenta-soft);}
   .btn-share .ic{font-size:1.2rem;}
@@ -481,7 +489,7 @@
 
     <div class="meta"><p class="result-count"><b id="shown">0</b> encontradas</p></div>
     <div id="avisoJulgamento" style="display:none;background:var(--magenta-claro,#FBE8F1);color:var(--ink,#1A1625);border-radius:10px;padding:.7rem 1rem;font-size:.82rem;line-height:1.45;margin:0 0 .8rem;">
-      ⚖️ Candidaturas registradas no TSE, <b>sujeitas a confirmação pela Justiça Eleitoral</b>. A lista é atualizada conforme os julgamentos são publicados.
+      ⚖️ Candidaturas registradas no TSE, <b>sujeitas a confirmação pela Justiça Eleitoral</b>. Quem renuncia ou tem o registro negado sai desta lista, mas a atualização pode levar até 2 dias.
     </div>
     <div class="grid" id="grid"></div>
 
@@ -703,6 +711,23 @@ const rndSome=(a,n)=>[...a].sort(()=>Math.random()-.5).slice(0,n);
 // Normaliza texto para comparação (sem acentos, minúsculo, sem espaços duplos)
 function norm(s){return (s||"").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ").trim();}
 
+/* Classifica a situação da candidatura informada pelo DivulgaCandContas.
+   O que importa para a eleitora não é "apto/inapto", e sim se o nome
+   consta da urna — quando não consta, o voto é nulo.
+
+   Cuidado: "Indeferido" e "Indeferido em prazo recursal ou com recurso"
+   são opostos. No segundo o recurso ainda corre e ela SEGUE na urna,
+   por isso a checagem de recurso vem antes. */
+function classificaSituacao(s){
+  const t = (s||"").toUpperCase().trim();
+  if(!t) return "";                                   // sem dado: não mostra nada
+  if(/AGUARDANDO|CADASTRAD|PENDENTE/.test(t)) return "urna";
+  if(/RECURSO|PRAZO RECURSAL/.test(t))        return "urna";
+  if(/INDEFERID|CANCELAD|CASSAD|FALECID|RENÚNCI|RENUNCI|NÃO CONHECID|NAO CONHECID|INAPT/.test(t)) return "fora";
+  if(/DEFERID|CONCORREND|CONSTA DA URNA|^APT/.test(t)) return "urna";
+  return "";
+}
+
 /* Monta o link para a página oficial da candidata no DivulgaCandContas do TSE.
    Formato: /candidato/{REGIAO}/{UF}/{ID_ELEICAO}/{SQ_CANDIDATO}/{ANO}/{UE}
    O id 20322002026 corresponde às Eleições Gerais Estaduais 2026 (CD_ELEICAO 6259),
@@ -713,7 +738,8 @@ const REGIAO_UF = {
   PE:"NORDESTE", PI:"NORDESTE", RN:"NORDESTE", SE:"NORDESTE",
   DF:"CENTRO-OESTE", GO:"CENTRO-OESTE", MT:"CENTRO-OESTE", MS:"CENTRO-OESTE",
   ES:"SUDESTE", MG:"SUDESTE", RJ:"SUDESTE", SP:"SUDESTE",
-  PR:"SUL", RS:"SUL", SC:"SUL"
+  PR:"SUL", RS:"SUL", SC:"SUL",
+  BR:"BR"   // Presidente e Vice — a própria sigla faz as vezes de região
 };
 const ID_ELEICAO_2026 = "20322002026";
 
@@ -832,7 +858,7 @@ async function carregarDadosReais(){
   // Reexpande as chaves curtas do JSON para o formato que o resto do código usa
   const tseRows = tseData.map(o=>({
     nome:o.n, cargo:o.c, partido:o.p, numero:o.num, uf:o.uf,
-    escolaridade:o.e||"", idade:o.i||"", instagram:o.ig||"", rede_principal:o.r||"", sq:o.sq||""
+    escolaridade:o.e||"", idade:o.i||"", instagram:o.ig||"", rede_principal:o.r||"", sq:o.sq||"", situacao:o.s||""
   }));
   const cadRows = cadTxt ? Papa.parse(cadTxt, {header:true, skipEmptyLines:true}).data : [];
 
@@ -904,7 +930,9 @@ async function carregarDadosReais(){
       instagram: (row.instagram||"").trim(),
       redeTSE: (row.rede_principal||"").trim(),
       // Página oficial da candidatura no DivulgaCandContas (TSE)
-      divulga: linkDivulgaCand(row.sq, uf)
+      divulga: linkDivulgaCand(row.sq, uf),
+      // Situação informada pelo DivulgaCandContas (preenchida na geração do JSON)
+      situacao: (row.situacao||"").trim()
     };
   });
 }
@@ -1071,7 +1099,7 @@ function render(){
     <div class="card" data-id="${c.id}">
       <div class="card-top">
         <div class="avatar" style="background:${c.cor}">${c.iniciais}</div>
-        <div><h3>${c.nome}</h3><span class="num">Nº ${c.numero}</span></div>
+        <div><h3>${c.nome}</h3><span class="num">Nº ${c.numero}</span>${classificaSituacao(c.situacao)==="fora"?`<span class="sit-flag">fora da urna</span>`:""}</div>
         <button class="fav${favoritos.has(c.id)?' on':''}" data-fav="${c.id}" aria-label="Favoritar">${favoritos.has(c.id)?'♥':'♡'}</button>
       </div>
       <div class="tags"><span class="tag cargo ${classeCargo(c.cargo)}">${c.cargo}</span><span class="tag">${c.partido}</span><span class="tag uf">${c.uf}</span></div>
@@ -1165,7 +1193,7 @@ function openProfile(id){
       <div class="facts">
         ${facts.map(([k,v])=>`<div class="fact"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("")}
       </div>
-      ${c.origem==="mock"?`<p class="note" style="margin-top:1rem;">Dados fictícios para protótipo. Os reais virão do TSE.</p>`:(AVISO_AGUARDANDO_JULGAMENTO&&c.origem!=="mock"?`<p class="note" style="margin-top:1rem;">Candidatura registrada no TSE, sujeita a confirmação pela Justiça Eleitoral.</p>`:"")}
+      ${c.origem==="mock"?`<p class="note" style="margin-top:1rem;">Dados fictícios para protótipo. Os reais virão do TSE.</p>`:(AVISO_AGUARDANDO_JULGAMENTO&&c.origem!=="mock"?`<p class="note" style="margin-top:1rem;">Candidatura registrada no TSE, sujeita a confirmação pela Justiça Eleitoral. Renúncias e indeferimentos recentes podem levar até 2 dias para aparecer aqui — confira sempre a ficha oficial abaixo.</p>`:"")}
     </div>`;
 
   // Seções autodeclaradas — só aparecem se a candidata preencheu o formulário
@@ -1173,8 +1201,21 @@ function openProfile(id){
 
   // Link para a ficha oficial no DivulgaCandContas do TSE
   if(c.origem!=="mock" && c.divulga){
+    const cls = classificaSituacao(c.situacao);
+    let bloco = "";
+    if(cls==="fora"){
+      bloco = `
+        <div class="sit-alerta" style="margin-bottom:.7rem;">
+          <b>⚠️ Esta candidatura não consta da urna</b>
+          Situação no TSE: ${c.situacao}. Um voto neste número será considerado nulo.
+          Confira na ficha oficial abaixo.
+        </div>`;
+    } else if(cls==="urna" && c.situacao){
+      bloco = `<p style="margin-bottom:.7rem;"><span class="sit-ok">✓ ${c.situacao}</span></p>`;
+    }
     secaoOficial = `
       <div class="psection"><p class="peyebrow">Dados oficiais</p>
+        ${bloco}
         <div class="redes">
           <a href="${c.divulga}" target="_blank" rel="noopener" class="rede-link">🏛️ Ficha completa no TSE ↗</a>
         </div>
