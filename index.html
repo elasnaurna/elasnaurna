@@ -1149,33 +1149,29 @@ function openProfile(id){
   // Seções autodeclaradas — só aparecem se a candidata preencheu o formulário
   let secaoBio = "", secaoPropostas = "", secaoConvite = "", secaoRedes = "";
 
-  // Onde acompanhar — o link informado pela própria candidata tem prioridade.
-  // Quando não há cadastro, caímos para as redes declaradas ao TSE.
+  // Onde acompanhar — se a candidata informou uma rede no cadastro, mostramos SÓ a dela.
+  // As redes do TSE entram apenas como alternativa, quando não há cadastro.
   if(c.origem!=="mock" && (c.site || c.instagram || c.redeTSE)){
     const links = [];
-    const vistos = [];
-    let temCad = false, temTSE = false;
+    let fonte = "";
 
-    // 1) Rede/site informado no cadastro (a fonte mais confiável e atual)
     if(c.site){
+      // Cadastro autodeclarado tem prioridade exclusiva
       links.push(`<a href="${c.site}" target="_blank" rel="noopener" class="rede-link">${rotuloRede(c.site)} ↗</a>`);
-      vistos.push(c.site);
-      temCad = true;
+      fonte = "informado pela candidatura";
+    } else {
+      // Sem cadastro: cai para as redes declaradas ao TSE
+      const vistos = [];
+      [c.instagram, c.redeTSE].forEach(url=>{
+        if(!url) return;
+        if(vistos.some(v=>mesmoLink(v,url))) return;
+        links.push(`<a href="${url}" target="_blank" rel="noopener" class="rede-link">${rotuloRede(url)} ↗</a>`);
+        vistos.push(url);
+      });
+      fonte = "fonte: TSE";
     }
 
-    // 2) Redes do TSE — só as que ainda não apareceram
-    [c.instagram, c.redeTSE].forEach(url=>{
-      if(!url) return;
-      if(vistos.some(v=>mesmoLink(v,url))) return;
-      links.push(`<a href="${url}" target="_blank" rel="noopener" class="rede-link">${rotuloRede(url)} ↗</a>`);
-      vistos.push(url);
-      temTSE = true;
-    });
-
     if(links.length){
-      const fonte = temCad && temTSE ? "informado pela candidatura e TSE"
-                  : temCad          ? "informado pela candidatura"
-                                    : "fonte: TSE";
       secaoRedes = `
         <div class="psection"><p class="peyebrow">Onde acompanhar <span style="color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">· ${fonte}</span></p>
           <div class="redes">${links.join("")}</div>
