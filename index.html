@@ -494,9 +494,6 @@
     </div>
 
     <div class="meta"><p class="result-count"><b id="shown">0</b> encontradas</p></div>
-    <div id="avisoJulgamento" style="display:none;background:var(--magenta-claro,#FBE8F1);color:var(--ink,#1A1625);border-radius:10px;padding:.7rem 1rem;font-size:.82rem;line-height:1.45;margin:0 0 .8rem;">
-      ⚖️ Candidaturas registradas no TSE, <b>sujeitas a confirmação pela Justiça Eleitoral</b>. Quem renuncia ou tem o registro negado sai desta lista, mas a atualização pode levar até 2 dias.
-    </div>
     <div class="grid" id="grid"></div>
 
     <div class="support">
@@ -1051,7 +1048,6 @@ function render(){
     $("shown").textContent="";
     const rc=document.querySelector(".result-count"); if(rc) rc.style.display="none";
     const demoEl0=$("demoDisclaimer"); if(demoEl0) demoEl0.style.display="none";
-    const avisoEl0=$("avisoJulgamento"); if(avisoEl0) avisoEl0.style.display="none";
     const cb=$("countsBlock"); if(cb) cb.classList.add("counts-loading");
     grid.innerHTML=`<div class="loading-wrap">
       <div class="loading-spin"></div>
@@ -1072,9 +1068,6 @@ function render(){
     return;
   }
   const q=$("search").value.toLowerCase().trim();
-  // Aviso legal: candidaturas ainda não julgadas pela Justiça Eleitoral
-  const avisoEl=$("avisoJulgamento");
-  if(avisoEl) avisoEl.style.display = (modoAtual==="real" && AVISO_AGUARDANDO_JULGAMENTO) ? "block" : "none";
   // Disclaimer "Exemplo" só aparece no modo demo (dados fictícios); some na produção
   const demoEl=$("demoDisclaimer");
   if(demoEl) demoEl.style.display = (modoAtual==="mock") ? "block" : "none";
