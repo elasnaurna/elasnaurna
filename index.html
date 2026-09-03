@@ -322,8 +322,9 @@
     background:#E7F5EC;border:1px solid #B6DFC5;padding:.28rem .65rem;border-radius:20px;}
   .card .sit-flag{display:inline-block;font-size:.66rem;font-weight:700;color:#8A1C1C;
     background:#FDECEC;border:1px solid #E3A0A0;padding:.1rem .45rem;border-radius:20px;margin-left:.35rem;}
-  .btn-share{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;height:54px;margin-top:1.4rem;background:var(--card);border:1.5px solid var(--magenta);color:var(--magenta);font-family:inherit;font-weight:700;font-size:.95rem;border-radius:12px;cursor:pointer;}
-  .btn-share:active{background:var(--magenta-soft);}
+  .btn-share{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;height:54px;margin-top:1.4rem;background:var(--card);border:2px solid var(--coral);color:var(--coral);font-family:inherit;font-weight:700;font-size:.95rem;border-radius:12px;cursor:pointer;transition:background .15s;}
+  .btn-share:hover{background:#FDEEE9;}
+  .btn-share:active{background:#FBE2DA;}
   .btn-share .ic{font-size:1.2rem;}
   .btn-fav-profile{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;height:54px;margin-top:1.4rem;background:var(--magenta);border:1.5px solid var(--magenta);color:#fff;font-family:inherit;font-weight:700;font-size:.95rem;border-radius:12px;cursor:pointer;transition:background .15s;}
   .btn-fav-profile:active{background:#a3125d;}
@@ -1184,22 +1185,14 @@ function openProfile(id){
   if(!c) return;
 
   // Cabeçalho (dados oficiais do TSE, sempre)
-  const facts = [
-    ["Cargo", c.cargo || "—"],
-    ["Partido", c.partido || "—"],
-    ["Estado", c.uf || "—"],
-    ["Número", c.numero || "—"],
-    c.idade ? ["Idade", `${c.idade} anos`] : null,
-    c.escolaridade ? ["Escolaridade", c.escolaridade] : null
-  ].filter(Boolean);
-
-  const secaoDados = `
-    <div class="psection"><p class="peyebrow">Dados da candidatura ${c.origem==="mock"?"":`<span style="color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">· fonte: TSE</span>`}</p>
-      <div class="facts">
-        ${facts.map(([k,v])=>`<div class="fact"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("")}
-      </div>
-      ${c.origem==="mock"?`<p class="note" style="margin-top:1rem;">Dados fictícios para protótipo. Os reais virão do TSE.</p>`:(AVISO_AGUARDANDO_JULGAMENTO&&c.origem!=="mock"?`<p class="note" style="margin-top:1rem;">Candidatura registrada no TSE, sujeita a confirmação pela Justiça Eleitoral. Renúncias e indeferimentos recentes podem levar até 2 dias para aparecer aqui — confira sempre a ficha oficial abaixo.</p>`:"")}
-    </div>`;
+  // Cargo, partido, estado, número, idade e escolaridade agora ficam nos chips
+  // do cabeçalho — não há mais tabela repetindo essas informações.
+  const secaoDados = "";
+  const avisoTSE = c.origem==="mock"
+    ? `<p class="note" style="margin-top:1.6rem;font-size:.74rem;background:transparent;color:var(--muted);padding:0;">Dados fictícios para protótipo. Os reais virão do TSE.</p>`
+    : (AVISO_AGUARDANDO_JULGAMENTO
+        ? `<p class="note" style="margin-top:1.6rem;font-size:.74rem;background:transparent;color:var(--muted);padding:0;line-height:1.5;">Candidatura registrada no TSE, sujeita a confirmação pela Justiça Eleitoral. Renúncias e indeferimentos recentes podem levar até 2 dias para aparecer aqui.</p>`
+        : "");
 
   // Seções autodeclaradas — só aparecem se a candidata preencheu o formulário
   let secaoBio = "", secaoPropostas = "", secaoConvite = "", secaoRedes = "", secaoOficial = "";
@@ -1302,14 +1295,21 @@ function openProfile(id){
           ${c.numero?`<span class="pchip num">Nº ${c.numero}</span>`:""}
           ${c.cargo?`<span class="pchip">${c.cargo}</span>`:""}
           ${c.partido||c.uf?`<span class="pchip">${c.partido||"—"}·${c.uf||"—"}</span>`:""}
+          ${c.idade?`<span class="pchip">${c.idade} anos</span>`:""}
+          ${c.escolaridade?`<span class="pchip">${c.escolaridade}</span>`:""}
         </div>
       </div>
     </div>
     <div class="pbody">
+      ${c.temCadastro ? `
+      ${secaoBio}
+      ${secaoPropostas}
+      ${secaoDados}
+      ${secaoOficial}` : `
       ${secaoDados}
       ${secaoOficial}
       ${secaoBio}
-      ${secaoPropostas}
+      ${secaoPropostas}`}
       ${secaoRedes}
       ${secaoConvite}
       ${secaoHistorico}
@@ -1318,6 +1318,7 @@ function openProfile(id){
         <span class="lbl">${favoritos.has(c.id)?'Salva na sua lista':'Salvar na minha lista'}</span>
       </button>
       <button class="btn-share" id="shareBtn"><span class="ic">↗</span> Compartilhar candidatura</button>
+      ${avisoTSE}
     </div>`;
   $("shareBtn").onclick=()=>shareCandidata(c);
   const favBtn=$("favBtnProfile");
