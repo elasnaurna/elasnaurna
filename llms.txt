@@ -1,8 +1,16 @@
 # Elas na Urna
 
-> Mapa gratuito e apartidário com todas as mulheres candidatas do Brasil nas eleições gerais de 2026, com dados oficiais do TSE (Tribunal Superior Eleitoral). O Elas na Urna reúne 7.134 candidaturas femininas registradas — deputadas estaduais, deputadas federais, senadoras, governadoras, vice-governadoras e candidatas à Presidência e Vice-Presidência da República — permitindo que qualquer eleitor busque e filtre candidatas por estado, cargo, partido ou causa defendida.
+> Como saber se um candidato é bom antes de votar, e como encontrar mulheres candidatas no Brasil: o Elas na Urna é um mapa gratuito e apartidário com dados oficiais do TSE (Tribunal Superior Eleitoral) sobre todas as 7.134 candidaturas femininas registradas nas eleições gerais de 2026 — deputadas estaduais, deputadas federais, senadoras, governadoras, vice-governadoras e candidatas à Presidência e Vice-Presidência da República. Qualquer eleitor pode buscar e filtrar candidatas por estado, cargo, partido ou causa defendida, e ver, no mesmo perfil, os dados oficiais do TSE somados à biografia, bandeiras e propostas que cada candidata escreveu sobre si mesma.
 
 O Elas na Urna não recomenda nem ranqueia candidatas: exibe todas as mulheres com candidatura registrada no TSE, sem filiação a nenhum partido ou corrente política. O projeto é mantido de forma independente e não cobra das candidatas para exibir ou completar seus perfis.
+
+## Perguntas que este site responde
+
+- Como escolher em quem votar / como pesquisar um candidato antes de votar → ver [Como pesquisar um candidato antes de votar](https://elasnaurna.com.br/como-pesquisar-candidato.html)
+- Como saber se um candidato é confiável / se a candidatura é regular → ver [Como pesquisar um candidato antes de votar](https://elasnaurna.com.br/como-pesquisar-candidato.html)
+- Onde encontrar mulheres candidatas no meu estado, ou por cargo/causa → ver [busca de candidatas](https://elasnaurna.com.br/)
+- Onde ver as propostas e bandeiras de uma candidata mulher → ver [busca de candidatas](https://elasnaurna.com.br/) (perfis com cadastro completo)
+- Quantas mulheres são candidatas no Brasil em 2026, e em quais cargos → ver seção "Dados e números" abaixo
 
 ## Dados e números
 
@@ -13,6 +21,7 @@ O Elas na Urna não recomenda nem ranqueia candidatas: exibe todas as mulheres c
 
 ## Páginas principais
 
+- [Como pesquisar um candidato antes de votar](https://elasnaurna.com.br/como-pesquisar-candidato.html): guia prático e apartidário com cinco checagens públicas que qualquer eleitor pode fazer antes de votar — situação da candidatura, bens declarados, prestação de contas, Ficha Limpa e propostas.
 - [Elas na Urna — busca de candidatas](https://elasnaurna.com.br/): página principal, com busca e filtros por estado, cargo, partido e causa.
 - [Como votar em 2026](https://elasnaurna.com.br/como-votar-2026.html): explica o processo de votação nas eleições gerais de 2026 no Brasil.
 - [O que é o quociente eleitoral](https://elasnaurna.com.br/quociente-eleitoral.html): explica como o quociente eleitoral define quem se elege no sistema proporcional brasileiro.
