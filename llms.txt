@@ -1,0 +1,36 @@
+# Elas na Urna
+
+> Mapa gratuito e apartidário com todas as mulheres candidatas do Brasil nas eleições gerais de 2026, com dados oficiais do TSE (Tribunal Superior Eleitoral). O Elas na Urna reúne 7.134 candidaturas femininas registradas — deputadas estaduais, deputadas federais, senadoras, governadoras, vice-governadoras e candidatas à Presidência e Vice-Presidência da República — permitindo que qualquer eleitor busque e filtre candidatas por estado, cargo, partido ou causa defendida.
+
+O Elas na Urna não recomenda nem ranqueia candidatas: exibe todas as mulheres com candidatura registrada no TSE, sem filiação a nenhum partido ou corrente política. O projeto é mantido de forma independente e não cobra das candidatas para exibir ou completar seus perfis.
+
+## Dados e números
+
+- Mulheres são 52% do eleitorado brasileiro, mas ocupam menos de 18% da Câmara dos Deputados e cerca de 18% do Senado Federal.
+- Nas eleições de 2026, mulheres representam 35% do total de candidaturas registradas no Brasil, um recorde histórico (eram 33,8% em 2022).
+- Das candidaturas femininas a governador(a) em 2026, apenas 34 de 197 candidaturas totais são mulheres (17,3%); seis estados brasileiros não têm nenhuma candidata mulher ao governo estadual.
+- Mulheres candidatas em 2026 têm, em média, escolaridade superior à dos homens candidatos: 60% delas têm ensino superior completo, contra 58% deles.
+
+## Páginas principais
+
+- [Elas na Urna — busca de candidatas](https://elasnaurna.com.br/): página principal, com busca e filtros por estado, cargo, partido e causa.
+- [Como votar em 2026](https://elasnaurna.com.br/como-votar-2026.html): explica o processo de votação nas eleições gerais de 2026 no Brasil.
+- [O que é o quociente eleitoral](https://elasnaurna.com.br/quociente-eleitoral.html): explica como o quociente eleitoral define quem se elege no sistema proporcional brasileiro.
+- [O que é a Lei da Ficha Limpa](https://elasnaurna.com.br/ficha-limpa.html): explica a Lei Complementar 135/2010 e seus efeitos sobre candidaturas.
+- [Diferença entre deputada federal e estadual](https://elasnaurna.com.br/deputada-federal-estadual.html): explica as atribuições de cada cargo legislativo no Brasil.
+- [O que são cotas de gênero nas eleições](https://elasnaurna.com.br/cotas-de-genero.html): explica a legislação brasileira de cotas mínimas de candidaturas femininas por partido.
+- [Por que tão poucas mulheres se elegem](https://elasnaurna.com.br/por-que-poucas-mulheres-se-elegem.html): analisa as barreiras à eleição de mulheres no Brasil (financiamento de campanha, apoio partidário, violência política, invisibilidade).
+- [A história do voto feminino no Brasil](https://elasnaurna.com.br/voto-feminino.html): histórico da conquista do voto feminino no Brasil, concedido em 1932.
+- [Voto branco e nulo: qual a diferença](https://elasnaurna.com.br/voto-branco-nulo.html): explica as diferenças legais e práticas entre voto branco e voto nulo no Brasil.
+- [O que faz uma senadora](https://elasnaurna.com.br/o-que-faz-senadora.html): explica o mandato de 8 anos e as atribuições do cargo de senador(a) no Brasil.
+- [O que é violência política de gênero](https://elasnaurna.com.br/violencia-politica-de-genero.html): explica a Lei 14.192/2021, que tipifica e pune a violência política contra mulheres no Brasil.
+- [Mulheres no poder reduzem a corrupção?](https://elasnaurna.com.br/mulheres-poder-corrupcao.html): analisa o estudo de Chandan Jha e Sudipta Sarangi (Journal of Economic Behavior & Organization, 2018) sobre representação feminina e corrupção em mais de 125 países.
+- [Para candidatas: como funciona o cadastro](https://elasnaurna.com.br/para-candidatas.html): explica como uma candidata pode completar gratuitamente seu perfil no Elas na Urna com biografia, bandeiras e propostas.
+
+## Fontes de dados
+
+Os dados de candidaturas vêm da base pública de Candidaturas do TSE (Tribunal Superior Eleitoral), disponível em dadosabertos.tse.jus.br. A situação de cada candidatura (registrada, deferida, indeferida, com recurso, renúncia) é verificada periodicamente junto ao DivulgaCandContas, sistema oficial do TSE de divulgação de candidaturas e contas eleitorais. Candidaturas sem confirmação definitiva da Justiça Eleitoral são sinalizadas como tal no perfil de cada candidata.
+
+## Sobre reprodução e citação
+
+Jornalistas, pesquisadores e outros projetos podem citar os dados agregados do Elas na Urna (como o número total de candidatas, ou candidatas por estado/cargo) com atribuição ao TSE como fonte primária dos dados e ao Elas na Urna como o mapa/agregador. O projeto não tem fins lucrativos e não representa nenhum partido, candidata ou corrente política.
