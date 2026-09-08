@@ -323,6 +323,8 @@
   .card .sit-flag{display:inline-block;font-size:.66rem;font-weight:700;color:#8A1C1C;
     background:#FDECEC;border:1px solid #E3A0A0;padding:.1rem .45rem;border-radius:20px;margin-left:.35rem;}
   .btn-share{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;height:54px;margin-top:1.4rem;background:var(--card);border:2px solid var(--coral);color:var(--coral);font-family:inherit;font-weight:700;font-size:.95rem;border-radius:12px;cursor:pointer;transition:background .15s;}
+  .btn-carregar-mais{display:block;width:100%;padding:.9rem;margin-top:.5rem;background:#fff;border:1.5px solid var(--line);color:var(--ink);font-family:inherit;font-weight:700;font-size:.9rem;border-radius:12px;cursor:pointer;}
+  .btn-carregar-mais:active{background:var(--cream);}
   .btn-share:hover{background:#FDEEE9;}
   .btn-share:active{background:#FBE2DA;}
   .btn-share .ic{font-size:1.2rem;}
@@ -1011,6 +1013,13 @@ let pendingCargoNome="", pendingCargoMuni=false;
 // armazenamento local do navegador). No ambiente de protótipo isso fica
 // desligado, então os favoritos valem só enquanto o app estiver aberto.
 const favoritos=new Set();
+
+// ---- paginação da lista — evita desenhar milhares de cards de uma vez ----
+// Sem isso, abrir o site sem filtro tenta renderizar 7000+ candidatas
+// simultaneamente e trava o navegador. Mostra em lotes de 60.
+const RENDER_BATCH = 30;
+let renderLimit = RENDER_BATCH;
+let ultimaAssinaturaFiltro = "";
 function carregarFavoritos(){
   try{ const s=localStorage.getItem('elasFav'); if(s) JSON.parse(s).forEach(id=>favoritos.add(id)); }catch(e){}
 }
@@ -1103,6 +1112,16 @@ function render(){
     list.sort((a,b)=>String(a[F.order]||"").localeCompare(String(b[F.order]||"")));
   }
   $("shown").textContent=list.length;
+
+  // Reseta a paginação só quando o filtro/busca realmente mudou —
+  // clicar em "carregar mais" chama render() de novo sem mudar isso,
+  // então o limite aumentado é preservado.
+  const assinaturaFiltro = JSON.stringify({q, uf:F.uf, cargo:F.cargo, partido:F.partido, bandeira:F.bandeira, order:F.order});
+  if(assinaturaFiltro !== ultimaAssinaturaFiltro){
+    renderLimit = RENDER_BATCH;
+    ultimaAssinaturaFiltro = assinaturaFiltro;
+  }
+
   const n=F.uf.length+F.cargo.length+F.partido.length+F.bandeira.length;
   const fb=$("fBadge"); if(fb) fb.textContent = n>0 ? n : "";
   const of=$("openFilters"); if(of) of.classList.toggle("none",n===0);
@@ -1114,7 +1133,8 @@ function render(){
     }
     return;
   }
-  grid.innerHTML=list.map(c=>`
+  const listVisivel = list.slice(0, renderLimit);
+  grid.innerHTML=listVisivel.map(c=>`
     <div class="card" data-id="${c.id}">
       <div class="card-top">
         <div class="avatar" style="background:${c.cor}">${c.iniciais}</div>
@@ -1124,6 +1144,14 @@ function render(){
       <div class="tags"><span class="tag cargo ${classeCargo(c.cargo)}">${c.cargo}</span><span class="tag">${c.partido}</span><span class="tag uf">${c.uf}</span></div>
       <div class="bandeiras">${c.bandeiras.map(b=>`<span class="bandeira${F.bandeira.includes(b)?' match':''}">${b}</span>`).join("")}</div>
     </div>`).join("");
+  if(list.length > listVisivel.length){
+    const restantes = list.length - listVisivel.length;
+    grid.innerHTML += `<button class="btn-carregar-mais" id="btnCarregarMais">
+      Carregar mais <span style="opacity:.7;font-weight:400;">(${listVisivel.length} de ${list.length})</span>
+    </button>`;
+    const btnMais = $("btnCarregarMais");
+    if(btnMais) btnMais.onclick = () => { renderLimit += RENDER_BATCH; render(); };
+  }
   grid.querySelectorAll(".card").forEach(el=>{
     el.onclick=(e)=>{ if(e.target.closest(".fav"))return; openProfile(+el.dataset.id); };
   });
