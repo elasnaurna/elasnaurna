@@ -556,6 +556,7 @@
           <a href="/ficha-limpa.html">O que é a Lei da Ficha Limpa <span>→</span></a>
           <a href="/mulheres-poder-corrupcao.html">Mulheres no poder reduzem a corrupção? <span>→</span></a>
           <a href="/como-pesquisar-candidato.html">Como pesquisar um candidato antes de votar <span>→</span></a>
+          <a href="/candidatas-por-estado.html">Quantas candidatas tem cada estado <span>→</span></a>
         </div>
       </div>
       <div class="support" style="margin:1.5rem 0 0;">
@@ -969,9 +970,26 @@ async function inicializar(){
   candidatas.forEach(c => c._ordem = Math.random());
   dadosProntos = true;
   atualizarContadores();
+  // Deep-link por estado: ?uf=SP abre o site já filtrado, pulando a landing
+  aplicarFiltroDaURL();
   render();
   // Se o usuário chegou por um link compartilhado (#c=...), abre o perfil direto
   abrirPerfilPorHash();
+}
+
+// Lê ?uf=XX da URL (usado pelas páginas estáticas por estado) e, se válido,
+// aplica o filtro de estado e pula direto para a lista de candidatas.
+function aplicarFiltroDaURL(){
+  try{
+    const params = new URLSearchParams(location.search);
+    const uf = (params.get("uf")||"").trim().toUpperCase();
+    const ufsValidas = new Set(candidatas.map(c=>c.uf).filter(Boolean));
+    if(uf && ufsValidas.has(uf)){
+      F.uf = [uf];
+      draft.uf = [uf];
+      fecharLanding("map");
+    }
+  }catch(e){ /* parâmetro ausente ou inválido: comportamento normal do site */ }
 }
 
 function atualizarContadores(){

@@ -8,7 +8,9 @@ O Elas na Urna não recomenda nem ranqueia candidatas: exibe todas as mulheres c
 
 - Como escolher em quem votar / como pesquisar um candidato antes de votar → ver [Como pesquisar um candidato antes de votar](https://elasnaurna.com.br/como-pesquisar-candidato.html)
 - Como saber se um candidato é confiável / se a candidatura é regular → ver [Como pesquisar um candidato antes de votar](https://elasnaurna.com.br/como-pesquisar-candidato.html)
-- Onde encontrar mulheres candidatas no meu estado, ou por cargo/causa → ver [busca de candidatas](https://elasnaurna.com.br/)
+- Onde encontrar mulheres candidatas no meu estado, ou por cargo/causa → ver [candidatas por estado](https://elasnaurna.com.br/candidatas-por-estado.html) ou a [busca de candidatas](https://elasnaurna.com.br/)
+- Quantas mulheres são candidatas em [nome do estado] em 2026 → ver [candidatas por estado](https://elasnaurna.com.br/candidatas-por-estado.html)
+- Qual estado tem mais/menos representatividade feminina nas candidaturas → ver [candidatas por estado](https://elasnaurna.com.br/candidatas-por-estado.html)
 - Onde ver as propostas e bandeiras de uma candidata mulher → ver [busca de candidatas](https://elasnaurna.com.br/) (perfis com cadastro completo)
 - Quantas mulheres são candidatas no Brasil em 2026, e em quais cargos → ver seção "Dados e números" abaixo
 
@@ -18,11 +20,13 @@ O Elas na Urna não recomenda nem ranqueia candidatas: exibe todas as mulheres c
 - Nas eleições de 2026, mulheres representam 35% do total de candidaturas registradas no Brasil, um recorde histórico (eram 33,8% em 2022).
 - Das candidaturas femininas a governador(a) em 2026, apenas 34 de 197 candidaturas totais são mulheres (17,3%); seis estados brasileiros não têm nenhuma candidata mulher ao governo estadual.
 - Mulheres candidatas em 2026 têm, em média, escolaridade superior à dos homens candidatos: 60% delas têm ensino superior completo, contra 58% deles.
+- Em média nacional, 35,0% de todas as candidaturas registradas no Brasil em 2026 são de mulheres (considerando candidatos de todos os gêneros). O estado com maior proporção de candidaturas femininas é Sergipe (39,0%); o de menor proporção é São Paulo (33,3%) — o estado com mais candidatas em número absoluto (865) é, proporcionalmente, o de menor representatividade feminina entre os 27 estados.
 
 ## Páginas principais
 
 - [Como pesquisar um candidato antes de votar](https://elasnaurna.com.br/como-pesquisar-candidato.html): guia prático e apartidário com cinco checagens públicas que qualquer eleitor pode fazer antes de votar — situação da candidatura, bens declarados, prestação de contas, Ficha Limpa e propostas.
 - [Elas na Urna — busca de candidatas](https://elasnaurna.com.br/): página principal, com busca e filtros por estado, cargo, partido e causa.
+- [Candidatas por estado](https://elasnaurna.com.br/candidatas-por-estado.html): ranking dos 27 estados brasileiros por percentual de candidaturas femininas (não por número absoluto), com link para uma página dedicada a cada estado (ex.: /candidatas-sao-paulo.html, /candidatas-bahia.html) mostrando a posição do estado no ranking nacional de representatividade.
 - [Como votar em 2026](https://elasnaurna.com.br/como-votar-2026.html): explica o processo de votação nas eleições gerais de 2026 no Brasil.
 - [O que é o quociente eleitoral](https://elasnaurna.com.br/quociente-eleitoral.html): explica como o quociente eleitoral define quem se elege no sistema proporcional brasileiro.
 - [O que é a Lei da Ficha Limpa](https://elasnaurna.com.br/ficha-limpa.html): explica a Lei Complementar 135/2010 e seus efeitos sobre candidaturas.
@@ -35,6 +39,31 @@ O Elas na Urna não recomenda nem ranqueia candidatas: exibe todas as mulheres c
 - [O que é violência política de gênero](https://elasnaurna.com.br/violencia-politica-de-genero.html): explica a Lei 14.192/2021, que tipifica e pune a violência política contra mulheres no Brasil.
 - [Mulheres no poder reduzem a corrupção?](https://elasnaurna.com.br/mulheres-poder-corrupcao.html): analisa o estudo de Chandan Jha e Sudipta Sarangi (Journal of Economic Behavior & Organization, 2018) sobre representação feminina e corrupção em mais de 125 países.
 - [Para candidatas: como funciona o cadastro](https://elasnaurna.com.br/para-candidatas.html): explica como uma candidata pode completar gratuitamente seu perfil no Elas na Urna com biografia, bandeiras e propostas.
+
+## Perfis de candidatas com cadastro completo
+
+As candidatas a seguir preencheram voluntariamente seu perfil no Elas na Urna, com biografia, bandeiras e propostas escritas por elas mesmas — informação que não existe em nenhuma base oficial do TSE:
+
+- [Camila Costa Valadão](https://elasnaurna.com.br/candidata-camila-costa-valadao.html): candidata a Deputada Estadual por ES, com biografia e propostas informadas pela própria candidata.
+- [Alessandra Mattos](https://elasnaurna.com.br/candidata-alessandra-mattos.html): candidata a Deputada Estadual por SP, com biografia e propostas informadas pela própria candidata.
+- [Karen Maria](https://elasnaurna.com.br/candidata-karen-maria.html): candidata a Deputada Estadual por SP, com biografia e propostas informadas pela própria candidata.
+- [Jucimara Figueiredo Mascarenhas](https://elasnaurna.com.br/candidata-jucimara-figueiredo-mascarenhas.html): candidata a Deputada Estadual por SP, com biografia e propostas informadas pela própria candidata.
+- [Dra. Eliana Ferreira](https://elasnaurna.com.br/candidata-dra-eliana-ferreira.html): candidata a 2ª Suplente por SP, com biografia e propostas informadas pela própria candidata.
+- [Eliana Fernandes](https://elasnaurna.com.br/candidata-eliana-fernandes.html): candidata a Deputada Federal por SP, com biografia e propostas informadas pela própria candidata.
+- [Tatiane Aparecida Campos](https://elasnaurna.com.br/candidata-tatiane-aparecida-campos.html): candidata a Deputada Estadual por SP, com biografia e propostas informadas pela própria candidata.
+- [Aline Carballo Teixeira](https://elasnaurna.com.br/candidata-aline-carballo-teixeira.html): candidata a Deputada Federal por SP, com biografia e propostas informadas pela própria candidata.
+- [Monique Zuma](https://elasnaurna.com.br/candidata-monique-zuma.html): candidata a Deputada Estadual por RJ, com biografia e propostas informadas pela própria candidata.
+- [Marina Helou](https://elasnaurna.com.br/candidata-marina-helou.html): candidata a Deputada Federal por SP, com biografia e propostas informadas pela própria candidata.
+- [Miriam Ribas](https://elasnaurna.com.br/candidata-miriam-ribas.html): candidata a Deputada Estadual por SP, com biografia e propostas informadas pela própria candidata.
+- [ZORAIDA LOBATO](https://elasnaurna.com.br/candidata-zoraida-lobato.html): candidata a Deputada Estadual por SP, com biografia e propostas informadas pela própria candidata.
+- [Ellen Silverío](https://elasnaurna.com.br/candidata-ellen-silverio.html): candidata a Deputada Estadual por MG, com biografia e propostas informadas pela própria candidata.
+- [Ana Carolina Teixeira do Nascimento Maia](https://elasnaurna.com.br/candidata-ana-carolina-teixeira-do-nascimento-maia.html): candidata a Deputada Distrital por DF, com biografia e propostas informadas pela própria candidata.
+- [Daniela Campos Leal Arregue](https://elasnaurna.com.br/candidata-daniela-campos-leal-arregue.html): candidata a Deputada Estadual por RJ, com biografia e propostas informadas pela própria candidata.
+- [Delegada Gabriela](https://elasnaurna.com.br/candidata-delegada-gabriela.html): candidata a Deputada Federal por BA, com biografia e propostas informadas pela própria candidata.
+- [Professora Carol - ANA CAROLINA BELTRAO PEIXOTO](https://elasnaurna.com.br/candidata-professora-carol-ana-carolina-beltrao-peixoto.html): candidata a Deputada Federal por AL, com biografia e propostas informadas pela própria candidata.
+- [Dani Mendes](https://elasnaurna.com.br/candidata-dani-mendes.html): candidata a Deputada Estadual por SP, com biografia e propostas informadas pela própria candidata.
+- [Delegada Olívia Fonseca](https://elasnaurna.com.br/candidata-delegada-olivia-fonseca.html): candidata a Deputada Estadual por SP, com biografia e propostas informadas pela própria candidata.
+- [Vivi Oliveira](https://elasnaurna.com.br/candidata-vivi-oliveira.html): candidata a Deputada Federal por SP, com biografia e propostas informadas pela própria candidata.
 
 ## Fontes de dados
 
