@@ -55,8 +55,7 @@ export default function Filhos() {
 
         {ativos.length > 0 && (
           <p className="text-[11px] text-ink-3">
-            Toque no nome para ver, editar ou retirar. Só o nome e a idade vão para a pasta do advogado; tamanhos, escola e observações ficam com você.
-            {ativos.length === 1 && " Com dois ou mais filhos, cada despesa pergunta de quem é."}
+            Só o nome e a idade vão para a pasta do advogado. Tamanhos, escola e observações ficam com você.
           </p>
         )}
 
@@ -100,7 +99,9 @@ function ItemFilho({ f }: { f: FilhoAtual }) {
           <div className={["truncate text-sm font-semibold", f.retirada ? "line-through text-ink-3" : ""].join(" ")}>{f.nome}</div>
           {detalhes && <div className="truncate text-xs text-ink-3">{detalhes}</div>}
         </div>
-        <span className="shrink-0 text-xs font-medium text-accent">{f.retirada ? "ver ›" : "editar ›"}</span>
+        <span className="text-ink-3" aria-hidden="true">
+          ›
+        </span>
       </Link>
     </li>
   );

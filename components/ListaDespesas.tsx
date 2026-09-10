@@ -119,17 +119,14 @@ export default function ListaDespesas() {
                 </Link>
               </div>
             ) : (
-              // Um filho só: a linha inteira abre o perfil dele (editar, tamanhos, histórico).
-              // Nenhum: convite para cadastrar.
-              <Link
-                href={filhosAtivos.length === 1 ? `/filhos/${filhosAtivos[0].linhagem}` : "/filhos/novo"}
-                className="mb-3 flex items-center justify-between rounded-xl border border-rule bg-surface px-3 py-2 text-xs active:bg-rule/40"
-              >
-                <span className={filhosAtivos.length === 1 ? "font-semibold text-ink" : "text-ink-3"}>
+              <div className="mb-3 flex items-center justify-between text-xs">
+                <span className="text-ink-3">
                   {filhosAtivos.length === 1 ? `${filhosAtivos[0].nome}${idade(filhosAtivos[0].nascimento) ? ` · ${idade(filhosAtivos[0].nascimento)}` : ""}` : "Nenhum filho cadastrado"}
                 </span>
-                <span className="font-medium text-accent">{filhosAtivos.length === 1 ? "ver perfil ›" : "＋ cadastrar filho"}</span>
-              </Link>
+                <Link href={filhosAtivos.length ? "/filhos" : "/filhos/novo"} className="font-medium text-accent">
+                  {filhosAtivos.length ? "filhos ›" : "＋ cadastrar filho"}
+                </Link>
+              </div>
             )}
 
             <div className="mb-5 grid grid-cols-2 gap-2">
