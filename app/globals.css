@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f3f4f6;
+  --color-surface: #ffffff;
+  --color-ink: #121a25;
+  --color-ink-2: #3b4859;
+  --color-ink-3: #6b788a;
+  --color-rule: #d9dee6;
+  --color-accent: #1f4d8f;
+  --color-accent-strong: #173c70;
+  --color-accent-soft: #e3ebf7;
+  --color-ok: #2a6350;
+  --color-ok-soft: #dcebe4;
+  --color-risk: #8c2f39;
+  --color-risk-soft: #f5e1e3;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  height: 100%;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+}
+
+/* respeita a área segura dos celulares com notch / barra inferior */
+.safe-b {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+.safe-t {
+  padding-top: max(0.75rem, env(safe-area-inset-top));
+}
+
+/* remove os spinners de input numérico onde aparecerem */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* tabular nums para valores */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* impressão: só o conteúdo, sem fundo cinza; margens de página */
+@media print {
+  html,
+  body {
+    background: #fff;
+  }
+  @page {
+    margin: 14mm;
+  }
+}
