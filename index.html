@@ -321,7 +321,7 @@
   .fgroup > label{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:.7rem;}
   .fcount{display:inline-block;background:var(--magenta);color:#fff;border-radius:20px;padding:.05rem .4rem;font-size:.68rem;margin-left:.3rem;letter-spacing:0;}
   .opts{display:flex;flex-wrap:wrap;gap:.5rem;}
-  .fnote{margin-top:.8rem;background:var(--magenta-soft);color:var(--violet);font-size:.8rem;line-height:1.45;padding:.7rem .9rem;border-radius:10px;}
+  .fnote{margin-bottom:.9rem;background:var(--magenta-soft);color:var(--violet);font-size:.8rem;line-height:1.45;padding:.7rem .9rem;border-radius:10px;}
   .opt{padding:.6rem .9rem;border:1.5px solid var(--line);background:var(--card);border-radius:30px;font-size:.88rem;font-family:inherit;cursor:pointer;min-height:var(--tap);display:flex;align-items:center;color:var(--ink);}
   .opt.on{background:var(--magenta);color:#fff;border-color:var(--magenta);font-weight:600;}
   .sheet-foot{padding:1rem 1.3rem calc(1rem + var(--safe-b));border-top:1px solid var(--line);display:flex;gap:.7rem;flex-shrink:0;}
@@ -500,7 +500,7 @@
     <p class="landing-text">As mulheres são a maioria da população, mas menos de um quinto de quem decide o rumo do Brasil. O <b>Elas na Urna</b> reúne, em um só lugar, todas as mulheres candidatas — para que ninguém mais chegue à urna sem conhecê-las.</p>
 
     <div class="landing-filtros">
-      <p class="lf-label">Comece por onde quiser:</p>
+      <p class="lf-label">Filtre por</p>
       <div class="lf-chips">
         <button class="chip-filtro" data-grupo="uf"><span class="plus">+</span>Estado</button>
         <button class="chip-filtro" data-grupo="cargo"><span class="plus">+</span>Cargo</button>
@@ -1215,18 +1215,18 @@ $("search").addEventListener("input",()=>{pendingCargoMuni=false;render();});
 // ---- bottom sheet (filters / sort) ----
 let sheetMode="filters";
 function buildFilterBody(soGrupo){
-  const seg=(title,key,arr)=>{
+  const seg=(title,key,arr,note)=>{
     const sel=draft[key].length;
     const label=title+(sel?` <span class="fcount">${sel}</span>`:"");
-    return `<div class="fgroup" data-group="${key}"><label>${label}</label><div class="opts">
+    return `<div class="fgroup" data-group="${key}"><label>${label}</label>${note?`<p class="fnote">${note}</p>`:""}<div class="opts">
       ${arr.map(v=>`<button class="opt${draft[key].includes(v)?' on':''}" data-key="${key}" data-val="${v}">${v}</button>`).join("")}</div></div>`;
   };
   const grupos={
     uf:()=>seg("Estado","uf",[...new Set(candidatas.map(c=>c.uf))].sort()),
     cargo:()=>seg("Cargo","cargo",[...new Set(candidatas.map(c=>c.cargo))]),
     partido:()=>seg("Partido","partido",[...new Set(candidatas.map(c=>c.partido))].sort()),
-    bandeira:()=>seg("Proposta / bandeira","bandeira",[...new Set(candidatas.flatMap(c=>c.bandeiras))].sort())
-      +'<p class="fnote">Nem toda candidata preencheu suas bandeiras ainda — filtrar por causa pode deixar de fora quem já é uma boa opção, mas ainda não completou o perfil.</p>'
+    bandeira:()=>seg("Proposta / bandeira","bandeira",[...new Set(candidatas.flatMap(c=>c.bandeiras))].sort(),
+      "Nem toda candidata preencheu suas bandeiras ainda — filtrar por causa pode deixar de fora quem já é uma boa opção, mas ainda não completou o perfil.")
   };
   $("sheetBody").innerHTML = soGrupo && grupos[soGrupo]
     ? grupos[soGrupo]()
@@ -1589,8 +1589,16 @@ $("goExplore").onclick=()=>{
 };
 $("goMission").onclick=()=>fecharLanding("mission");
 
-// chips de filtro na landing: já abrem o resultado filtrado por categoria
+// chips de filtro na landing: abrem o sheet completo (todos os grupos juntos),
+// só rolando até o grupo escolhido — assim já fica claro que dá pra combinar
+// estado + cargo + partido + causa, em vez de parecer um filtro só.
 function irComFiltro(grupo){
+  const abrir=()=>{
+    fecharLanding("map");
+    openSheet("filters");
+    const el=document.querySelector(`.fgroup[data-group="${grupo}"]`);
+    if(el) el.scrollIntoView({block:"start"});
+  };
   if(!dadosProntos && modoAtual!=="erro"){
     const chips=document.querySelectorAll(".chip-filtro");
     chips.forEach(c=>c.classList.add("loading"));
@@ -1598,14 +1606,12 @@ function irComFiltro(grupo){
       if(dadosProntos || modoAtual==="erro"){
         clearInterval(espera);
         chips.forEach(c=>c.classList.remove("loading"));
-        fecharLanding("map");
-        openSheet("filters",grupo);
+        abrir();
       }
     },150);
     return;
   }
-  fecharLanding("map");
-  openSheet("filters",grupo);
+  abrir();
 }
 document.querySelectorAll(".chip-filtro").forEach(btn=>{
   btn.onclick=()=>irComFiltro(btn.dataset.grupo);
