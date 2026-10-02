@@ -130,11 +130,21 @@
   #landing::after{content:"";position:absolute;left:-120px;bottom:-120px;width:380px;height:380px;background:radial-gradient(circle,rgba(91,58,140,.4),transparent 70%);pointer-events:none;}
   #landing.hide{display:none;}
   .landing-inner{position:relative;z-index:1;max-width:520px;margin:auto;padding:2.4rem 1.6rem;width:100%;}
-  .landing-logo{width:210px;max-width:70%;height:auto;display:block;margin-bottom:2.2rem;}
-  .landing-eyebrow{font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--magenta);font-weight:700;margin-bottom:.8rem;}
-  .landing-title{font-family:'Fraunces',serif;font-weight:900;font-size:2.4rem;line-height:1.05;letter-spacing:-.02em;margin-bottom:1.2rem;}
+  .landing-logo{width:210px;max-width:70%;height:auto;display:block;margin-bottom:2.2rem;overflow:visible;}
+  .landing-logo .lg-p1{stroke-dasharray:30;stroke-dashoffset:30;animation:lgDraw .35s ease-out .1s forwards;}
+  .landing-logo .lg-p2{stroke-dasharray:70;stroke-dashoffset:70;animation:lgDraw .45s ease-out .4s forwards;}
+  .landing-logo .lg-t1{opacity:0;animation:fadeIn .4s ease .62s forwards;}
+  .landing-logo .lg-t2{opacity:0;animation:fadeIn .4s ease .74s forwards;}
+  @keyframes lgDraw{to{stroke-dashoffset:0;}}
+  @keyframes fadeIn{to{opacity:1;}}
+  @keyframes fadeUp{to{opacity:1;transform:none;}}
+  .landing-eyebrow{font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--magenta);font-weight:700;margin-bottom:.8rem;
+    opacity:0;transform:translateY(8px);animation:fadeUp .5s ease .9s forwards;}
+  .landing-title{font-family:'Fraunces',serif;font-weight:900;font-size:2.4rem;line-height:1.05;letter-spacing:-.02em;margin-bottom:1.2rem;
+    opacity:0;transform:translateY(10px);animation:fadeUp .55s ease 1.02s forwards;}
   .landing-title em{font-style:italic;color:var(--magenta);}
-  .landing-text{font-size:1.02rem;line-height:1.6;color:#d8d2df;margin-bottom:2rem;}
+  .landing-text{font-size:1.02rem;line-height:1.6;color:#d8d2df;margin-bottom:2rem;
+    opacity:0;transform:translateY(10px);animation:fadeUp .55s ease 1.14s forwards;}
   .landing-text b{color:#fff;}
   .countdown{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:1.4rem;margin-bottom:2rem;text-align:center;}
   .cd-label{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:#a59eb0;font-weight:600;margin-bottom:.9rem;}
@@ -149,6 +159,38 @@
   .landing-btn.primary:active{background:#a3125d;}
   .landing-btn.ghost{background:transparent;color:var(--paper);border:1.5px solid rgba(255,255,255,.3);}
   .landing-foot{font-size:.76rem;color:#8b8397;text-align:center;}
+  .landing-foot-link{background:none;border:none;padding:0;font:inherit;font-size:inherit;color:#8b8397;text-decoration:underline;text-decoration-color:rgba(139,131,151,.5);text-underline-offset:2px;cursor:pointer;}
+
+  /* ---------- landing: chips de filtro (entrada) ---------- */
+  .landing-filtros{margin-bottom:1.6rem;}
+  .lf-label{font-size:.88rem;font-weight:600;color:#a59eb0;margin-bottom:.8rem;
+    opacity:0;animation:lfLabelIn .5s ease 1.32s forwards;}
+  .lf-chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.1rem;}
+  .chip-filtro{display:inline-flex;align-items:center;gap:.5rem;min-height:var(--tap);
+    background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.22);color:var(--paper);
+    font-family:inherit;font-weight:700;font-size:.95rem;padding:0 1.15rem;border-radius:100px;
+    cursor:pointer;opacity:0;transform:scale(.4) translateY(14px);
+    animation:chipOpen .6s cubic-bezier(.34,1.56,.64,1) forwards;}
+  .chip-filtro .plus{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;
+    border-radius:50%;background:var(--magenta);color:#fff;font-size:.82rem;line-height:1;flex-shrink:0;}
+  .chip-filtro:active{background:rgba(255,255,255,.16);}
+  .chip-filtro:nth-child(1){animation-delay:1.46s;}
+  .chip-filtro:nth-child(2){animation-delay:1.6s;}
+  .chip-filtro:nth-child(3){animation-delay:1.74s;}
+  .chip-filtro:nth-child(4){animation-delay:1.88s;}
+  .chip-filtro.loading{opacity:.5;pointer-events:none;}
+  @keyframes chipOpen{to{opacity:1;transform:scale(1) translateY(0);}}
+  @keyframes lfLabelIn{to{opacity:1;}}
+  .landing-skip{display:inline-block;background:none;border:none;padding:0;cursor:pointer;
+    font-family:inherit;font-size:.92rem;font-weight:600;color:var(--paper);
+    text-decoration:underline;text-decoration-color:rgba(255,255,255,.35);text-underline-offset:3px;
+    opacity:0;animation:lfLabelIn .5s ease 2.06s forwards;}
+  .landing-skip:disabled{opacity:.6;cursor:default;}
+  @media (prefers-reduced-motion:reduce){
+    .landing-logo .lg-p1,.landing-logo .lg-p2,.landing-logo .lg-t1,.landing-logo .lg-t2,
+    .landing-eyebrow,.landing-title,.landing-text,
+    .lf-label,.chip-filtro,.landing-skip{animation:none;opacity:1;transform:none;stroke-dashoffset:0;}
+  }
 
   /* ---------- screens ---------- */
   .screen{display:none;}
@@ -286,6 +328,7 @@
   .fgroup > label{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:.7rem;}
   .fcount{display:inline-block;background:var(--magenta);color:#fff;border-radius:20px;padding:.05rem .4rem;font-size:.68rem;margin-left:.3rem;letter-spacing:0;}
   .opts{display:flex;flex-wrap:wrap;gap:.5rem;}
+  .fnote{margin-top:.8rem;background:var(--magenta-soft);color:var(--violet);font-size:.8rem;line-height:1.45;padding:.7rem .9rem;border-radius:10px;}
   .opt{padding:.6rem .9rem;border:1.5px solid var(--line);background:var(--card);border-radius:30px;font-size:.88rem;font-family:inherit;cursor:pointer;min-height:var(--tap);display:flex;align-items:center;color:var(--ink);}
   .opt.on{background:var(--magenta);color:#fff;border-color:var(--magenta);font-weight:600;}
   .sheet-foot{padding:1rem 1.3rem calc(1rem + var(--safe-b));border-top:1px solid var(--line);display:flex;gap:.7rem;flex-shrink:0;}
@@ -453,21 +496,27 @@
 <div id="landing">
   <div class="landing-inner">
     <svg class="landing-logo" viewBox="0 0 432 84" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Elas na Urna">
-      <path d="M12 44 L31 63" fill="none" stroke="#5b3a8c" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M31 63 L73 12" fill="none" stroke="#c0166e" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
-      <text x="94" y="59" font-family="Fraunces,serif" font-weight="900" font-style="italic" font-size="52" fill="#c0166e">Elas</text>
-      <text x="218" y="59" font-family="Fraunces,serif" font-weight="900" font-size="52" fill="#faf7f2">na Urna</text>
+      <path class="lg-p1" d="M12 44 L31 63" fill="none" stroke="#5b3a8c" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+      <path class="lg-p2" d="M31 63 L73 12" fill="none" stroke="#c0166e" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+      <text class="lg-t1" x="94" y="59" font-family="Fraunces,serif" font-weight="900" font-style="italic" font-size="52" fill="#c0166e">Elas</text>
+      <text class="lg-t2" x="218" y="59" font-family="Fraunces,serif" font-weight="900" font-size="52" fill="#faf7f2">na Urna</text>
     </svg>
 
     <p class="landing-eyebrow">Somos metade do país</p>
     <h1 class="landing-title">Está na hora de <em>elas</em> ajudarem a comandar.</h1>
     <p class="landing-text">As mulheres são a maioria da população, mas menos de um quinto de quem decide o rumo do Brasil. O <b>Elas na Urna</b> reúne, em um só lugar, todas as mulheres candidatas — para que ninguém mais chegue à urna sem conhecê-las.</p>
 
-    <div class="landing-actions">
-      <button class="landing-btn primary" id="goExplore">Conhecer as candidatas</button>
-      <button class="landing-btn ghost" id="goMission">Conheça o projeto</button>
+    <div class="landing-filtros">
+      <p class="lf-label">Comece por onde quiser:</p>
+      <div class="lf-chips">
+        <button class="chip-filtro" data-grupo="uf"><span class="plus">+</span>Estado</button>
+        <button class="chip-filtro" data-grupo="cargo"><span class="plus">+</span>Cargo</button>
+        <button class="chip-filtro" data-grupo="partido"><span class="plus">+</span>Partido</button>
+        <button class="chip-filtro" data-grupo="bandeira"><span class="plus">+</span>Causa</button>
+      </div>
+      <button class="landing-skip" id="goExplore">ou veja todas as candidatas →</button>
     </div>
-    <p class="landing-foot">Projeto independente e apartidário · dados públicos do TSE</p>
+    <p class="landing-foot">Projeto independente e apartidário · dados públicos do TSE · <button class="landing-foot-link" id="goMission">Conheça o projeto</button></p>
   </div>
 </div>
 
@@ -638,7 +687,7 @@
     <button class="on" data-go="map"><span class="ic">🗳️</span>Candidatas</button>
     <button data-go="lista"><span class="ic">❤️</span>Minhas Favoritas<span class="navbadge" id="navBadge"></span></button>
     <button data-go="cargos"><span class="ic">📋</span>Cargos</button>
-    <button data-go="mission"><span class="ic">💜</span>Por quê?</button>
+    <button data-go="mission"><span class="ic">💜</span>Aprenda</button>
     <button data-go="cadastro"><span class="ic">✎</span>É candidata?</button>
   </nav>
 </div>
@@ -1184,6 +1233,7 @@ function buildFilterBody(soGrupo){
     cargo:()=>seg("Cargo","cargo",[...new Set(candidatas.map(c=>c.cargo))]),
     partido:()=>seg("Partido","partido",[...new Set(candidatas.map(c=>c.partido))].sort()),
     bandeira:()=>seg("Proposta / bandeira","bandeira",[...new Set(candidatas.flatMap(c=>c.bandeiras))].sort())
+      +'<p class="fnote">Nem toda candidata preencheu suas bandeiras ainda — filtrar por causa pode deixar de fora quem já é uma boa opção, mas ainda não completou o perfil.</p>'
   };
   $("sheetBody").innerHTML = soGrupo && grupos[soGrupo]
     ? grupos[soGrupo]()
@@ -1445,37 +1495,37 @@ document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>go(b.dataset.g
 
 // ---- cargos (educação cívica) ----
 const cargosInfo=[
-  {nome:"Presidente da República",esfera:"Federal · Executivo",tipo:"exe",ico:"🇧🇷",filtro:"Presidente",
+  {nome:"Presidenta da República",esfera:"Federal · Executivo",tipo:"exe",ico:"🇧🇷",filtro:"Presidente",
    faz:"É a maior autoridade do país. Comanda o governo federal, escolhe os ministros, propõe leis e o orçamento, e representa o Brasil diante de outros países.",
    importa:"Decide os rumos do país inteiro: economia, saúde, educação, relações com o mundo. As escolhas afetam todos os brasileiros.",
    custo:"Recebe um salário fixo (chamado subsídio). Além disso, o cargo conta com estrutura de trabalho paga pelo Estado: equipe, residência oficial, transporte e segurança.",
    mandato:"4 anos. Pode ser reeleito uma vez."},
-  {nome:"Governador(a)",esfera:"Estadual · Executivo",tipo:"exe",ico:"🏛️",filtro:"Governadora",
+  {nome:"Governadora",esfera:"Estadual · Executivo",tipo:"exe",ico:"🏛️",filtro:"Governadora",
    faz:"Comanda o governo do seu estado. Cuida da saúde, educação, estradas e da segurança pública (polícias civil e militar e bombeiros são ligados a ele).",
    importa:"É quem mais influencia o dia a dia no estado: hospitais, escolas estaduais, segurança. Muito do que afeta sua região passa por aqui.",
    custo:"Salário fixo (subsídio) definido por lei estadual, mais a estrutura de governo paga pelo estado (equipe, transporte, segurança).",
    mandato:"4 anos. Pode ser reeleito uma vez."},
-  {nome:"Prefeito(a)",esfera:"Municipal · Executivo",tipo:"exe",ico:"🏙️",filtro:"Prefeita",municipal:true,
+  {nome:"Prefeita",esfera:"Municipal · Executivo",tipo:"exe",ico:"🏙️",filtro:"Prefeita",municipal:true,
    faz:"Comanda a sua cidade. Cuida do que é mais perto de você: creches, postos de saúde, ruas, transporte público, limpeza, iluminação.",
    importa:"É o cargo que mais toca a sua vida diária. A maioria dos serviços que você usa todo dia é responsabilidade da prefeitura.",
    custo:"Salário fixo (subsídio) definido por lei do município, mais a estrutura da prefeitura. O valor varia muito conforme o tamanho da cidade.",
    mandato:"4 anos. Pode ser reeleito uma vez. (Eleito em eleição municipal, separada da geral.)"},
-  {nome:"Senador(a)",esfera:"Federal · Legislativo",tipo:"leg",ico:"⚖️",filtro:"Senadora",
+  {nome:"Senadora",esfera:"Federal · Legislativo",tipo:"leg",ico:"⚖️",filtro:"Senadora",
    faz:"Representa o seu estado no Congresso, em Brasília. Faz leis nacionais, fiscaliza o governo e aprova autoridades importantes (como ministros do STF). Cada estado elege 3.",
    importa:"Tem mandato longo e poder de barrar ou aprovar leis grandes. Também julga o presidente em casos graves. É um dos cargos mais influentes do país.",
    custo:"Salário fixo (subsídio), mais verba para manter o gabinete e contratar assessores, e outros benefícios. Tudo pago com dinheiro público.",
    mandato:"8 anos (o mais longo de todos)."},
-  {nome:"Deputado(a) Federal",esfera:"Federal · Legislativo",tipo:"leg",ico:"📜",filtro:"Deputada Federal",
+  {nome:"Deputada Federal",esfera:"Federal · Legislativo",tipo:"leg",ico:"📜",filtro:"Deputada Federal",
    faz:"Representa o povo na Câmara, em Brasília. Faz e muda leis nacionais (até a Constituição), aprova o orçamento e fiscaliza o presidente. São 513 no total.",
    importa:"Decide as leis que valem para todo o Brasil e para onde vai o dinheiro público nacional. Quanto mais gente no estado, mais deputados ele tem.",
    custo:"Salário fixo (subsídio), mais verba de gabinete (para assessores) e a cota parlamentar (para despesas do trabalho). Tudo público e prestado contas.",
    mandato:"4 anos. Pode se reeleger sem limite."},
-  {nome:"Deputado(a) Estadual",esfera:"Estadual · Legislativo",tipo:"leg",ico:"🗂️",filtro:"Deputada Estadual",
+  {nome:"Deputada Estadual",esfera:"Estadual · Legislativo",tipo:"leg",ico:"🗂️",filtro:"Deputada Estadual",
    faz:"Representa o povo na Assembleia do seu estado. Faz leis estaduais, aprova o orçamento do estado e fiscaliza o governador.",
    importa:"Cuida das leis e do dinheiro do seu estado. É o elo entre a população da região e o governo estadual.",
    custo:"Salário fixo (subsídio), limitado por lei a uma porcentagem do salário do deputado federal, mais verba de gabinete. Varia de estado para estado.",
    mandato:"4 anos. Pode se reeleger sem limite."},
-  {nome:"Deputado(a) Distrital",esfera:"Distrital · Legislativo",tipo:"leg",ico:"🏛️",filtro:"Deputada Distrital",
+  {nome:"Deputada Distrital",esfera:"Distrital · Legislativo",tipo:"leg",ico:"🏛️",filtro:"Deputada Distrital",
    faz:"Representa o povo na Câmara Legislativa do Distrito Federal. Como o DF não se divide em municípios, acumula as funções de deputado estadual e vereador.",
    importa:"Cuida das leis e do orçamento do DF — do que seria estadual e municipal ao mesmo tempo. Só existe no Distrito Federal.",
    custo:"Salário fixo (subsídio), limitado por lei, mais verba de gabinete, nos mesmos moldes dos deputados estaduais.",
@@ -1545,6 +1595,28 @@ $("goExplore").onclick=()=>{
   fecharLanding("map");
 };
 $("goMission").onclick=()=>fecharLanding("mission");
+
+// chips de filtro na landing: já abrem o resultado filtrado por categoria
+function irComFiltro(grupo){
+  if(!dadosProntos && modoAtual!=="erro"){
+    const chips=document.querySelectorAll(".chip-filtro");
+    chips.forEach(c=>c.classList.add("loading"));
+    const espera=setInterval(()=>{
+      if(dadosProntos || modoAtual==="erro"){
+        clearInterval(espera);
+        chips.forEach(c=>c.classList.remove("loading"));
+        fecharLanding("map");
+        openSheet("filters",grupo);
+      }
+    },150);
+    return;
+  }
+  fecharLanding("map");
+  openSheet("filters",grupo);
+}
+document.querySelectorAll(".chip-filtro").forEach(btn=>{
+  btn.onclick=()=>irComFiltro(btn.dataset.grupo);
+});
 
 atualizarBadge();
 inicializar();
