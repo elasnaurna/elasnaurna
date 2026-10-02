@@ -130,21 +130,15 @@
   #landing::after{content:"";position:absolute;left:-120px;bottom:-120px;width:380px;height:380px;background:radial-gradient(circle,rgba(91,58,140,.4),transparent 70%);pointer-events:none;}
   #landing.hide{display:none;}
   .landing-inner{position:relative;z-index:1;max-width:520px;margin:auto;padding:2.4rem 1.6rem;width:100%;}
-  .landing-logo{width:210px;max-width:70%;height:auto;display:block;margin-bottom:2.2rem;overflow:visible;}
-  .landing-logo .lg-p1{stroke-dasharray:30;stroke-dashoffset:30;animation:lgDraw .35s ease-out .1s forwards;}
-  .landing-logo .lg-p2{stroke-dasharray:70;stroke-dashoffset:70;animation:lgDraw .45s ease-out .4s forwards;}
-  .landing-logo .lg-t1{opacity:0;animation:fadeIn .4s ease .62s forwards;}
-  .landing-logo .lg-t2{opacity:0;animation:fadeIn .4s ease .74s forwards;}
-  @keyframes lgDraw{to{stroke-dashoffset:0;}}
-  @keyframes fadeIn{to{opacity:1;}}
+  .landing-logo{width:210px;max-width:70%;height:auto;display:block;margin-bottom:2.2rem;}
   @keyframes fadeUp{to{opacity:1;transform:none;}}
   .landing-eyebrow{font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--magenta);font-weight:700;margin-bottom:.8rem;
-    opacity:0;transform:translateY(8px);animation:fadeUp .5s ease .9s forwards;}
+    opacity:0;transform:translateY(6px);animation:fadeUp .35s ease .05s forwards;}
   .landing-title{font-family:'Fraunces',serif;font-weight:900;font-size:2.4rem;line-height:1.05;letter-spacing:-.02em;margin-bottom:1.2rem;
-    opacity:0;transform:translateY(10px);animation:fadeUp .55s ease 1.02s forwards;}
+    opacity:0;transform:translateY(8px);animation:fadeUp .4s ease .1s forwards;}
   .landing-title em{font-style:italic;color:var(--magenta);}
   .landing-text{font-size:1.02rem;line-height:1.6;color:#d8d2df;margin-bottom:2rem;
-    opacity:0;transform:translateY(10px);animation:fadeUp .55s ease 1.14s forwards;}
+    opacity:0;transform:translateY(8px);animation:fadeUp .4s ease .16s forwards;}
   .landing-text b{color:#fff;}
   .countdown{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:1.4rem;margin-bottom:2rem;text-align:center;}
   .cd-label{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:#a59eb0;font-weight:600;margin-bottom:.9rem;}
@@ -164,32 +158,31 @@
   /* ---------- landing: chips de filtro (entrada) ---------- */
   .landing-filtros{margin-bottom:1.6rem;}
   .lf-label{font-size:.88rem;font-weight:600;color:#a59eb0;margin-bottom:.8rem;
-    opacity:0;animation:lfLabelIn .5s ease 1.32s forwards;}
+    opacity:0;animation:lfLabelIn .4s ease .3s forwards;}
   .lf-chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.1rem;}
   .chip-filtro{display:inline-flex;align-items:center;gap:.5rem;min-height:var(--tap);
     background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.22);color:var(--paper);
     font-family:inherit;font-weight:700;font-size:.95rem;padding:0 1.15rem;border-radius:100px;
-    cursor:pointer;opacity:0;transform:scale(.4) translateY(14px);
-    animation:chipOpen .6s cubic-bezier(.34,1.56,.64,1) forwards;}
+    cursor:pointer;opacity:0;transform:scale(.3) rotate(-10deg) translateY(18px);
+    animation:chipOpen .65s cubic-bezier(.34,1.56,.64,1) forwards;}
   .chip-filtro .plus{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;
     border-radius:50%;background:var(--magenta);color:#fff;font-size:.82rem;line-height:1;flex-shrink:0;}
   .chip-filtro:active{background:rgba(255,255,255,.16);}
-  .chip-filtro:nth-child(1){animation-delay:1.46s;}
-  .chip-filtro:nth-child(2){animation-delay:1.6s;}
-  .chip-filtro:nth-child(3){animation-delay:1.74s;}
-  .chip-filtro:nth-child(4){animation-delay:1.88s;}
+  .chip-filtro:nth-child(1){animation-delay:.52s;}
+  .chip-filtro:nth-child(2){animation-delay:.7s;}
+  .chip-filtro:nth-child(3){animation-delay:.88s;}
+  .chip-filtro:nth-child(4){animation-delay:1.06s;}
   .chip-filtro.loading{opacity:.5;pointer-events:none;}
-  @keyframes chipOpen{to{opacity:1;transform:scale(1) translateY(0);}}
+  @keyframes chipOpen{to{opacity:1;transform:scale(1) rotate(0) translateY(0);}}
   @keyframes lfLabelIn{to{opacity:1;}}
   .landing-skip{display:inline-block;background:none;border:none;padding:0;cursor:pointer;
     font-family:inherit;font-size:.92rem;font-weight:600;color:var(--paper);
     text-decoration:underline;text-decoration-color:rgba(255,255,255,.35);text-underline-offset:3px;
-    opacity:0;animation:lfLabelIn .5s ease 2.06s forwards;}
+    opacity:0;animation:lfLabelIn .5s ease 1.3s forwards;}
   .landing-skip:disabled{opacity:.6;cursor:default;}
   @media (prefers-reduced-motion:reduce){
-    .landing-logo .lg-p1,.landing-logo .lg-p2,.landing-logo .lg-t1,.landing-logo .lg-t2,
     .landing-eyebrow,.landing-title,.landing-text,
-    .lf-label,.chip-filtro,.landing-skip{animation:none;opacity:1;transform:none;stroke-dashoffset:0;}
+    .lf-label,.chip-filtro,.landing-skip{animation:none;opacity:1;transform:none;}
   }
 
   /* ---------- screens ---------- */
@@ -496,10 +489,10 @@
 <div id="landing">
   <div class="landing-inner">
     <svg class="landing-logo" viewBox="0 0 432 84" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Elas na Urna">
-      <path class="lg-p1" d="M12 44 L31 63" fill="none" stroke="#5b3a8c" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
-      <path class="lg-p2" d="M31 63 L73 12" fill="none" stroke="#c0166e" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
-      <text class="lg-t1" x="94" y="59" font-family="Fraunces,serif" font-weight="900" font-style="italic" font-size="52" fill="#c0166e">Elas</text>
-      <text class="lg-t2" x="218" y="59" font-family="Fraunces,serif" font-weight="900" font-size="52" fill="#faf7f2">na Urna</text>
+      <path d="M12 44 L31 63" fill="none" stroke="#5b3a8c" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M31 63 L73 12" fill="none" stroke="#c0166e" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="94" y="59" font-family="Fraunces,serif" font-weight="900" font-style="italic" font-size="52" fill="#c0166e">Elas</text>
+      <text x="218" y="59" font-family="Fraunces,serif" font-weight="900" font-size="52" fill="#faf7f2">na Urna</text>
     </svg>
 
     <p class="landing-eyebrow">Somos metade do país</p>
